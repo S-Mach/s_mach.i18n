@@ -1,0 +1,17 @@
+== Publish checklist
+
+1. Update build.sbt with new version vX.Y.Z
+2. git push
+3. git tag vX.Y.Z OR visit https://github.com/S-Mach/$REPO/releases/new
+4. git push --tags
+5. Ensure s_mach ~/.gnupg/secring.gpg file is present
+6. sbt publishSigned (PGP passphrase required)
+7. Login to http://oss.sonatype.org
+8. Click 'Staging Repositories' on left
+9. In search box on right, type 's_mach' press enter
+10. Click check box next to staged repository
+11. Click 'Close' button above it then 'Confirm' button
+12. Refresh until status is closed
+13. Click 'Release' button then 'Confirm' button
+14. Refresh until staging repo disappears
+15. Verify in browser https://oss.sonatype.org/service/local/repositories/releases/content/net/s_mach/
