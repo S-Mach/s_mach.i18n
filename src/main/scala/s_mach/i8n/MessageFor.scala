@@ -2,7 +2,7 @@ package s_mach.i8n
 
 import java.util.Locale
 
-import s_mach.i8n.impl.MessageForOps
+import s_mach.i8n.impl.NoopMessageFor
 
 trait MessageFor {
   def locale: Locale
@@ -22,7 +22,7 @@ trait MessageFor {
 }
 
 object MessageFor {
-  def noop(locale: Locale) : MessageFor = MessageForOps.MessageFor_Noop(locale)
+  def noop(locale: Locale) : MessageFor = new NoopMessageFor(locale)
   val defaultMessageFor = MessageFor.noop(Locale.getDefault)
  object Implicits {
     implicit val defaultMessageFor = MessageFor.defaultMessageFor
