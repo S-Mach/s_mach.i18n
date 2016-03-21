@@ -21,7 +21,6 @@ package s_mach.i8n.test
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
-import s_mach.i8n.I8NTranslator
 
 class I8NTest extends FlatSpec with Matchers {
   val sym1 = 'hello
@@ -37,7 +36,7 @@ class I8NTest extends FlatSpec with Matchers {
   }
 
   "i(String) for EN US" should "internationalize arguments correctly for custom locale" in {
-    implicit val i8nTranslator = I8NTranslator(Locale.FRENCH)
+    implicit val i8nTranslator = s_mach.i8n.I8NTranslator(Locale.FRENCH)
     import s_mach.i8n.default.Implicits._
 
     val name = "Lance"
