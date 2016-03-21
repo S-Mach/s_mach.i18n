@@ -18,14 +18,19 @@
 */
 package s_mach.i8n
 
+/**
+ * A type-class for converting an instance of a type to an internationalized string
+ * (generally based on locale)
+ */
 trait I8N[A] {
-  def print(a: A)(implicit m: MessageFor) : I8NString
+  def i8n(a: A)(implicit t: I8NTranslator) : I8NString
 }
 
 object I8N {
-  def apply[A](f: (A,MessageFor) => String) : I8N[A] = new I8N[A] {
-    def print(a: A)(implicit m: MessageFor) = I8NString(f(a,m))
-  }
+  def apply[A](f: (A,I8NTranslator) => String) : I8N[A] =
+    new I8N[A] {
+      def i8n(a: A)(implicit t: I8NTranslator) = I8NString(f(a,t))
+    }
 }
 
 // how to print currency, date and quantities varies by language

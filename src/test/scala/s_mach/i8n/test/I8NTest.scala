@@ -16,32 +16,36 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i8n
+package s_mach.i8n.test
 
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
+import s_mach.i8n.I8NTranslator
 
 class I8NTest extends FlatSpec with Matchers {
   val sym1 = 'hello
   val sym2 = 'hello_$name
   val sym3 = 'hello_$fname_$lname
 
-  "mString EN US" should "" in {
-    import MessageFor.Implicits._
+  "i(String) for EN US" should "internationalize arguments correctly for JVM locale (EN_US)" in {
+    import s_mach.i8n.default._
     val name = "Lance"
     val qty = 10000.1
 
-    m"hello ${name.i8n} test ${qty.i8n}" should equal("hello Lance test 10,000.1")
+    i"hello $name test $qty" should equal("hello Lance test 10,000.1")
   }
 
-  "mString FR" should "" in {
-    implicit val mr = MessageFor.noop(Locale.FRENCH)
+  "i(String) for EN US" should "internationalize arguments correctly for custom FR locale" in {
+    implicit val i8nTranslator = I8NTranslator(Locale.FRENCH)
+    import s_mach.i8n._
+    import s_mach.i8n.default.Implicits._
+
     val name = "Lance"
     val qty = 10000.1
 
     // Note: not a space between '10' and '000' below
-    m"hello $name test $qty" should equal("hello Lance test 10 000,1")
+    i"hello $name test $qty" should equal("hello Lance test 10 000,1")
   }
 
 }

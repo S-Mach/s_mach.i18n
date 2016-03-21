@@ -16,27 +16,30 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach
+package s_mach.i8n
 
+import s_mach.codetools.IsDistinctTypeAlias
 import s_mach.i8n.impl.I8NOps
 
 import scala.language.implicitConversions
-import s_mach.codetools.IsDistinctTypeAlias
 
-package object i8n {
-  /* hHQiIbEzQp suffix added to prevent shadowing issues */
+package object default extends Implicits {
+  /* ysZWWnNgeq suffix added to prevent shadowing issues */
+
+  // Note: default translator uses default Locale
+  implicit val defaultI8NTranslator = I8NTranslator.defaultI8NTranslator
 
   type I8NString = String with I8NTag with IsDistinctTypeAlias[String]
   def I8NString(value: String) : I8NString = value.asInstanceOf[I8NString]
-  implicit def toI8NString[A](value: A)(implicit i8n: I8N[A],t: I8NTranslator) : I8NString =
-    i8n.i8n(value)
+  implicit def toI8NString[A](value: A)(implicit i8n:I8N[A],t: I8NTranslator) : I8NString =
+    i8n.i8n(value)(t)
 
-  implicit class EverythingPML_hHQiIbEzQp[A](val self: A) extends AnyVal {
+  implicit class EverythingPML_ysZWWnNgeq[A](val self: A) extends AnyVal {
     def i8n(implicit i8n: I8N[A],t: I8NTranslator) : I8NString =
       I8NOps.i8n(self)(i8n,t)
   }
 
-  implicit class StringContextPML_hHQiIbEzQp(val self: StringContext) extends AnyVal {
+  implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
     def i(args: I8NString*)(implicit t: I8NTranslator) : I8NString =
       I8NOps.i(self)(args:_*)(t)
   }
