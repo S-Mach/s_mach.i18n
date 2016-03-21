@@ -28,7 +28,7 @@ class I8NTest extends FlatSpec with Matchers {
   val sym2 = 'hello_$name
   val sym3 = 'hello_$fname_$lname
 
-  "i(String) for EN US" should "internationalize arguments correctly for JVM locale (EN_US)" in {
+  "i(String) for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
     import s_mach.i8n.default._
     val name = "Lance"
     val qty = 10000.1
@@ -36,9 +36,8 @@ class I8NTest extends FlatSpec with Matchers {
     i"hello $name test $qty" should equal("hello Lance test 10,000.1")
   }
 
-  "i(String) for EN US" should "internationalize arguments correctly for custom FR locale" in {
+  "i(String) for EN US" should "internationalize arguments correctly for custom locale" in {
     implicit val i8nTranslator = I8NTranslator(Locale.FRENCH)
-    import s_mach.i8n._
     import s_mach.i8n.default.Implicits._
 
     val name = "Lance"
