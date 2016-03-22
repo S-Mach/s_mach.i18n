@@ -16,21 +16,14 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-/**
- * A type-class for converting an instance of a type to an internationalized string
- * (generally based on locale)
- */
-trait i18n[A] {
-  def i18n(a: A)(implicit t: i18nTranslator) : i18nString
+import s_mach.i18n._
+
+object I18NOps {
+  @inline def i18n[A](self: A)(implicit i18n: I18N[A],t: I18NTranslator) : I18NString =
+    i18n.i18n(self)
+
+  @inline def i(self: StringContext)(args: I18NString*)(implicit t: I18NTranslator) : I18NString =
+    t.translate(self.parts,args:_*)
 }
-
-object i18n {
-  def apply[A](f: (A,i18nTranslator) => String) : i18n[A] =
-    new i18n[A] {
-      def i18n(a: A)(implicit t: i18nTranslator) = i18nString(f(a,t))
-    }
-}
-
-// how to print currency, date and quantities varies by language

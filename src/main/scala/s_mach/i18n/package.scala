@@ -16,14 +16,12 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n.impl
+package s_mach
 
-import s_mach.i18n._
+import scala.language.implicitConversions
+import s_mach.codetools.IsDistinctTypeAlias
 
-object i18nOps {
-  @inline def i18n[A](self: A)(implicit i18n: i18n[A],t: i18nTranslator) : i18nString =
-    i18n.i18n(self)
-
-  @inline def i(self: StringContext)(args: i18nString*)(implicit t: i18nTranslator) : i18nString =
-    t.translate(self.parts,args:_*)
+package object i18n {
+  type I18NString = String with I18NTag with IsDistinctTypeAlias[String]
+  def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
 }

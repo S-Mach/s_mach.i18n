@@ -22,7 +22,7 @@ import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
 
-class i18nTest extends FlatSpec with Matchers {
+class I18NTest extends FlatSpec with Matchers {
   val sym1 = 'hello
   val sym2 = 'hello_$name
   val sym3 = 'hello_$fname_$lname
@@ -36,7 +36,7 @@ class i18nTest extends FlatSpec with Matchers {
   }
 
   "i(String) for EN US" should "internationalize arguments correctly for custom locale" in {
-    implicit val i18nTranslator = s_mach.i18n.i18nTranslator(Locale.FRENCH)
+    implicit val i18nTranslator = s_mach.i18n.I18NTranslator(Locale.FRENCH)
     import s_mach.i18n.default.Implicits._
 
     val name = "Lance"

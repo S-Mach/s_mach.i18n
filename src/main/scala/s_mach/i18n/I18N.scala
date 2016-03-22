@@ -16,12 +16,21 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach
+package s_mach.i18n
 
-import scala.language.implicitConversions
-import s_mach.codetools.IsDistinctTypeAlias
-
-package object i18n {
-  type i18nString = String with i18nTag with IsDistinctTypeAlias[String]
-  def i18nString(value: String) : i18nString = value.asInstanceOf[i18nString]
+/**
+ * A type-class for converting an instance of a type to an internationalized string
+ * (generally based on locale)
+ */
+trait I18N[A] {
+  def i18n(a: A)(implicit t: I18NTranslator) : I18NString
 }
+
+object I18N {
+  def apply[A](f: (A,I18NTranslator) => String) : I18N[A] =
+    new I18N[A] {
+      def i18n(a: A)(implicit t: I18NTranslator) = I18NString(f(a,t))
+    }
+}
+
+// how to print currency, date and quantities varies by language

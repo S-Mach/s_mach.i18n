@@ -25,8 +25,8 @@ import s_mach.i18n._
  * Default translator that does nothing.
  * @param locale local to associate with this translator
  */
-class DefaultTranslator(val locale: Locale) extends i18nTranslator {
-  def translate(parts: Seq[String], args: i18nString*) : i18nString = {
+class DefaultTranslator(val locale: Locale) extends I18NTranslator {
+  def translate(parts: Seq[String], args: I18NString*) : I18NString = {
     val xs = parts.iterator
     val exprs = args.iterator
     if(parts.nonEmpty) {
@@ -35,13 +35,13 @@ class DefaultTranslator(val locale: Locale) extends i18nTranslator {
         sb.append(exprs.next())
         sb.append(xs.next())
       }
-      i18nString(sb.toString)
+      I18NString(sb.toString)
     } else {
-      i18nString("")
+      I18NString("")
     }
   }
 
-  def translate(s: String) = i18nString(s)
+  def translate(key: String, args: I18NString*) = I18NString(key)
 
 }
 
