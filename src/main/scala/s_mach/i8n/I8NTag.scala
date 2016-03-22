@@ -1,4 +1,4 @@
-package s_mach.i8n
+package s_mach.i18n
 
-/** A type tag used by I8NString */
-trait I8NTag
+/** A type tag used by i18nString */
+trait i18nTag

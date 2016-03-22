@@ -10,23 +10,23 @@
          1t1i   .;;   .1tf       ___/ //___// /  / // /_/ // /__ / / / /
        CLt1i    :,:    .1tfL.   /____/     /_/  /_/ \__,_/ \___//_/ /_/
        Lft1,:;:       , 1tfL:
-       ;it1i ,,,:::;;;::1tti      s_mach.i8n
+       ;it1i ,,,:::;;;::1tti      s_mach.i18n
          .t1i .,::;;; ;1tt        Copyright (c) 2016 S-Mach, Inc.
          Lft11ii;::;ii1tfL:       Author: lance.gatlin@gmail.com
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i8n.impl
+package s_mach.i18n.impl
 
 import java.util.Locale
-import s_mach.i8n._
+import s_mach.i18n._
 
 /**
  * Default translator that does nothing.
  * @param locale local to associate with this translator
  */
-class DefaultTranslator(val locale: Locale) extends I8NTranslator {
-  def translate(parts: Seq[String], args: I8NString*) : I8NString = {
+class DefaultTranslator(val locale: Locale) extends i18nTranslator {
+  def translate(parts: Seq[String], args: i18nString*) : i18nString = {
     val xs = parts.iterator
     val exprs = args.iterator
     if(parts.nonEmpty) {
@@ -35,13 +35,13 @@ class DefaultTranslator(val locale: Locale) extends I8NTranslator {
         sb.append(exprs.next())
         sb.append(xs.next())
       }
-      I8NString(sb.toString)
+      i18nString(sb.toString)
     } else {
-      I8NString("")
+      i18nString("")
     }
   }
 
-  def translate(s: String) = I8NString(s)
+  def translate(s: String) = i18nString(s)
 
 }
 
@@ -66,10 +66,10 @@ class DefaultTranslator(val locale: Locale) extends I8NTranslator {
 //  def mkKey(value: String) = value
 //
 //  val paramRegex = "[^$]\\$([0-9]+)".r
-//  def findByKey(key: MessageKey, args: I8NString*) = {
+//  def findByKey(key: MessageKey, args: i18nString*) = {
 //    val matches = paramRegex.findAllMatchIn(key)
 //    if(matches.isEmpty) {
-//      I8NString(key)
+//      i18nString(key)
 //    } else {
 //      val first = matches.next()
 //      val sb = new StringBuilder(key.substring(0,first.start))
@@ -93,7 +93,7 @@ class DefaultTranslator(val locale: Locale) extends I8NTranslator {
 //        sb.append(getParam(m))
 //        last = m
 //      }
-//      I8NString(sb.toString())
+//      i18nString(sb.toString())
 //    }
 //  }
 

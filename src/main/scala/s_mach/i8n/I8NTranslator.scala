@@ -1,14 +1,14 @@
-package s_mach.i8n
+package s_mach.i18n
 
 import java.util.Locale
 
-import s_mach.i8n.impl.DefaultTranslator
+import s_mach.i18n.impl.DefaultTranslator
 
 /**
  * A trait for a implicit config instance that allows
  * internationalizing strings.
  */
-trait I8NTranslator {
+trait i18nTranslator {
   /** @return Local associated with this translator */
   def locale: Locale
 
@@ -34,11 +34,11 @@ trait I8NTranslator {
    * string from parts and args.
    *
    * @param parts parts of the original string
-   * @param args already i8n'd args substituted between parts. Note: extra
+   * @param args already i18n'd args substituted between parts. Note: extra
    *             args are ignored.
-   * @return I8NString derived from parts interpolated with args
+   * @return i18nString derived from parts interpolated with args
    */
-  def translate(parts: Seq[String], args: I8NString*) : I8NString
+  def translate(parts: Seq[String], args: i18nString*) : i18nString
 
   /**
    * Internalize a whole string by "translating" the string (as defined by the
@@ -48,15 +48,15 @@ trait I8NTranslator {
    * translated message in a message file.
    *
    * @param value string to translate
-   * @return I8NString derived from value
+   * @return i18nString derived from value
    */
-  def translate(value: String) : I8NString
+  def translate(value: String) : i18nString
 }
 
-object I8NTranslator {
-  def apply(locale: Locale) : I8NTranslator = new DefaultTranslator(locale)
-  val defaultI8NTranslator = apply(Locale.getDefault)
+object i18nTranslator {
+  def apply(locale: Locale) : i18nTranslator = new DefaultTranslator(locale)
+  val defaulti18nTranslator = apply(Locale.getDefault)
   object Implicits {
-    implicit val defaultI8NTranslator = I8NTranslator.defaultI8NTranslator
+    implicit val defaulti18nTranslator = i18nTranslator.defaulti18nTranslator
   }
 }
