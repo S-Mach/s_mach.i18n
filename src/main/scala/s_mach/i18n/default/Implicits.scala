@@ -27,18 +27,18 @@ import s_mach.i18n.impl.I18NOps
 object Implicits extends Implicits {
   /* hHQiIbEzQp suffix added to prevent shadowing issues */
 
-  type i18nString = String with I18NTag with IsDistinctTypeAlias[String]
-  def i18nString(value: String) : i18nString = value.asInstanceOf[i18nString]
-  implicit def toi18nString[A](value: A)(implicit i18n: I18N[A],t: I18NTranslator) : i18nString =
+  type I18NString = String with I18NTag with IsDistinctTypeAlias[String]
+  def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
+  implicit def toI18NString[A](value: A)(implicit i18n: I18N[A],t: I18NTranslator) : I18NString =
     i18n.i18n(value)(t)
 
   implicit class EverythingPML_hHQiIbEzQp[A](val self: A) extends AnyVal {
-    def i18n(implicit i18n: I18N[A],t: I18NTranslator) : i18nString =
+    def i18n(implicit i18n: I18N[A],t: I18NTranslator) : I18NString =
       I18NOps.i18n(self)(i18n,t)
   }
 
   implicit class StringContextPML_hHQiIbEzQp(val self: StringContext) extends AnyVal {
-    def i(args: i18nString*)(implicit t: I18NTranslator) : i18nString =
+    def i(args: I18NString*)(implicit t: I18NTranslator) : I18NString =
       I18NOps.i(self)(args:_*)(t)
   }
 }

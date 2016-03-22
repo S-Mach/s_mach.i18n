@@ -36,7 +36,7 @@ trait I18NTranslator {
    * @param parts parts of the original string
    * @param args already i18n'd args substituted between parts. Note: extra
    *             args are ignored.
-   * @return i18nString derived from parts interpolated with args
+   * @return I18NString derived from parts interpolated with args
    */
   def translate(parts: Seq[String], args: I18NString*) : I18NString
 
@@ -49,7 +49,7 @@ trait I18NTranslator {
    *
    * @param key string to translate
    * @param args already i18n'd args to be interpolated into translation.
-   * @return i18nString derived from value
+   * @return I18NString derived from value
    */
   def translate(key: String, args: I18NString*) : I18NString
 }

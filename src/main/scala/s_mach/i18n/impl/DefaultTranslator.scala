@@ -66,10 +66,10 @@ class DefaultTranslator(val locale: Locale) extends I18NTranslator {
 //  def mkKey(value: String) = value
 //
 //  val paramRegex = "[^$]\\$([0-9]+)".r
-//  def findByKey(key: MessageKey, args: i18nString*) = {
+//  def findByKey(key: MessageKey, args: I18NString*) = {
 //    val matches = paramRegex.findAllMatchIn(key)
 //    if(matches.isEmpty) {
-//      i18nString(key)
+//      I18NString(key)
 //    } else {
 //      val first = matches.next()
 //      val sb = new StringBuilder(key.substring(0,first.start))
@@ -93,7 +93,7 @@ class DefaultTranslator(val locale: Locale) extends I18NTranslator {
 //        sb.append(getParam(m))
 //        last = m
 //      }
-//      i18nString(sb.toString())
+//      I18NString(sb.toString())
 //    }
 //  }
 
