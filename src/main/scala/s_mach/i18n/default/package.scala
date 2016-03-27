@@ -18,6 +18,8 @@
 */
 package s_mach.i18n
 
+import java.util.Locale
+
 import s_mach.codetools.IsDistinctTypeAlias
 import s_mach.i18n.impl.I18NOps
 
@@ -27,20 +29,24 @@ package object default extends Implicits {
   /* ysZWWnNgeq suffix added to prevent shadowing issues */
 
   // Note: default translator uses default Locale
-  implicit val defaulti18nTranslator = I18NTranslator.defaulti18nTranslator
+  implicit val defaultLocale = Locale.getDefault
 
-  type I18NString = String with I18NTag with IsDistinctTypeAlias[String]
+  type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
-  implicit def toI18NString[A](value: A)(implicit i18n:I18N[A],t: I18NTranslator) : I18NString =
-    i18n.i18n(value)(t)
+  implicit def toI18NString[A](value: A)(implicit i18n:I18N[A],cfg: I18NConfig) : I18NString =
+    i18n.i18n(value)(cfg)
 
   implicit class EverythingPML_ysZWWnNgeq[A](val self: A) extends AnyVal {
-    def i18n(implicit i18n: I18N[A],t: I18NTranslator) : I18NString =
-      I18NOps.i18n(self)(i18n,t)
+    def i18n(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
+      I18NOps.i18n(self)(i18n,cfg)
   }
 
   implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
-    def i(args: I18NString*)(implicit t: I18NTranslator) : I18NString =
-      I18NOps.i(self)(args:_*)(t)
+    def i(args: I18NString*)(implicit cfg: I18NConfig) : I18NString =
+      I18NOps.i(self)(args:_*)(cfg)
   }
+
+  implicit def mkI18NConfig(implicit l: Locale, m:Messages) : I18NConfig =
+    I18NConfig(l,m)
+
 }

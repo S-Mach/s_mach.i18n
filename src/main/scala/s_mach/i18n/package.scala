@@ -22,6 +22,6 @@ import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
 package object i18n {
-  type I18NString = String with I18NTag with IsDistinctTypeAlias[String]
+  type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
 }

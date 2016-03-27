@@ -21,29 +21,36 @@ package s_mach.i18n.test
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
+import s_mach.i18n.{Messages, Message2, Message}
 
 class I18NTest extends FlatSpec with Matchers {
-  val sym1 = 'hello
-  val sym2 = 'hello_$name
-  val sym3 = 'hello_$fname_$lname
+  val m_hello = Message("hello.message")
+  val m_hello_$name_$qty = Message2[String,Double]("hello_$name_$qty")
 
   "i(String) for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
     import s_mach.i18n.default._
+    implicit val messages = Messages(
+      m_hello_$name_$qty.key -> ("hello " :: " test " :: Nil)
+    )
     val name = "Lance"
     val qty = 10000.1
 
-    i"hello $name test $qty" should equal("hello Lance test 10,000.1")
+
+    m_hello_$name_$qty(name,qty) should equal("hello Lance test 10,000.1")
   }
 
   "i(String) for EN US" should "internationalize arguments correctly for custom locale" in {
-    implicit val i18nTranslator = s_mach.i18n.I18NTranslator(Locale.FRENCH)
     import s_mach.i18n.default.Implicits._
+    implicit val locale = Locale.FRENCH
+    implicit val messages = Messages(
+      m_hello_$name_$qty.key -> ("hello " :: " test " :: Nil)
+    )
 
     val name = "Lance"
     val qty = 10000.1
 
     // Note: not a space between '10' and '000' below
-    i"hello $name test $qty" should equal("hello Lance test 10 000,1")
+    m_hello_$name_$qty(name,qty) should equal("hello Lance test 10 000,1")
   }
 
 }

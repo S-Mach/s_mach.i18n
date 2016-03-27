@@ -23,13 +23,13 @@ package s_mach.i18n
  * (generally based on locale)
  */
 trait I18N[A] {
-  def i18n(a: A)(implicit t: I18NTranslator) : I18NString
+  def i18n(a: A)(implicit cfg: I18NConfig) : I18NString
 }
 
 object I18N {
-  def apply[A](f: (A,I18NTranslator) => String) : I18N[A] =
+  def apply[A](f: I18NConfig => A => I18NString) : I18N[A] =
     new I18N[A] {
-      def i18n(a: A)(implicit t: I18NTranslator) = I18NString(f(a,t))
+      def i18n(a: A)(implicit cfg:I18NConfig) = I18NString(f(cfg)(a))
     }
 }
 
