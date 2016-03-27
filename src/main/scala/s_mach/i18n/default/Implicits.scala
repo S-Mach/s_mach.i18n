@@ -43,7 +43,7 @@ object Implicits extends I18N.BuiltInImplicits {
   }
 
   implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
-    def i(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
+    def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
   }
 
   implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =

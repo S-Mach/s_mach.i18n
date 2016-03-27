@@ -113,13 +113,15 @@ class I18NTest extends FlatSpec with Matchers {
     import s_mach.i18n.default._
 
     m_hello() should equal("hello")
-    m_hello_name_qty(name.toI18N,qty) should equal("hello Lance test 10,000.1")
+    m_hello_name_qty(name.asI18N,qty) should equal("hello Lance test 10,000.1")
 
     m_there_are_qty_apples(0) should equal("There are no apples")
     m_there_are_qty_apples(1) should equal("There is one apple")
     m_there_are_qty_apples(2) should equal("There are 2 apples")
 
     m_hello_name_qty(m_there_are_qty_apples(2),qty) should equal("hello There are 2 apples test 10,000.1")
+
+    i18n"${m_there_are_qty_apples(0)} test $qty ${name.asI18N}" should equal("There are no apples test 10,000.1 Lance")
   }
 
   "Messages for FR" should "internationalize arguments correctly for custom locale" in {
@@ -137,6 +139,8 @@ class I18NTest extends FlatSpec with Matchers {
     m_there_are_qty_apples(2) should equal("Il y a 2 pommes")
 
     m_hello_name_qty(m_there_are_qty_apples(2),qty) should equal("bonjour Il y a 2 pommes test 10 000,1")
+
+    i18n"${m_there_are_qty_apples(0)} test $qty ${name.asI18N}" should equal("Il n'y a pas de pommes test 10 000,1 Lance")
   }
 
 }
