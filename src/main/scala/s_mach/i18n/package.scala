@@ -22,6 +22,15 @@ import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
 package object i18n {
+  /* gQdBkrozvt suffix added to prevent shadowing issues */
+
   type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
+
+  implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
+    def sc(args: Any*) : StringContext = self
+    def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
+    def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
+    def mq(args: Any*) : Quantity = Quantity(self.raw(args:_*))
+  }
 }

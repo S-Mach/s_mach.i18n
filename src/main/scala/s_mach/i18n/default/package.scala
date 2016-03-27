@@ -18,14 +18,13 @@
 */
 package s_mach.i18n
 
+import scala.language.implicitConversions
 import java.util.Locale
-
 import s_mach.codetools.IsDistinctTypeAlias
 import s_mach.i18n.impl.I18NOps
 
-import scala.language.implicitConversions
 
-package object default extends Implicits {
+package object default extends I18N.BuiltInImplicits {
   /* ysZWWnNgeq suffix added to prevent shadowing issues */
 
   // Note: default translator uses default Locale
@@ -47,10 +46,6 @@ package object default extends Implicits {
 
   implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
     def i(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
-    def sc(args: Any*) : StringContext = self
-    def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
-    def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
-    def mq(args: Any*) : Quantity = Quantity(self.raw(args:_*))
   }
 
   implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =

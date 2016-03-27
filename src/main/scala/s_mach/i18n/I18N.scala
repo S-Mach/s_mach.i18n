@@ -18,6 +18,8 @@
 */
 package s_mach.i18n
 
+import java.text.NumberFormat
+
 /**
  * A type-class for converting an instance of a type to an internationalized string
  * (generally based on locale)
@@ -31,6 +33,77 @@ object I18N {
     new I18N[A] {
       def i18n(a: A)(implicit cfg:I18NConfig) = I18NString(f(cfg)(a))
     }
-}
 
-// how to print currency, date and quantities varies by language
+  object BuiltInImplicits extends BuiltInImplicits
+  trait BuiltInImplicits {
+    // Note: NumberFormat is not threadsafe so can't save fmt between calls without synchronize
+
+    val m_true = Message("true").withDefault(I18NString("true"))
+    val m_false = Message("false").withDefault(I18NString("false"))
+
+    implicit val i18n_Boolean =
+      I18N[Boolean] { cfg => a =>
+        if(a) {
+          m_true()(cfg)
+        } else {
+          m_false()(cfg)
+        }
+      }
+
+    implicit val i18n_Byte =
+      I18N[Byte] { cfg => a =>
+        val fmt = NumberFormat.getIntegerInstance(cfg.locale)
+        I18NString(fmt.format(a))
+      }
+
+    implicit val i18n_Short =
+      I18N[Short] { cfg => a =>
+        val fmt = NumberFormat.getIntegerInstance(cfg.locale)
+        I18NString(fmt.format(a))
+      }
+
+    implicit val i18n_Int =
+      I18N[Int] { cfg => a =>
+        val fmt = NumberFormat.getIntegerInstance(cfg.locale)
+        I18NString(fmt.format(a))
+      }
+
+    implicit val i18n_Long =
+      I18N[Long] { cfg => a =>
+        val fmt = NumberFormat.getIntegerInstance(cfg.locale)
+        I18NString(fmt.format(a))
+      }
+
+    implicit val i18n_Float =
+      I18N[Float] { cfg => a =>
+        val fmt = NumberFormat.getNumberInstance(cfg.locale)
+        I18NString(fmt.format(a))
+      }
+
+    implicit val i18n_Double =
+      I18N[Double] { cfg => a =>
+        val fmt = NumberFormat.getNumberInstance(cfg.locale)
+        I18NString(fmt.format(a))
+      }
+
+    implicit val i18n_Char =
+      I18N[Char] { cfg => a =>
+        I18NString(a.toString)
+      }
+
+    implicit val i18n_I18NString =
+      I18N[I18NString] { cfg => a => a }
+
+    implicit val i18n_BigInt =
+      I18N[BigInt] { cfg => a =>
+        val fmt = NumberFormat.getNumberInstance(cfg.locale)
+        I18NString(fmt.format(a.underlying()))
+      }
+
+    implicit val i18n_BigDecimal =
+      I18N[BigDecimal] { cfg => a =>
+        val fmt = NumberFormat.getNumberInstance(cfg.locale)
+        I18NString(fmt.format(a.underlying()))
+      }
+  }
+}

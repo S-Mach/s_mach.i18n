@@ -21,25 +21,34 @@ package s_mach.i18n.test
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
-import s_mach.i18n._
 
 class I18NTest extends FlatSpec with Matchers {
-  import s_mach.i18n.default.Implicits.StringContextPML_hHQiIbEzQp
-
   // equivalent
 //  val m_hello = Message0("hello.message")
-  val m_hello = m0"hello.message"
+  val m_hello = {
+    import s_mach.i18n._
+
+    m0"hello.message"
+  }
 
   // equivalent
 //  val m_hello_name_qty = Message2[I18NString,Double]("hello_name_qty")
-  val m_hello_name_qty = m"hello_name_qty"[I18NString,Double]
+  val m_hello_name_qty = {
+    import s_mach.i18n._
+
+    m"hello_name_qty"[I18NString,Double]
+  }
 
   // equivalent
 //  val m_there_are_qty_apples = Quantity("there_are_qty_apples")
-  val m_there_are_qty_apples = mq"there_are_qty_apples"
+  val m_there_are_qty_apples = {
+    import s_mach.i18n._
 
-  implicit def message(implicit l:Locale) : Messages = {
-    import s_mach.i18n.default.Implicits._
+    mq"there_are_qty_apples"
+  }
+
+  implicit def mkMessages(implicit l:Locale) = {
+    import s_mach.i18n._
 
     l match {
       case l if l == Locale.US =>
@@ -55,7 +64,9 @@ class I18NTest extends FlatSpec with Matchers {
     }
   }
 
-  implicit def choices(implicit l:Locale) : Choices = {
+  implicit def mkChoices(implicit l:Locale)  = {
+    import s_mach.i18n._
+
     l match {
       case l if l == Locale.US =>
         Choices(
@@ -96,6 +107,8 @@ class I18NTest extends FlatSpec with Matchers {
   val qty = 10000.1
 
   "i(String) for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
+    // import this unused import to ensure no implicit shadow conflicts
+    import s_mach.i18n._
     import s_mach.i18n.default._
 
     m_hello() should equal("hello")
@@ -109,6 +122,8 @@ class I18NTest extends FlatSpec with Matchers {
   }
 
   "i(String) for FR" should "internationalize arguments correctly for custom locale" in {
+    // import this unused import to ensure no implicit shadow conflicts
+    import s_mach.i18n._
     import s_mach.i18n.default.Implicits._
     implicit val locale = Locale.FRENCH
 
