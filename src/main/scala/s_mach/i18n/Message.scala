@@ -1,5 +1,6 @@
 package s_mach.i18n
 
+import scala.language.implicitConversions
 
 trait Message {
 
@@ -46,6 +47,25 @@ case class MessageBuilder(
   def apply[A,B] = Message2[A,B](key)
 }
 
+case class MessageQuantity(
+  key: String
+  ) {
+  def throwIfMissing()(implicit c:Choices) : this.type = {
+    if(c.contains(key) == false) {
+      throw new IllegalArgumentException(s"Choices missing key $key")
+    } else {
+      this
+    }
+  }
+
+  def apply[N](n: N)(implicit numeric:Numeric[N],cfg: I18NConfig) : I18NString = {
+    import cfg._
+    I18NString(
+      choices(key)(BigDecimal(n.toString))
+    )
+  }
+}
+
 case class Message0(
   key: String,
   default: Option[I18NString] = None
@@ -79,13 +99,13 @@ case class Message1[A](key: String) extends Message {
     cfg.messages(key,ia.i18n(a))
   }
 
-  def bind(f: String => StringContext) ={
-    val parts = f("").parts
+  def bind(f: String => Seq[String]) ={
+    val parts = f("")
     require(parts.size == 1 || parts.size == 2,"StringContext must have 1 or 2 parts")
     BoundMessage(key,parts)
   }
 
-  def ->(f: String => StringContext) = bind(f)
+  def ->(f: String => Seq[String]) = bind(f)
 }
 
 case class Message2[A,B](key: String) extends Message {
@@ -97,11 +117,11 @@ case class Message2[A,B](key: String) extends Message {
     cfg.messages(key,ia.i18n(a),ib.i18n(b))
   }
 
-  def bind(f: (String,String) => StringContext) = {
-    val parts = f("","").parts
+  def bind(f: (String,String) => Seq[String]) = {
+    val parts = f("","")
     require(parts.size == 2 || parts.size == 3,"StringContext must have 2 or 3 parts")
     BoundMessage(key,parts)
   }
 
-  def ->(f: (String,String) => StringContext) = bind(f)
+  def ->(f: (String,String) => Seq[String]) = bind(f)
 }

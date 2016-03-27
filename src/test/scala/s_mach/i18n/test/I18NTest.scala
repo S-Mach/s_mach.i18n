@@ -23,27 +23,28 @@ import java.util.Locale
 import org.scalatest.{FlatSpec, Matchers}
 
 class I18NTest extends FlatSpec with Matchers {
-  // equivalent
-//  val m_hello = Message0("hello.message")
   val m_hello = {
     import s_mach.i18n._
 
+    // equivalent
+    // Message0("hello.message")
     m0"hello.message"
   }
 
   // equivalent
-//  val m_hello_name_qty = Message2[I18NString,Double]("hello_name_qty")
   val m_hello_name_qty = {
     import s_mach.i18n._
 
+    // equivalent
+    // Message2[I18NString,Double]("hello_name_qty")
     m"hello_name_qty"[I18NString,Double]
   }
 
-  // equivalent
-//  val m_there_are_qty_apples = Quantity("there_are_qty_apples")
   val m_there_are_qty_apples = {
     import s_mach.i18n._
 
+    // equivalent
+    // Quantity("there_are_qty_apples")
     mq"there_are_qty_apples"
   }
 
@@ -54,12 +55,12 @@ class I18NTest extends FlatSpec with Matchers {
       case l if l == Locale.US =>
         Messages(
           m_hello -> "hello",
-          m_hello_name_qty -> { (a,b) => sc"hello $a test $b" }
+          m_hello_name_qty -> { (a,b) => p"hello $a test $b" }
         )
       case l if l == Locale.FRENCH =>
         Messages(
           m_hello -> "bonjour",
-          m_hello_name_qty -> { (a,b) => sc"bonjour $a test $b" }
+          m_hello_name_qty -> { (a,b) => p"bonjour $a test $b" }
         )
     }
   }
@@ -106,7 +107,7 @@ class I18NTest extends FlatSpec with Matchers {
   val name = "Lance"
   val qty = 10000.1
 
-  "i(String) for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
+  "Messages for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
     // import this unused import to ensure no implicit shadow conflicts
     import s_mach.i18n._
     import s_mach.i18n.default._
@@ -121,7 +122,7 @@ class I18NTest extends FlatSpec with Matchers {
     m_hello_name_qty(m_there_are_qty_apples(2),qty) should equal("hello There are 2 apples test 10,000.1")
   }
 
-  "i(String) for FR" should "internationalize arguments correctly for custom locale" in {
+  "Messages for FR" should "internationalize arguments correctly for custom locale" in {
     // import this unused import to ensure no implicit shadow conflicts
     import s_mach.i18n._
     import s_mach.i18n.default.Implicits._

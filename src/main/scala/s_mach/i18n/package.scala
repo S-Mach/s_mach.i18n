@@ -28,9 +28,9 @@ package object i18n {
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
 
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
-    def sc(args: Any*) : StringContext = self
+    def p(args: Any*) : Seq[String] = self.parts
     def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
     def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
-    def mq(args: Any*) : Quantity = Quantity(self.raw(args:_*))
+    def mq(args: Any*) : MessageQuantity = MessageQuantity(self.raw(args:_*))
   }
 }
