@@ -13,15 +13,29 @@ trait Message {
     }
   }
 
-//  def apply[A,B] = Message2[A,B](key)
+//  def arity : Int
+//
+//  def bind(message: String) : (String,Seq[String]) = {
+//    val matchCount = Message.splitRegex.findAllIn(message).size
+//    require(matchCount == arity,s"Bound message string must have exactly $arity parameters")
+//    val parts = Message.splitRegex.split(message)
+//    key -> parts
+//  }
 }
 
 object Message {
+  val splitRegex = "(?<=[^$])\\$[0-9]+".r
 //  implicit val i18n_Message = I18N[Message0] { (a,l,m) =>
 //    m(a.key)
 //  }
 
   def apply(key: String) : Message0 = Message0(key)
+}
+
+case class BoundMessage(key: String, parts: Seq[String])
+object BoundMessage {
+  implicit def toTuple(b: BoundMessage) : (String,Seq[String]) =
+    b.key -> b.parts
 }
 
 case class Message0(
@@ -42,6 +56,10 @@ case class Message0(
     }
   }
 
+  def bind(message: String) =
+    BoundMessage(key,Seq(message))
+
+  def ->(message: String) = bind(message)
 }
 
 
@@ -52,6 +70,11 @@ case class Message1[A](key: String) extends Message {
     ) : I18NString = {
     cfg.messages(key,ia.i18n(a))
   }
+
+  def bind(f: String => StringContext) =
+    BoundMessage(key,f("").parts)
+
+  def ->(f: String => StringContext) = bind(f)
 }
 
 case class Message2[A,B](key: String) extends Message {
@@ -62,4 +85,9 @@ case class Message2[A,B](key: String) extends Message {
   ) : I18NString = {
     cfg.messages(key,ia.i18n(a),ib.i18n(b))
   }
+
+  def bind(f: (String,String) => StringContext) =
+    BoundMessage(key,f("","").parts)
+
+  def ->(f: (String,String) => StringContext) = bind(f)
 }

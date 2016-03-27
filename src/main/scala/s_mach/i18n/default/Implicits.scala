@@ -42,6 +42,7 @@ object Implicits extends Implicits {
   implicit class StringContextPML_hHQiIbEzQp(val self: StringContext) extends AnyVal {
     def i(args: I18NString*)(implicit cfg: I18NConfig) : I18NString =
       I18NOps.i(self)(args:_*)(cfg)
+    def sc(args: Any*) : StringContext = self
   }
 
   implicit def mkI18NConfig(implicit l: Locale, m:Messages) : I18NConfig =

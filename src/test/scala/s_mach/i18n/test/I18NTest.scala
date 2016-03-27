@@ -27,30 +27,40 @@ class I18NTest extends FlatSpec with Matchers {
   val m_hello = Message("hello.message")
   val m_hello_$name_$qty = Message2[String,Double]("hello_$name_$qty")
 
+  implicit def message(implicit l:Locale) : Messages = {
+    import s_mach.i18n.default.Implicits._
+
+    l match {
+      case l if l == Locale.US =>
+        Messages(
+          m_hello -> "hello",
+          m_hello_$name_$qty -> { (a,b) => sc"hello $a test $b" }
+        )
+      case l if l == Locale.FRENCH =>
+        Messages(
+          m_hello -> "bonjour",
+          m_hello_$name_$qty -> { (a,b) => sc"bonjour $a test $b" }
+        )
+    }
+  }
+
+  val name = "Lance"
+  val qty = 10000.1
+
   "i(String) for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
     import s_mach.i18n.default._
-    implicit val messages = Messages(
-      m_hello_$name_$qty.key -> ("hello " :: " test " :: Nil)
-    )
-    val name = "Lance"
-    val qty = 10000.1
 
-
+    m_hello() should equal("hello")
     m_hello_$name_$qty(name,qty) should equal("hello Lance test 10,000.1")
   }
 
-  "i(String) for EN US" should "internationalize arguments correctly for custom locale" in {
+  "i(String) for FR" should "internationalize arguments correctly for custom locale" in {
     import s_mach.i18n.default.Implicits._
     implicit val locale = Locale.FRENCH
-    implicit val messages = Messages(
-      m_hello_$name_$qty.key -> ("hello " :: " test " :: Nil)
-    )
 
-    val name = "Lance"
-    val qty = 10000.1
-
+    m_hello() should equal("bonjour")
     // Note: not a space between '10' and '000' below
-    m_hello_$name_$qty(name,qty) should equal("hello Lance test 10 000,1")
+    m_hello_$name_$qty(name,qty) should equal("bonjour Lance test 10 000,1")
   }
 
 }
