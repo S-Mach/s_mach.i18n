@@ -14,22 +14,9 @@ trait Message {
     }
   }
 
-//  def arity : Int
-//
-//  def bind(message: String) : (String,Seq[String]) = {
-//    val matchCount = Message.splitRegex.findAllIn(message).size
-//    require(matchCount == arity,s"Bound message string must have exactly $arity parameters")
-//    val parts = Message.splitRegex.split(message)
-//    key -> parts
-//  }
 }
 
 object Message {
-  val splitRegex = "(?<=[^$])\\$[0-9]+".r
-//  implicit val i18n_Message = I18N[Message0] { (a,l,m) =>
-//    m(a.key)
-//  }
-
   def apply(key: String) : Message0 = Message0(key)
 }
 
@@ -47,24 +34,7 @@ case class MessageBuilder(
   def apply[A,B] = Message2[A,B](key)
 }
 
-case class MessageQuantity(
-  key: String
-  ) {
-  def throwIfMissing()(implicit c:Choices) : this.type = {
-    if(c.contains(key) == false) {
-      throw new IllegalArgumentException(s"Choices missing key $key")
-    } else {
-      this
-    }
-  }
 
-  def apply[N](n: N)(implicit numeric:Numeric[N],cfg: I18NConfig) : I18NString = {
-    import cfg._
-    I18NString(
-      choices(key)(BigDecimal(n.toString))
-    )
-  }
-}
 
 case class Message0(
   key: String,
