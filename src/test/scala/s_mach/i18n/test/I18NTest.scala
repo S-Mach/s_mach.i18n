@@ -24,8 +24,11 @@ import org.scalatest.{FlatSpec, Matchers}
 import s_mach.i18n._
 
 class I18NTest extends FlatSpec with Matchers {
-  val m_hello = Message("hello.message")
-  val m_hello_$name_$qty = Message2[I18NString,Double]("hello_$name_$qty")
+  import s_mach.i18n.default.Implicits.StringContextPML_hHQiIbEzQp
+
+  val m_hello = m0"hello.message"
+//  val m_hello_$name_$qty = Message2[I18NString,Double]("hello_$name_$qty")
+  val m_hello_$name_$qty = m"hello_name_qty"[I18NString,Double]
 
   implicit def message(implicit l:Locale) : Messages = {
     import s_mach.i18n.default.Implicits._

@@ -38,6 +38,14 @@ object BoundMessage {
     b.key -> b.parts
 }
 
+case class MessageBuilder(
+  key: String
+) {
+  def apply(default: Option[I18NString] = None) = Message0(key,default)
+  def apply[A] = Message1[A](key)
+  def apply[A,B] = Message2[A,B](key)
+}
+
 case class Message0(
   key: String,
   default: Option[I18NString] = None

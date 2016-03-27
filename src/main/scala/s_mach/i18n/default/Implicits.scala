@@ -47,6 +47,9 @@ object Implicits extends Implicits {
     def i(args: I18NString*)(implicit cfg: I18NConfig) : I18NString =
       I18NOps.i(self)(args:_*)(cfg)
     def sc(args: Any*) : StringContext = self
+
+    def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
+    def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
   }
 
   implicit def mkI18NConfig(implicit l: Locale, m:Messages) : I18NConfig =
