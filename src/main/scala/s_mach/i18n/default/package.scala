@@ -42,7 +42,7 @@ package object default extends Implicits {
   }
 
   implicit class StringPML_ysZWWnNgeq(val self: String) extends AnyVal {
-    def i18n : I18NString = I18NString(self)
+    def toI18N : I18NString = I18NString(self)
   }
 
   implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
@@ -52,7 +52,7 @@ package object default extends Implicits {
     def sc(args: Any*) : StringContext = self
   }
 
-  implicit def mkI18NConfig(implicit l: Locale, m:Messages) : I18NConfig =
-    I18NConfig(l,m)
+  implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =
+    I18NConfig(l,m,c)
 
 }

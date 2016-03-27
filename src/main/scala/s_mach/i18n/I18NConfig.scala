@@ -4,5 +4,6 @@ import java.util.Locale
 
 case class I18NConfig(
   locale: Locale,
-  messages: Messages
+  messages: Messages,
+  choices: Choices
 )
