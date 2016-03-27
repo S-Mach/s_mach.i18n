@@ -130,7 +130,7 @@ class I18NTest extends FlatSpec with Matchers {
 
     m_hello() should equal("bonjour")
     // Note: not a space between '10' and '000' below
-    m_hello_name_qty(name.toI18N,qty) should equal("bonjour Lance test 10 000,1")
+    m_hello_name_qty(name.asI18N,qty) should equal("bonjour Lance test 10 000,1")
 
     m_there_are_qty_apples(0) should equal("Il n'y a pas de pommes")
     m_there_are_qty_apples(1) should equal("Il y a une pomme")

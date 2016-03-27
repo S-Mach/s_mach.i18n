@@ -39,7 +39,7 @@ object Implicits extends I18N.BuiltInImplicits {
   }
 
   implicit class StringPML_ysZWWnNgeq(val self: String) extends AnyVal {
-    def toI18N : I18NString = I18NString(self)
+    def asI18N : I18NString = I18NString(self)
   }
 
   implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
