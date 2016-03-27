@@ -26,7 +26,11 @@ import s_mach.i18n._
 class I18NTest extends FlatSpec with Matchers {
   import s_mach.i18n.default.Implicits.StringContextPML_hHQiIbEzQp
 
+  // equivalent
+//  val m_hello = Message0("hello.message")
   val m_hello = m0"hello.message"
+
+  // equivalent
 //  val m_hello_$name_$qty = Message2[I18NString,Double]("hello_$name_$qty")
   val m_hello_$name_$qty = m"hello_name_qty"[I18NString,Double]
 
