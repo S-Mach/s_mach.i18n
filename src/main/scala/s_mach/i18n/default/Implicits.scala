@@ -39,6 +39,10 @@ object Implicits extends Implicits {
       I18NOps.i18n(self)(i18n,cfg)
   }
 
+  implicit class StringPML_ysZWWnNgeq(val self: String) extends AnyVal {
+    def i18n : I18NString = I18NString(self)
+  }
+
   implicit class StringContextPML_hHQiIbEzQp(val self: StringContext) extends AnyVal {
     def i(args: I18NString*)(implicit cfg: I18NConfig) : I18NString =
       I18NOps.i(self)(args:_*)(cfg)
@@ -105,10 +109,8 @@ trait Implicits {
       I18NString(a.toString)
     }
 
-  implicit val i18n_String =
-    I18N[String] { cfg => a =>
-      I18NString(a)
-    }
+  implicit val i18n_I18NString =
+    I18N[I18NString] { cfg => a => a }
 
   implicit val i18n_BigInt =
     I18N[BigInt] { cfg => a =>

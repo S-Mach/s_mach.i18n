@@ -41,6 +41,10 @@ package object default extends Implicits {
       I18NOps.i18n(self)(i18n,cfg)
   }
 
+  implicit class StringPML_ysZWWnNgeq(val self: String) extends AnyVal {
+    def i18n : I18NString = I18NString(self)
+  }
+
   implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
     def i(args: I18NString*)(implicit cfg: I18NConfig) : I18NString =
       I18NOps.i(self)(args:_*)(cfg)

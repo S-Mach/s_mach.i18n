@@ -71,8 +71,11 @@ case class Message1[A](key: String) extends Message {
     cfg.messages(key,ia.i18n(a))
   }
 
-  def bind(f: String => StringContext) =
-    BoundMessage(key,f("").parts)
+  def bind(f: String => StringContext) ={
+    val parts = f("").parts
+    require(parts.size == 1 || parts.size == 2,"StringContext must have 1 or 2 parts")
+    BoundMessage(key,parts)
+  }
 
   def ->(f: String => StringContext) = bind(f)
 }
@@ -86,8 +89,11 @@ case class Message2[A,B](key: String) extends Message {
     cfg.messages(key,ia.i18n(a),ib.i18n(b))
   }
 
-  def bind(f: (String,String) => StringContext) =
-    BoundMessage(key,f("","").parts)
+  def bind(f: (String,String) => StringContext) = {
+    val parts = f("","").parts
+    require(parts.size == 2 || parts.size == 3,"StringContext must have 2 or 3 parts")
+    BoundMessage(key,parts)
+  }
 
   def ->(f: (String,String) => StringContext) = bind(f)
 }

@@ -21,11 +21,11 @@ package s_mach.i18n.test
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
-import s_mach.i18n.{Messages, Message2, Message}
+import s_mach.i18n._
 
 class I18NTest extends FlatSpec with Matchers {
   val m_hello = Message("hello.message")
-  val m_hello_$name_$qty = Message2[String,Double]("hello_$name_$qty")
+  val m_hello_$name_$qty = Message2[I18NString,Double]("hello_$name_$qty")
 
   implicit def message(implicit l:Locale) : Messages = {
     import s_mach.i18n.default.Implicits._
@@ -51,7 +51,7 @@ class I18NTest extends FlatSpec with Matchers {
     import s_mach.i18n.default._
 
     m_hello() should equal("hello")
-    m_hello_$name_$qty(name,qty) should equal("hello Lance test 10,000.1")
+    m_hello_$name_$qty(name.i18n,qty) should equal("hello Lance test 10,000.1")
   }
 
   "i(String) for FR" should "internationalize arguments correctly for custom locale" in {
@@ -60,7 +60,7 @@ class I18NTest extends FlatSpec with Matchers {
 
     m_hello() should equal("bonjour")
     // Note: not a space between '10' and '000' below
-    m_hello_$name_$qty(name,qty) should equal("bonjour Lance test 10 000,1")
+    m_hello_$name_$qty(name.i18n,qty) should equal("bonjour Lance test 10 000,1")
   }
 
 }
