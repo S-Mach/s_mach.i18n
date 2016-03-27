@@ -24,6 +24,6 @@ object I18NOps {
   @inline def i18n[A](self: A)(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
     i18n.i18n(self)
 
-  @inline def i(self: StringContext)(args: I18NString*)(implicit cfg: I18NConfig) : I18NString =
+  @inline def i(self: StringContext)(args: I18NString*) : I18NString =
     I18NString(self.standardInterpolator(identity,args))
 }

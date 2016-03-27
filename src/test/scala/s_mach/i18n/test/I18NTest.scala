@@ -34,7 +34,9 @@ class I18NTest extends FlatSpec with Matchers {
 //  val m_hello_name_qty = Message2[I18NString,Double]("hello_name_qty")
   val m_hello_name_qty = m"hello_name_qty"[I18NString,Double]
 
-  val m_there_are_qty_apples = Quantity("there_are_qty_apples")
+  // equivalent
+//  val m_there_are_qty_apples = Quantity("there_are_qty_apples")
+  val m_there_are_qty_apples = mq"there_are_qty_apples"
 
   implicit def message(implicit l:Locale) : Messages = {
     import s_mach.i18n.default.Implicits._
@@ -89,7 +91,7 @@ class I18NTest extends FlatSpec with Matchers {
         )
     }
   }
-  
+
   val name = "Lance"
   val qty = 10000.1
 
