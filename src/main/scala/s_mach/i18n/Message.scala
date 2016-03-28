@@ -40,6 +40,9 @@ case class Message0(
   key: String,
   default: Option[I18NString] = None
 ) extends Message {
+  def withKeyAsDefault() =
+    copy(default = Some(I18NString(key)))
+
   def withDefault(value: I18NString) =
     copy(default = Some(value))
 

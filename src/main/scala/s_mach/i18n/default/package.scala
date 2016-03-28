@@ -44,9 +44,9 @@ package object default extends I18N.BuiltInImplicits {
     def asI18N : I18NString = I18NString(self)
   }
 
-  implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
-    def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
-  }
+//  implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
+//    def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
+//  }
 
   implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =
     I18NConfig(l,m,c)

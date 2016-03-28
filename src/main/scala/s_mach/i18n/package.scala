@@ -18,6 +18,8 @@
 */
 package s_mach
 
+import s_mach.i18n.impl.I18NOps
+
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
@@ -32,5 +34,16 @@ package object i18n {
     def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
     def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
     def mq(args: Any*) : MessageQuantity = MessageQuantity(self.raw(args:_*))
+
+    def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
+  }
+
+  implicit class EverythingPML_gQdBkrozvt[A](val self: A) extends AnyVal {
+    def i18n(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
+      I18NOps.i18n(self)(i18n,cfg)
+  }
+
+  implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
+    def i18n : I18NString = I18NString(self)
   }
 }
