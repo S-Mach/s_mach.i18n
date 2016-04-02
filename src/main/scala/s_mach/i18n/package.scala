@@ -35,9 +35,6 @@ package object i18n extends I18N.BuiltInImplicits {
 
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
     def p(args: Any*) : Seq[String] = self.parts
-    def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
-    def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
-    def mq(args: Any*) : MessageQuantity = MessageQuantity(self.raw(args:_*))
 
     def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
   }
@@ -49,6 +46,9 @@ package object i18n extends I18N.BuiltInImplicits {
 
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def i18n : I18NString = I18NString(self)
+    def m : MessageBuilder = MessageBuilder(self)
+    def m0 : Message0 = Message0(self)
+    def mq : MessageQuantity = MessageQuantity(self)
   }
 
   implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =
