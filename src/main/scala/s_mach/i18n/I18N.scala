@@ -91,6 +91,10 @@ object I18N {
         I18NString(a.toString)
       }
 
+    // Note: implicit val i18n_String is intentionally not declared
+    // to prevent accidentally converting a String to I18NString without
+    // internationalization. To cast a String to I18NString use String.i18n
+
     implicit val i18n_I18NString =
       I18N[I18NString] { cfg => a => a }
 

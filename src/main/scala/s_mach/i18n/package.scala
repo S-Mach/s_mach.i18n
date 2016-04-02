@@ -18,16 +18,20 @@
 */
 package s_mach
 
+import java.util.Locale
+
 import s_mach.i18n.impl.I18NOps
 
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
-package object i18n {
+package object i18n extends I18N.BuiltInImplicits {
   /* gQdBkrozvt suffix added to prevent shadowing issues */
 
   type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
+  implicit def toI18NString[A](value: A)(implicit i18n:I18N[A],cfg: I18NConfig) : I18NString =
+    i18n.i18n(value)(cfg)
 
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
     def p(args: Any*) : Seq[String] = self.parts
@@ -46,4 +50,8 @@ package object i18n {
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def i18n : I18NString = I18NString(self)
   }
+
+  implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =
+    I18NConfig(l,m,c)
+
 }
