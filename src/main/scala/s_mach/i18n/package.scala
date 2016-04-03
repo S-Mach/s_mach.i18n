@@ -52,7 +52,7 @@ package object i18n extends I18N.BuiltInImplicits {
   implicit def mkI18NConfig(implicit
     l: Locale = Locale.getDefault,
     m:Messages,
-    c:Choices,
+    c:Choices = Choices(),
     h:MissingArgHandler = MissingArgHandler.default
   ) : I18NConfig =
     I18NConfig(l,m,c,h)

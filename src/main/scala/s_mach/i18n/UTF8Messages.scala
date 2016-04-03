@@ -28,7 +28,7 @@ object UTF8Messages {
     fileBaseName: String = "messages",
     fileExt: String = "txt"
   )(implicit
-    locale: Locale
+    locale: Locale = Locale.getDefault
   ) : Messages = UTF8MessagesOps.apply(
     fileBaseDir = fileBaseDir,
     fileBaseName = fileBaseName,
