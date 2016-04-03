@@ -16,27 +16,16 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-trait Choices {
-  def keys: Iterable[String]
-  def contains(key: String) : Boolean
-  def get(key: String) : Option[BigDecimal => I18NString]
-  def apply(key: String) : BigDecimal => I18NString
-}
-
-object Choices {
-  def apply(choices: (String,BigDecimal => I18NString)*) : Choices = {
-    val _choices = choices.toMap
-    new Choices {
-      val choices = _choices.toMap
-
-      def keys = choices.keys
-      def contains(key: String) = choices.contains(key)
-      def apply(key: String) = choices(key)
-      def get(key: String) = choices.get(key)
-
-      override def toString = s"Messages(keys=${choices.keys.mkString(",")})"
-    }
+object EnumeratorStream {
+  def apply[A](e: java.util.Enumeration[A]): Stream[A] = {
+    def toStream(e: java.util.Enumeration[A]) : Stream[A]  =
+      if(e.hasMoreElements) {
+        e.nextElement() #:: toStream(e)
+      } else {
+        Stream.empty
+      }
+    toStream(e)
   }
 }

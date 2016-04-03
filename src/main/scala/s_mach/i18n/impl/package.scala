@@ -18,25 +18,17 @@
 */
 package s_mach.i18n
 
-trait Choices {
-  def keys: Iterable[String]
-  def contains(key: String) : Boolean
-  def get(key: String) : Option[BigDecimal => I18NString]
-  def apply(key: String) : BigDecimal => I18NString
-}
+import java.io.{SequenceInputStream, InputStream}
 
-object Choices {
-  def apply(choices: (String,BigDecimal => I18NString)*) : Choices = {
-    val _choices = choices.toMap
-    new Choices {
-      val choices = _choices.toMap
+package object impl {
+  /* HaoeHQHkpk suffix appended to prevent shadowing issues */
 
-      def keys = choices.keys
-      def contains(key: String) = choices.contains(key)
-      def apply(key: String) = choices(key)
-      def get(key: String) = choices.get(key)
+  implicit class JavaEnumerationPML_HaoeHQHkpk[A](val self:java.util.Enumeration[A]) extends AnyVal {
+    def toStream : Stream[A] = EnumeratorStream(self)
+  }
 
-      override def toString = s"Messages(keys=${choices.keys.mkString(",")})"
-    }
+  implicit class JavaInputStreamPML(val self:InputStream) extends AnyVal {
+    def ++(other: InputStream) : InputStream =
+      new SequenceInputStream(self,other)
   }
 }

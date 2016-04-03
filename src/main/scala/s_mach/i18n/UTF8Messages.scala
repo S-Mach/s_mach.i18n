@@ -18,25 +18,20 @@
 */
 package s_mach.i18n
 
-trait Choices {
-  def keys: Iterable[String]
-  def contains(key: String) : Boolean
-  def get(key: String) : Option[BigDecimal => I18NString]
-  def apply(key: String) : BigDecimal => I18NString
-}
+import java.util.Locale
 
-object Choices {
-  def apply(choices: (String,BigDecimal => I18NString)*) : Choices = {
-    val _choices = choices.toMap
-    new Choices {
-      val choices = _choices.toMap
+import s_mach.i18n.impl.UTF8MessagesOps
 
-      def keys = choices.keys
-      def contains(key: String) = choices.contains(key)
-      def apply(key: String) = choices(key)
-      def get(key: String) = choices.get(key)
-
-      override def toString = s"Messages(keys=${choices.keys.mkString(",")})"
-    }
-  }
+object UTF8Messages {
+  def apply(
+    fileBaseDir: String = "conf",
+    fileBaseName: String = "messages",
+    fileExt: String = "txt"
+  )(implicit
+    locale: Locale
+  ) : Messages = UTF8MessagesOps.apply(
+    fileBaseDir = fileBaseDir,
+    fileBaseName = fileBaseName,
+    fileExt = fileExt
+  )
 }

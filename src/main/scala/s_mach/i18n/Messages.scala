@@ -19,6 +19,7 @@
 package s_mach.i18n
 
 trait Messages {
+  def keys: Iterable[String]
   def contains(key: String) : Boolean
   def get(key: String, args: I18NString*) : Option[I18NString]
   def apply(key: String, args: I18NString*) : I18NString
@@ -32,6 +33,7 @@ object Messages {
     new Messages {
       val messages = _messages.toMap
 
+      def keys = messages.keys
       def contains(key: String) = messages.contains(key)
       def get(key: String, args: I18NString*) =
         messages.get(key).map(parts => mkI18NString(parts,args:_*))
@@ -44,6 +46,8 @@ object Messages {
           StringContext(parts:_*).raw(args:_*)
         )
       }
+
+      override def toString = s"Messages(keys=${messages.keys.mkString(",")})"
     }
   }
 }
