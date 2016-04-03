@@ -33,7 +33,7 @@ case class Message0(
   def apply()(implicit
     cfg: I18NConfig
     ) : I18NString = {
-    cfg.messages(key).interpolate()
+    cfg.messages(key).head.asInstanceOf[Interpolation.Literal].value.i18n
   }
 }
 
