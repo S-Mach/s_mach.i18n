@@ -21,6 +21,31 @@ package s_mach.i18n.impl
 import s_mach.i18n._
 
 object I18NOps {
+  @inline def interpolate(
+    self: Seq[Interpolation]
+  )(
+    args: I18NString*
+  )(implicit
+    cfg:I18NConfig
+  ) : I18NString = {
+    import cfg._
+    val _args = args.asInstanceOf[Seq[String]]
+    if(self.nonEmpty) {
+      def handle(i: Interpolation) : String = {
+        import Interpolation._
+        i match {
+          case Literal(value) => value
+          case Arg(arg) => _args.applyOrElse(arg,handleMissingArg)
+        }
+      }
+      val sb = new StringBuilder(handle(self.head))
+      self.tail.foreach(i => sb.append(handle(i)))
+      sb.toString().i18n
+    } else {
+      "".i18n
+    }
+  }
+
   @inline def i18n[A](self: A)(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
     i18n.i18n(self)
 

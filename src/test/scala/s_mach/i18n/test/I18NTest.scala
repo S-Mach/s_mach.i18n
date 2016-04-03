@@ -111,7 +111,7 @@ class I18NTest extends FlatSpec with Matchers {
   "Messages for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
     // import this unused import to ensure no implicit shadow conflicts
     import s_mach.i18n._
-    implicit val locale = Locale.getDefault
+    implicit val locale = Locale.US
 
     m_hello() should equal("hello")
     m_hello_name_qty(name.i18n,qty) should equal("hello Lance test 10,000.1")

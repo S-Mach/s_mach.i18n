@@ -72,4 +72,5 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
       )
     }
   }
+
 }

@@ -18,15 +18,14 @@
 */
 package s_mach.i18n
 
-import java.util.Locale
 
+import scala.language.implicitConversions
+import java.util.Locale
 import s_mach.codetools.IsDistinctTypeAlias
 import s_mach.i18n.impl.I18NOps
 
-import scala.language.implicitConversions
-
 object Implicits  {
-  /* gQdBkrozvt suffix added to prevent shadowing issues */
+    /* gQdBkrozvt suffix added to prevent shadowing issues */
 
   type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
@@ -34,11 +33,6 @@ object Implicits  {
     i18n.i18n(value)(cfg)
 
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
-    def p(args: Any*) : Seq[String] = self.parts
-    def m(args: Any*) : MessageBuilder = MessageBuilder(self.raw(args:_*))
-    def m0(args: Any*) : Message0 = Message0(self.raw(args:_*))
-    def mq(args: Any*) : MessageQuantity = MessageQuantity(self.raw(args:_*))
-
     def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
   }
 
@@ -49,21 +43,21 @@ object Implicits  {
 
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def i18n : I18NString = I18NString(self)
+    def m : MessageBuilder = MessageBuilder(self)
+    def m0 : Message0 = Message0(self)
+    def mq : MessageQuantity = MessageQuantity(self)
   }
 
-  implicit class EverythingPML_ysZWWnNgeq[A](val self: A) extends AnyVal {
-    def i18n(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
-      I18NOps.i18n(self)(i18n,cfg)
+  implicit def mkI18NConfig(implicit
+    l: Locale = Locale.getDefault,
+    m:Messages,
+    c:Choices,
+    h:MissingArgHandler = MissingArgHandler.default
+  ) : I18NConfig =
+    I18NConfig(l,m,c,h)
+
+  implicit class SeqInterpolationPML_gQdBkrozvt(val self: Seq[Interpolation]) extends AnyVal {
+    def interpolate(args: I18NString*)(implicit cfg:I18NConfig): I18NString =
+      I18NOps.interpolate(self)(args: _*)
   }
-
-  implicit class StringPML_ysZWWnNgeq(val self: String) extends AnyVal {
-    def asI18N : I18NString = I18NString(self)
-  }
-
-//  implicit class StringContextPML_ysZWWnNgeq(val self: StringContext) extends AnyVal {
-//    def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
-//  }
-
-  implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =
-    I18NConfig(l,m,c)
 }
