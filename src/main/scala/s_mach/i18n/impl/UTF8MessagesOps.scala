@@ -26,14 +26,15 @@ import s_mach.string._
 object UTF8MessagesOps {
   // todo: support for Choices parsed from ChoiceFormat
 
-  private val splitKey = "|" * 12
-  private val splitKeyRegex = splitKey.r
-  private val fakeNoopFormat = new Format {
+  private val fakeFormat = new Format {
     // Never called
     def parseObject(source: String, pos: ParsePosition) = ???
     def format(obj: scala.Any, toAppendTo: StringBuffer, pos: FieldPosition) =
       toAppendTo.append(obj.toString)
   }
+
+  private val uniqueKey = "<>" * 12
+  private val parseRegex = s"$uniqueKey([0-9]+)".r
 
   def apply(
     fileBaseDir: String = "conf",
@@ -51,20 +52,45 @@ object UTF8MessagesOps {
 
     val keyToParts =
       bundle.getKeys.toStream.map { k =>
+        import Interpolation._
         val raw = bundle.getString(k)
         val fmt = new MessageFormat(raw)
         val parts =
           fmt.getFormats.size match {
-            case 0 => Seq(raw)
+            case 0 => List(Literal(raw))
             case argsCount =>
               // Force all formats to simple string replacement
-              val formats = Array.fill[Format](argsCount)(fakeNoopFormat)
+              val formats = Array.fill[Format](argsCount)(fakeFormat)
               fmt.setFormats(formats)
-              // Inject split key as fake args to split parts
-              val fakeArgs = Array.fill[String](argsCount)(splitKey)
-              splitKeyRegex.split(fmt.format(fakeArgs)).toSeq
+              // Inject unique key and arg number as fake args to allow
+              // standardized parsing below
+              val parseable = fmt.format(
+                (0 until argsCount).map(i => s"$uniqueKey$i").toArray
+              )
+              case class M(
+                start: Int,
+                end: Int,
+                argIdx: Int
+              )
+              // Parse simplified interpolation format
+              val ms = parseRegex.findAllMatchIn(parseable)
+                .map(m => M(m.start,m.end,m.group(1).toInt))
+              // Note: impossible for ms not to match at least once since there at
+              // least one arg at this point
+              val builder = Seq.newBuilder[Interpolation]
+              val _lastIdx =
+                ms.foldLeft(0) { case (lastIdx,m) =>
+                  if(lastIdx < m.start) {
+                    builder += Interpolation.Literal(parseable.substring(lastIdx, m.start))
+                  }
+                  builder += Interpolation.Arg(m.argIdx)
+                  m.end
+                }
+              if(_lastIdx != parseable.length) {
+                builder += Interpolation.Literal(parseable.substring(_lastIdx))
+              }
+              builder.result()
           }
-
         k -> parts
       }
     Messages(keyToParts:_*)

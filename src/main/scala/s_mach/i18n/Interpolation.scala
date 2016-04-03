@@ -18,28 +18,8 @@
 */
 package s_mach.i18n
 
-trait Messages {
-  def keys: Iterable[String]
-  def contains(key: String) : Boolean
-  def get(key: String) : Option[Seq[Interpolation]]
-  def apply(key: String) : Seq[Interpolation]
-}
-
-object Messages {
-
-  def apply(
-    messages: (String,Seq[Interpolation])*
-  ) : Messages = {
-    val _messages = messages
-    new Messages {
-      val messages = _messages.toMap
-
-      def keys = messages.keys
-      def contains(key: String) = messages.contains(key)
-      def get(key: String) = messages.get(key)
-      def apply(key: String) = messages(key)
-
-      override def toString = s"Messages(keys=${messages.keys.mkString(",")})"
-    }
-  }
+sealed trait Interpolation
+object Interpolation {
+  case class Literal(value: String) extends Interpolation
+  case class Arg(index: Int) extends Interpolation
 }

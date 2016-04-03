@@ -54,4 +54,23 @@ package object i18n extends I18N.BuiltInImplicits {
   implicit def mkI18NConfig(implicit l: Locale,m:Messages,c:Choices) : I18NConfig =
     I18NConfig(l,m,c)
 
+  implicit class SeqInterpolationPML_gQdBkrozvt(val self: Seq[Interpolation]) extends AnyVal {
+    def interpolate(args: I18NString*) : I18NString = {
+      val _args = args.asInstanceOf[Seq[String]]
+      if(self.nonEmpty) {
+        def handle(i: Interpolation) : String = {
+          import Interpolation._
+          i match {
+            case Literal(value) => value
+            case Arg(arg) => _args.applyOrElse(arg,(_:Int) => "")
+          }
+        }
+        val sb = new StringBuilder(handle(self.head))
+        self.tail.foreach(i => sb.append(handle(i)))
+        sb.toString().i18n
+      } else {
+        "".i18n
+      }
+    }
+  }
 }

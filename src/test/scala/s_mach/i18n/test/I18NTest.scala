@@ -50,17 +50,18 @@ class I18NTest extends FlatSpec with Matchers {
 
   implicit def mkMessages(implicit l:Locale) = {
     import s_mach.i18n._
+    import Interpolation._
 
     l match {
       case l if l == Locale.US =>
         Messages(
-          m_hello -> "hello",
-          m_hello_name_qty -> { (a,b) => p"hello $a test $b" }
+          m_hello.key -> (Literal("hello") :: Nil),
+          m_hello_name_qty.key -> (Literal("hello ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
         )
       case l if l == Locale.FRENCH =>
         Messages(
-          m_hello -> "bonjour",
-          m_hello_name_qty -> { (a,b) => p"bonjour $a test $b" }
+          m_hello.key -> (Literal("bonjour") :: Nil),
+          m_hello_name_qty.key -> (Literal("bonjour ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
         )
     }
   }
