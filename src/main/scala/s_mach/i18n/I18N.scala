@@ -38,8 +38,8 @@ object I18N {
   trait BuiltInImplicits {
     // Note: NumberFormat is not threadsafe so can't save fmt between calls without synchronize
 
-    val m_true = Message("true")
-    val m_false = Message("false")
+    val m_true = Message("m_true")
+    val m_false = Message("m_false")
 
     implicit val i18n_Boolean =
       I18N[Boolean] { cfg => a =>

@@ -1,2 +1,2 @@
-true=vrai
-false=faux
+m_true=vrai
+m_false=faux
