@@ -27,7 +27,7 @@ trait Messages {
 
 object Messages {
   val empty = apply()
-  
+
   def apply(
     messages: (String,Seq[Interpolation])*
   ) : Messages = {
