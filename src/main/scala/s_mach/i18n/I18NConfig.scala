@@ -21,7 +21,29 @@ package s_mach.i18n
 import java.util.Locale
 
 case class I18NConfig(
-  locale: Locale,
   messages: Messages,
-  interpolator: Interpolator
+  locale: Locale,
+  interpolator: Interpolator,
+  numberFormat: I18NNumberFormat
 )
+
+object I18NConfig {
+  def apply(
+    messages: Messages,
+    interpolator: Interpolator = Interpolator.default,
+    numberFormat: I18NNumberFormat = I18NNumberFormat.default
+  )(implicit
+    locale: Locale = Locale.getDefault
+  ) : I18NConfig = I18NConfig(
+    messages = messages,
+    locale = locale,
+    interpolator = interpolator,
+    numberFormat = numberFormat
+  )
+//  implicit def mkI18NConfig(implicit
+//    l: Locale = Locale.getDefault,
+//    m:Messages,
+//    i:Interpolator = Interpolator.default
+//    ) : I18NConfig =
+//    I18NConfig(m,l,i)
+}

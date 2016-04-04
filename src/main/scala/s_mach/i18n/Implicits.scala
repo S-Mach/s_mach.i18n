@@ -48,10 +48,10 @@ object Implicits  {
     def mq : Choice = Choice(self)
   }
 
-  implicit def mkI18NConfig(implicit
-    l: Locale = Locale.getDefault,
-    m:Messages,
-    i:Interpolator = Interpolator.default
-  ) : I18NConfig =
-    I18NConfig(l,m,i)
+//  implicit def mkI18NConfig(implicit
+//    l: Locale = Locale.getDefault,
+//    m:Messages,
+//    i:Interpolator = Interpolator.default
+//  ) : I18NConfig =
+//    I18NConfig(l,m,i)
 }

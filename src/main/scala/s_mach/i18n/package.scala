@@ -52,10 +52,10 @@ package object i18n extends I18N.BuiltInImplicits {
     def choice : Choice = Choice(self)
   }
 
-  implicit def mkI18NConfig(implicit
-    l: Locale = Locale.getDefault,
-    m:Messages,
-    i:Interpolator = Interpolator.default
-  ) : I18NConfig =
-    I18NConfig(l,m,i)
+//  implicit def mkI18NConfig(implicit
+//    l: Locale = Locale.getDefault,
+//    m:Messages,
+//    i:Interpolator = Interpolator.default
+//  ) : I18NConfig =
+//    I18NConfig(l,m,i)
 }

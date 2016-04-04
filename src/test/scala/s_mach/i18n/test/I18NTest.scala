@@ -28,7 +28,8 @@ class I18NTest extends FlatSpec with Matchers {
 
   "I18N[Number]" should "format numbers correctly using the US locale" in {
     implicit val locale = Locale.US
-    implicit val m = UTF8Messages()
+    implicit val cfg = I18NConfig(UTF8Messages())
+
     1000.i18n should equal(I18NString("1,000"))
     (-1000).i18n should equal(I18NString("-1,000"))
     127.toByte.i18n should equal(I18NString("127"))
@@ -51,7 +52,8 @@ class I18NTest extends FlatSpec with Matchers {
 
   "I18N[Number]" should "format numbers correctly using the FRENCH locale" in {
     implicit val locale = Locale.FRENCH
-    implicit val m = UTF8Messages()
+    implicit val cfg = I18NConfig(UTF8Messages())
+
     1000.i18n should equal(I18NString("1 000"))
     (-1000).i18n should equal(I18NString("-1 000"))
     127.toByte.i18n should equal(I18NString("127"))
@@ -74,20 +76,23 @@ class I18NTest extends FlatSpec with Matchers {
 
   "I18N[I18NString]" should "return the same value" in {
     implicit val locale = Locale.US
-    implicit val m = UTF8Messages()
+    implicit val cfg = I18NConfig(UTF8Messages())
+
     I18NString("test").asI18N should equal(I18NString("test"))
   }
 
   "I18N[Boolean]" should "format boolean values correctly using the US locale messages" in {
     implicit val locale = Locale.US
-    implicit val m = UTF8Messages()
+    implicit val cfg = I18NConfig(UTF8Messages())
+
     true.i18n should equal("true")
     false.i18n should equal("false")
   }
 
   "I18N[Boolean]" should "format boolean values correctly using the FRENCH locale messages" in {
     implicit val locale = Locale.FRENCH
-    implicit val m = UTF8Messages()
+    implicit val cfg = I18NConfig(UTF8Messages())
+
     true.i18n should equal("vrai")
     false.i18n should equal("faux")
   }
@@ -99,12 +104,13 @@ class I18NTest extends FlatSpec with Matchers {
 
     {
       implicit val locale = Locale.US
-      implicit val m = UTF8Messages()
+      implicit val cfg = I18NConfig(UTF8Messages())
       i18n"$b test $qty ${name.asI18N}" should equal("false test 10,000.1 Gary")
     }
     {
       implicit val locale = Locale.FRENCH
-      implicit val m = UTF8Messages()
+      implicit val cfg = I18NConfig(UTF8Messages())
+
       i18n"$b test $qty ${name.asI18N}" should equal("faux test 10 000,1 Gary")
     }
 

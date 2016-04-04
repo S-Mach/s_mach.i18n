@@ -23,7 +23,7 @@ import s_mach.i18n._
 import s_mach.i18n.Interpolation.{Arg, Literal}
 
 class InterpolatorTest extends FlatSpec with Matchers {
-  implicit val m = Messages()
+  implicit val cfg = I18NConfig(Messages())
 
   val parts1 = List(
     Literal("hello "),
