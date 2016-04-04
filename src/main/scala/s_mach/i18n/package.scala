@@ -20,8 +20,6 @@ package s_mach
 
 import java.util.Locale
 
-import s_mach.i18n.impl.InterpolatorOps
-
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
@@ -57,9 +55,4 @@ package object i18n extends I18N.BuiltInImplicits {
     i:Interpolator = Interpolator.default
   ) : I18NConfig =
     I18NConfig(l,m,c,i)
-
-//  implicit class SeqInterpolationPML_gQdBkrozvt(val self: Seq[Interpolation]) extends AnyVal {
-//    def interpolate(args: I18NString*)(implicit cfg:I18NConfig): I18NString =
-//      cfg.interpolator.interpolate(self,args:_*)
-//  }
 }
