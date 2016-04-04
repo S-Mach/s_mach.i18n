@@ -92,5 +92,31 @@ class I18NTest extends FlatSpec with Matchers {
     false.i18n should equal("faux")
   }
 
+  "i18nString" should "ensure all interpolated arguments are convertable to I18NString" in {
+    val qty = 10000.1
+    val name = "Gary"
+    val b = false
 
+    {
+      implicit val locale = Locale.US
+      implicit val m = UTF8Messages()
+      i18n"$b test $qty ${name.asI18N}" should equal("false test 10,000.1 Gary")
+    }
+    {
+      implicit val locale = Locale.FRENCH
+      implicit val m = UTF8Messages()
+      i18n"$b test $qty ${name.asI18N}" should equal("faux test 10 000,1 Gary")
+    }
+
+  }
+
+  "i18nString" should "fail to compile if any interpolated argument is not convertable to I18NString" in {
+    val qty = 10000.1
+    val name = "Gary"
+    val c = 'a'
+    val b = false
+
+    """i18n"$b test $qty ${name}"""" shouldNot compile
+    """i18n"$b test $qty ${c}"""" shouldNot compile
+  }
 }
