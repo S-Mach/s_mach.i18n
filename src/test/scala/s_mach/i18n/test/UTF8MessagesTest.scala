@@ -4,7 +4,6 @@ import java.util.Locale
 
 import org.scalatest.{Matchers, FlatSpec}
 import s_mach.i18n._
-import Interpolation._
 
 class UTF8MessagesTest extends FlatSpec with Matchers {
   "UTF8Messages" should "read messages from default resource files when no locale specific file is present" in {
