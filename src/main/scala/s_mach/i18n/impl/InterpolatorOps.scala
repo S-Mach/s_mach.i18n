@@ -22,22 +22,6 @@ import s_mach.i18n.Interpolation.Arg
 import s_mach.i18n._
 
 object InterpolatorOps {
-  val strict = new Interpolator {
-    def interpolate(parts: Seq[Interpolation],args: I18NString*)(implicit cfg: I18NConfig) =
-      strictInterpolate(parts,args:_*)
-    def interpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) =
-      interpolate(cfg.messages(key),args:_*)
-  }
-  val tolerant = new Interpolator {
-    def interpolate(parts: Seq[Interpolation], args: I18NString*)(implicit cfg: I18NConfig) =
-      tolerantInterpolate(parts,args:_*)
-    def interpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) =
-      cfg.messages.get(key) match {
-        case Some(parts) => interpolate(parts,args:_*)
-        case None => s"{$key}(${args.mkString(",")})".i18n
-      }
-  }
-
   @inline def strictInterpolate(
     parts: Seq[Interpolation],
     args: I18NString*

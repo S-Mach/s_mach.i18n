@@ -16,23 +16,25 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-case class MessageQuantity(
-  key: String
-  ) {
-  def throwIfMissing()(implicit c:Choices) : this.type = {
-    if(c.contains(key) == false) {
-      throw new IllegalArgumentException(s"Choices missing key $key")
+import s_mach.i18n._
+
+class TolerantInterpolator extends Interpolator {
+  def interpolate(parts: Seq[Interpolation], args: I18NString*)(implicit cfg: I18NConfig) =
+    InterpolatorOps.tolerantInterpolate(parts,args:_*)
+  def interpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) = {
+    if(args.nonEmpty) {
+      cfg.messages.interpolations.get(key) match {
+        case Some(parts) => interpolate(parts,args:_*)
+        case None => s"{$key}(${args.mkString(",")})".i18n
+      }
     } else {
-      this
+      cfg.messages.literals.get(key) match {
+        case Some(s) => s.i18n
+        case None => s"{$key}".i18n
+      }
     }
   }
-
-  def apply[N](n: N)(implicit numeric:Numeric[N],cfg: I18NConfig) : I18NString = {
-    import cfg._
-    I18NString(
-      choices(key)(BigDecimal(n.toString))
-    )
-  }
 }
+

@@ -55,3 +55,14 @@ case class Message2[A,B](key: String) extends Message {
     cfg.interpolator.interpolate(key,ia(a),ib(b))
   }
 }
+
+case class MessageQuantity(
+  key: String
+  ) extends Message {
+  def apply[N](n: N)(implicit numeric:Numeric[N],cfg: I18NConfig) : I18NString = {
+    import cfg._
+    I18NString(
+      messages.choices(key)(BigDecimal(n.toString))
+    )
+  }
+}

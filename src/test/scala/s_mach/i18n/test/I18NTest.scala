@@ -55,52 +55,50 @@ class I18NTest extends FlatSpec with Matchers {
     l match {
       case l if l == Locale.US =>
         Messages(
-          m_hello.key -> (Literal("hello") :: Nil),
-          m_hello_name_qty.key -> (Literal("hello ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
+          literals = Map(
+            m_hello.key -> "hello"
+          ),
+          interpolations = Map(
+            m_hello_name_qty.key -> (Literal("hello ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
+          ),
+          choices = Map(
+            m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(
+              s"There ${
+                n match {
+                  case v if v == BigDecimal(0) =>
+                    "are no apples"
+                  case v if v == BigDecimal(1) =>
+                    "is one apple"
+                  case v =>
+                    s"are $v apples"
+                }
+              }"
+            )}
+          )
         )
       case l if l == Locale.FRENCH =>
         Messages(
-          m_hello.key -> (Literal("bonjour") :: Nil),
-          m_hello_name_qty.key -> (Literal("bonjour ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
-        )
-    }
-  }
-
-  implicit def mkChoices(implicit l:Locale)  = {
-    import s_mach.i18n._
-
-    l match {
-      case l if l == Locale.US =>
-        Choices(
-          m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(
-            s"There ${
-              n match {
-                case v if v == BigDecimal(0) =>
-                  "are no apples"
-                case v if v == BigDecimal(1) =>
-                  "is one apple"
-                case v =>
-                  s"are $v apples"
-              }
-            }"
+          literals = Map(
+            m_hello.key -> "bonjour"
+          ),
+          interpolations = Map(
+            m_hello_name_qty.key -> (Literal("bonjour ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
+          ),
+          choices = Map(
+            m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(
+              s"Il ${
+                n match {
+                  case v if v == BigDecimal(0) =>
+                    "n'y a pas de pommes"
+                  case v if v == BigDecimal(1) =>
+                    "y a une pomme"
+                  case v =>
+                    s"y a $v pommes"
+                }
+              }"
+            )
+            }
           )
-          }
-        )
-      case l if l == Locale.FRENCH =>
-        Choices(
-          m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(
-            s"Il ${
-              n match {
-                case v if v == BigDecimal(0) =>
-                  "n'y a pas de pommes"
-                case v if v == BigDecimal(1) =>
-                  "y a une pomme"
-                case v =>
-                  s"y a $v pommes"
-              }
-            }"
-          )
-          }
         )
     }
   }

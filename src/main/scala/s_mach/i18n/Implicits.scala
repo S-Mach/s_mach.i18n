@@ -22,7 +22,6 @@ package s_mach.i18n
 import scala.language.implicitConversions
 import java.util.Locale
 import s_mach.codetools.IsDistinctTypeAlias
-import s_mach.i18n.impl.InterpolatorOps
 
 object Implicits  {
   /* gQdBkrozvt suffix added to prevent shadowing issues */
@@ -52,13 +51,7 @@ object Implicits  {
   implicit def mkI18NConfig(implicit
     l: Locale = Locale.getDefault,
     m:Messages,
-    c:Choices = Choices(),
-    i:Interpolator = Interpolator.strict
+    i:Interpolator = Interpolator.default
   ) : I18NConfig =
-    I18NConfig(l,m,c,i)
-
-  implicit class SeqInterpolationPML_gQdBkrozvt(val self: Seq[Interpolation]) extends AnyVal {
-    def interpolate(args: I18NString*)(implicit cfg:I18NConfig): I18NString =
-      InterpolatorOps.strictInterpolate(self,args: _*)
-  }
+    I18NConfig(l,m,i)
 }

@@ -1,6 +1,6 @@
 package s_mach.i18n
 
-import s_mach.i18n.impl.InterpolatorOps
+import s_mach.i18n.impl._
 
 trait Interpolator {
   def interpolate(
@@ -19,7 +19,7 @@ trait Interpolator {
 }
 
 object Interpolator {
-  val strict = InterpolatorOps.strict
-  val tolerant = InterpolatorOps.tolerant
+  val strict = new StrictInterpolator
+  val tolerant = new TolerantInterpolator
   val default = strict
 }

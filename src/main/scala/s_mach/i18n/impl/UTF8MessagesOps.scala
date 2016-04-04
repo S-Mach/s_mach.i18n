@@ -50,6 +50,11 @@ object UTF8MessagesOps {
     )
     val bundle = ResourceBundle.getBundle(s"${fileBaseDir.ensureSuffix("/")}$fileBaseName", locale, control)
 
+    case class R(
+      optLiteral: Option[String] = None,
+      optInterpolation: Option[Seq[Interpolation]] = None,
+      optChoice: Option[BigDecimal => String] = None
+    )
     val keyToParts =
       bundle.getKeys.toStream.map { k =>
         import Interpolation._
@@ -57,7 +62,7 @@ object UTF8MessagesOps {
         val fmt = new MessageFormat(raw)
         val parts =
           fmt.getFormats.size match {
-            case 0 => List(Literal(raw))
+            case 0 => R(optLiteral = Some(raw))
             case argsCount =>
               // Force all formats to simple string replacement
               val formats = Array.fill[Format](argsCount)(fakeFormat)
@@ -89,11 +94,21 @@ object UTF8MessagesOps {
               if(_lastIdx != parseable.length) {
                 builder += Interpolation.Literal(parseable.substring(_lastIdx))
               }
-              builder.result()
+              R(optInterpolation = Some(builder.result()))
           }
         k -> parts
       }
-    Messages(keyToParts:_*)
+    Messages(
+      literals = keyToParts.collect { case (k,R(Some(literal),None,None)) =>
+        (k,literal)
+      }.toMap,
+      interpolations = keyToParts.collect { case (k,R(None,Some(interpolation),None)) =>
+        (k,interpolation)
+      }.toMap,
+      choices = keyToParts.collect { case (k,R(None,None,Some(choice))) =>
+        (k,choice)
+      }.toMap
+    )
   }
 
 }

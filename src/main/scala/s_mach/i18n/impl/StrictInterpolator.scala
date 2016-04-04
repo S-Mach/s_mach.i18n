@@ -16,28 +16,18 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-// todo: combine this into messages
-trait Choices {
-  def keys: Iterable[String]
-  def contains(key: String) : Boolean
-  def get(key: String) : Option[BigDecimal => I18NString]
-  def apply(key: String) : BigDecimal => I18NString
-}
+import s_mach.i18n._
 
-object Choices {
-  def apply(choices: (String,BigDecimal => I18NString)*) : Choices = {
-    val _choices = choices.toMap
-    new Choices {
-      val choices = _choices.toMap
-
-      def keys = choices.keys
-      def contains(key: String) = choices.contains(key)
-      def apply(key: String) = choices(key)
-      def get(key: String) = choices.get(key)
-
-      override def toString = s"Messages(keys=${choices.keys.mkString(",")})"
+class StrictInterpolator extends Interpolator {
+  def interpolate(parts: Seq[Interpolation],args: I18NString*)(implicit cfg: I18NConfig) =
+    InterpolatorOps.strictInterpolate(parts,args:_*)
+  def interpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) = {
+    if(args.nonEmpty) {
+      interpolate(cfg.messages.interpolations(key),args:_*)
+    } else {
+      cfg.messages.literals(key).i18n
     }
   }
 }
