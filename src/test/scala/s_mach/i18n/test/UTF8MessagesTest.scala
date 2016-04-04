@@ -61,7 +61,7 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
     val messages = UTF8Messages()
 
     messages.interpolations("fmt.test1.key") should equal {
-      import Interpolation._
+      import StringPart._
       List(
         Literal("hello "),
         Arg(0),
@@ -76,7 +76,7 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
     implicit val locale = Locale.getDefault
     val messages = UTF8Messages()
     messages.interpolations("fmt.test2.key") should equal {
-      import Interpolation._
+      import StringPart._
       List(
         Literal("When "),
         Arg(1),

@@ -9,8 +9,8 @@ class DefaultI18NNumberFormat extends I18NNumberFormat {
   // Note: NumberFormat is not thread-safe so can't save instance
   // without synchronization
 
-  val m_true = Message("m_true")
-  val m_false = Message("m_false")
+  val m_true = Literal("m_true")
+  val m_false = Literal("m_false")
 
   def i18n(value: Boolean)(implicit cfg: I18NConfig) = {
     if(value) {

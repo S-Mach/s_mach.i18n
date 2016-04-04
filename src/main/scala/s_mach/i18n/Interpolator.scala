@@ -22,7 +22,7 @@ import s_mach.i18n.impl._
 
 trait Interpolator {
   def interpolate(
-    parts: Seq[Interpolation],
+    parts: Seq[StringPart],
     args: I18NString*
   )(implicit
     cfg:I18NConfig

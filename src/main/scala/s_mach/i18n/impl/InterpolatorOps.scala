@@ -18,12 +18,12 @@
 */
 package s_mach.i18n.impl
 
-import s_mach.i18n.Interpolation.Arg
+import s_mach.i18n.StringPart.Arg
 import s_mach.i18n._
 
 object InterpolatorOps {
   @inline def strictInterpolate(
-    parts: Seq[Interpolation],
+    parts: Seq[StringPart],
     args: I18NString*
   )(implicit
     cfg:I18NConfig
@@ -35,7 +35,7 @@ object InterpolatorOps {
     )
 
   @inline def tolerantInterpolate(
-    parts: Seq[Interpolation],
+    parts: Seq[StringPart],
     args: I18NString*
     )(implicit
     cfg:I18NConfig
@@ -48,7 +48,7 @@ object InterpolatorOps {
 
   @inline def interpolate(
     strict: Boolean,
-    parts: Seq[Interpolation],
+    parts: Seq[StringPart],
     args: I18NString*
   )(implicit
     cfg:I18NConfig
@@ -76,8 +76,8 @@ object InterpolatorOps {
       } else {
         _args.applyOrElse(_:Int,(_:Int) => "(null)")
       }
-      def handle(i: Interpolation) : String = {
-        import Interpolation._
+      def handle(i: StringPart) : String = {
+        import StringPart._
         i match {
           case Literal(value) => value
           case Arg(arg) => f(arg)

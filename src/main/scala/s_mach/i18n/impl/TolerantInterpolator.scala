@@ -21,7 +21,7 @@ package s_mach.i18n.impl
 import s_mach.i18n._
 
 class TolerantInterpolator extends Interpolator {
-  def interpolate(parts: Seq[Interpolation], args: I18NString*)(implicit cfg: I18NConfig) =
+  def interpolate(parts: Seq[StringPart], args: I18NString*)(implicit cfg: I18NConfig) =
     InterpolatorOps.tolerantInterpolate(parts,args:_*)
   def interpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) = {
     if(args.nonEmpty) {

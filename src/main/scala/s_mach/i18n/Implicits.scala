@@ -44,14 +44,8 @@ object Implicits  {
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def i18n : I18NString = I18NString(self)
     def m : MessageBuilder = MessageBuilder(self)
-    def m0 : Message0 = Message0(self)
-    def mq : Choice = Choice(self)
+    def m0 : Literal = Literal(self)
+    def literal : Literal = Literal(self)
+    def choice : Choice = Choice(self)
   }
-
-//  implicit def mkI18NConfig(implicit
-//    l: Locale = Locale.getDefault,
-//    m:Messages,
-//    i:Interpolator = Interpolator.default
-//  ) : I18NConfig =
-//    I18NConfig(l,m,i)
 }

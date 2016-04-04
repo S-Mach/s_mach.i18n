@@ -18,8 +18,6 @@
 */
 package s_mach
 
-import java.util.Locale
-
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
@@ -48,14 +46,7 @@ package object i18n extends I18N.BuiltInImplicits {
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def asI18N : I18NString = I18NString(self)
     def m : MessageBuilder = MessageBuilder(self)
-    def m0 : Message0 = Message0(self)
+    def m0 : Literal = Literal(self)
     def choice : Choice = Choice(self)
   }
-
-//  implicit def mkI18NConfig(implicit
-//    l: Locale = Locale.getDefault,
-//    m:Messages,
-//    i:Interpolator = Interpolator.default
-//  ) : I18NConfig =
-//    I18NConfig(l,m,i)
 }

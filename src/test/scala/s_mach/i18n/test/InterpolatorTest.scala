@@ -20,28 +20,27 @@ package s_mach.i18n.test
 
 import org.scalatest.{Matchers, FlatSpec}
 import s_mach.i18n._
-import s_mach.i18n.Interpolation.{Arg, Literal}
 
 class InterpolatorTest extends FlatSpec with Matchers {
   implicit val cfg = I18NConfig(Messages())
 
   val parts1 = List(
-    Literal("hello "),
-    Arg(0),
-    Literal(" test "),
-    Arg(1),
-    Literal(" {2}")
+    StringPart.Literal("hello "),
+    StringPart.Arg(0),
+    StringPart.Literal(" test "),
+    StringPart.Arg(1),
+    StringPart.Literal(" {2}")
   )
 
   val parts2 = List(
-    Literal("When "),
-    Arg(1),
-    Literal(" on "),
-    Arg(1),
-    Literal(", there will be "),
-    Arg(2),
-    Literal(" on moon "),
-    Arg(0)
+    StringPart.Literal("When "),
+    StringPart.Arg(1),
+    StringPart.Literal(" on "),
+    StringPart.Arg(1),
+    StringPart.Literal(", there will be "),
+    StringPart.Arg(2),
+    StringPart.Literal(" on moon "),
+    StringPart.Arg(0)
   )
 
   "Interpolator.strict.interpolate" should "assemble literals and replace in order arguments correctly" in {

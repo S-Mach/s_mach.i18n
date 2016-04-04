@@ -18,8 +18,8 @@
 */
 package s_mach.i18n
 
-sealed trait Interpolation
-object Interpolation {
-  case class Literal(value: String) extends Interpolation
-  case class Arg(index: Int) extends Interpolation
+sealed trait StringPart
+object StringPart {
+  case class Literal(value: String) extends StringPart
+  case class Arg(index: Int) extends StringPart
 }

@@ -34,10 +34,6 @@ trait Message {
 
 }
 
-object Message {
-  def apply(key: String) : Message0 = Message0(key)
-}
-
 case class MessageBuilder(
   key: String
 ) {
@@ -45,7 +41,7 @@ case class MessageBuilder(
   def apply[A,B] = Message2[A,B](key)
 }
 
-case class Message0(
+case class Literal(
   key: String
 ) extends Message {
   def apply()(implicit

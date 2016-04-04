@@ -22,7 +22,7 @@ import s_mach.i18n._
 
 class DefaultMessages(
   _literals: Map[String,String] = Map.empty,
-  _interpolations: Map[String,Seq[Interpolation]] = Map.empty,
+  _interpolations: Map[String,Seq[StringPart]] = Map.empty,
   _choices: Map[String,BigDecimal => String] = Map.empty
 ) extends Messages {
   {
@@ -45,7 +45,7 @@ class DefaultMessages(
     def get(key: String) = _choices.get(key)
     def apply(key: String) = _choices(key)
   }
-  val interpolations = new Lookup[Seq[Interpolation]] {
+  val interpolations = new Lookup[Seq[StringPart]] {
     def get(key: String) = _interpolations.get(key)
     def apply(key: String) = _interpolations(key)
   }

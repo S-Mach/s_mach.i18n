@@ -20,7 +20,7 @@ package s_mach.i18n.test
 
 import java.util.Locale
 import s_mach.i18n._
-import Interpolation._
+import StringPart._
 
 object CommonTest {
   val m_hello = {
@@ -49,7 +49,7 @@ object CommonTest {
   }
 
   val m_hello_us_value = "hello"
-  val m_hello_name_qty_us_value = Literal("hello ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil
+  val m_hello_name_qty_us_value = StringPart.Literal("hello ") :: StringPart.Arg(0) :: StringPart.Literal(" test ") :: Arg(1) :: Nil
   val m_there_are_qty_apples_us_value = { n: BigDecimal => I18NString(
     s"There ${
       n match {
@@ -65,7 +65,7 @@ object CommonTest {
   
   def mkTestMessages()(implicit l:Locale) = {
     import s_mach.i18n._
-    import Interpolation._
+    import StringPart._
 
     l match {
       case l if l == Locale.US =>
@@ -86,7 +86,7 @@ object CommonTest {
             m_hello.key -> "bonjour"
           ),
           interpolations = Map(
-            m_hello_name_qty.key -> (Literal("bonjour ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
+            m_hello_name_qty.key -> (StringPart.Literal("bonjour ") :: StringPart.Arg(0) :: StringPart.Literal(" test ") :: StringPart.Arg(1) :: Nil)
           ),
           choices = Map(
             m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(

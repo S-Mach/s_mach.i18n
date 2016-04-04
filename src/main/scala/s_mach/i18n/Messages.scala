@@ -30,7 +30,7 @@ trait Messages {
   def contains(key: String): Boolean
 
   def literals : Lookup[String]
-  def interpolations : Lookup[Seq[Interpolation]]
+  def interpolations : Lookup[Seq[StringPart]]
   def choices : Lookup[BigDecimal => String]
 }
 
@@ -39,7 +39,7 @@ object Messages {
 
   def apply(
     literals: Map[String,String] = Map.empty,
-    interpolations: Map[String,Seq[Interpolation]] = Map.empty,
+    interpolations: Map[String,Seq[StringPart]] = Map.empty,
     choices: Map[String,BigDecimal => String] = Map.empty
   ) : Messages =
     new DefaultMessages(literals,interpolations,choices)

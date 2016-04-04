@@ -52,12 +52,12 @@ object UTF8MessagesOps {
 
     case class R(
       optLiteral: Option[String] = None,
-      optInterpolation: Option[Seq[Interpolation]] = None,
+      optInterpolation: Option[Seq[StringPart]] = None,
       optChoice: Option[BigDecimal => String] = None
     )
     val keyToParts =
       bundle.getKeys.toStream.map { k =>
-        import Interpolation._
+        import StringPart._
         val raw = bundle.getString(k)
         val fmt = new MessageFormat(raw)
         val parts =
@@ -88,17 +88,17 @@ object UTF8MessagesOps {
                 .map(m => M(m.start,m.end,m.group(1).toInt))
               // Note: impossible for ms not to match at least once since there at
               // least one arg at this point
-              val builder = Seq.newBuilder[Interpolation]
+              val builder = Seq.newBuilder[StringPart]
               val _lastIdx =
                 ms.foldLeft(0) { case (lastIdx,m) =>
                   if(lastIdx < m.start) {
-                    builder += Interpolation.Literal(parseable.substring(lastIdx, m.start))
+                    builder += StringPart.Literal(parseable.substring(lastIdx, m.start))
                   }
-                  builder += Interpolation.Arg(m.argIdx)
+                  builder += StringPart.Arg(m.argIdx)
                   m.end
                 }
               if(_lastIdx != parseable.length) {
-                builder += Interpolation.Literal(parseable.substring(_lastIdx))
+                builder += StringPart.Literal(parseable.substring(_lastIdx))
               }
               R(optInterpolation = Some(builder.result()))
           }
