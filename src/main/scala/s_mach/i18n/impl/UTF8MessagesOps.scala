@@ -18,7 +18,7 @@
 */
 package s_mach.i18n.impl
 
-import java.text.{ParsePosition, FieldPosition, Format, MessageFormat}
+import java.text._
 import java.util.{Locale, ResourceBundle}
 import s_mach.i18n._
 import s_mach.string._
@@ -63,6 +63,12 @@ object UTF8MessagesOps {
         val parts =
           fmt.getFormats.size match {
             case 0 => R(optLiteral = Some(raw))
+            case 1 if fmt.getFormats.head.isInstanceOf[ChoiceFormat] =>
+              R(optChoice = Some({ n =>
+                fmt.format(
+                  Array(n.underlying().doubleValue()).map(_.asInstanceOf[java.lang.Object])
+                )
+              }))
             case argsCount =>
               // Force all formats to simple string replacement
               val formats = Array.fill[Format](argsCount)(fakeFormat)

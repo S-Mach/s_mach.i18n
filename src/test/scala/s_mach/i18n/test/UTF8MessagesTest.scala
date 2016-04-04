@@ -73,4 +73,20 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
     }
   }
 
+  "UTF8Messages" should "parse choices and format them correctly for default" in {
+    implicit val locale = Locale.getDefault
+    val messages = UTF8Messages()
+    messages.choices("fmt.choice.key")(0) should equal("There are no apples.")
+    messages.choices("fmt.choice.key")(1) should equal("There is one apple.")
+    messages.choices("fmt.choice.key")(2) should equal("There are 2 apples.")
+  }
+
+  "UTF8Messages" should "parse choices and format them correctly for FR" in {
+    implicit val locale = Locale.FRENCH
+    val messages = UTF8Messages()
+    messages.choices("fmt.choice.key")(0) should equal("Il n'y a pas de pommes.")
+    messages.choices("fmt.choice.key")(1) should equal("Il y a une pomme.")
+    messages.choices("fmt.choice.key")(2) should equal("Il y a 2 pommes.")
+  }
+
 }
