@@ -48,7 +48,7 @@ object UTF8MessagesOps {
     val control = new UTF8ResourceBundleControl(
       fileExt = fileExt
     )
-    val bundle = ResourceBundle.getBundle(s"${fileBaseDir.ensureSuffix("/")}/$fileBaseName", locale, control)
+    val bundle = ResourceBundle.getBundle(s"${fileBaseDir.ensureSuffix("/")}$fileBaseName", locale, control)
 
     val keyToParts =
       bundle.getKeys.toStream.map { k =>

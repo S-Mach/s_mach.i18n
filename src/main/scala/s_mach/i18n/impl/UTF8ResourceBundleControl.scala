@@ -18,8 +18,7 @@
 */
 package s_mach.i18n.impl
 
-import java.io.{ByteArrayInputStream, SequenceInputStream, InputStream}
-import java.net.URL
+import java.io.{ByteArrayInputStream, InputStream}
 import java.util.{Locale, ResourceBundle}
 import scala.collection.convert.decorateAsJava._
 
@@ -63,7 +62,7 @@ class UTF8ResourceBundleControl(
     }
   }
 
-  val newLineStream = new ByteArrayInputStream(System.getProperty("line.separator").getBytes("UTF-8"))
+  def mkNewLineStream = new ByteArrayInputStream(System.getProperty("line.separator").getBytes("UTF-8"))
 
   def loadConcatAllResources(
     resourceName: String,
@@ -75,7 +74,7 @@ class UTF8ResourceBundleControl(
       // concat
       .reduceOption((i1,i2) =>
         // Ensure there is always a new line between input files
-        i1 ++ newLineStream ++ i2
+        i1 ++ mkNewLineStream ++ i2
       )
   }
 
