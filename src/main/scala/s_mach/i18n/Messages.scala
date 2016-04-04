@@ -18,6 +18,8 @@
 */
 package s_mach.i18n
 
+import s_mach.i18n.impl.DefaultMessages
+
 trait Messages {
   trait Lookup[A] {
     def get(key: String): Option[A]
@@ -39,37 +41,6 @@ object Messages {
     literals: Map[String,String] = Map.empty,
     interpolations: Map[String,Seq[Interpolation]] = Map.empty,
     choices: Map[String,BigDecimal => String] = Map.empty
-  ) : Messages = {
-    val keyCounts = (literals.keys ++ interpolations.keys ++ choices.keys).groupBy(k => k).mapValues(_.size)
-    require(
-      keyCounts.forall(_._2 == 1),
-      s"Non unique keys: ${keyCounts.filter(_._2 > 1).mkString(",")}"
-    )
-    val _literals = literals
-    val _interpolations = interpolations
-    val _choices = choices
-    
-    new Messages {
-      val literals = new Lookup[String] {
-        def get(key: String) = _literals.get(key)
-        def apply(key: String) = _literals(key)
-      }
-      val choices = new Lookup[BigDecimal => String] {
-        def get(key: String) = _choices.get(key)
-        def apply(key: String) = _choices(key)
-      }
-      val interpolations = new Lookup[Seq[Interpolation]] {
-        def get(key: String) = _interpolations.get(key)
-        def apply(key: String) = _interpolations(key)
-      }
-
-      val keys = _literals.keys ++ _interpolations.keys ++ _choices.keys
-      def contains(key: String) = 
-        _literals.contains(key) || 
-        _interpolations.contains(key) || 
-        _choices.contains(key)
-
-      override def toString = s"Messages(keys=${keys.mkString(",")})"
-    }
-  }
+  ) : Messages =
+    new DefaultMessages(literals,interpolations,choices)
 }

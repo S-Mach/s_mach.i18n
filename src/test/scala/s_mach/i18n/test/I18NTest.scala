@@ -45,7 +45,7 @@ class I18NTest extends FlatSpec with Matchers {
 
     // equivalent
     // Quantity("there_are_qty_apples")
-    "there_are_qty_apples".mq
+    "there_are_qty_apples".choice
   }
 
   implicit def mkMessages(implicit l:Locale) = {

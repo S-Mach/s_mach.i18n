@@ -45,7 +45,7 @@ package object i18n extends I18N.BuiltInImplicits {
     def i18n : I18NString = I18NString(self)
     def m : MessageBuilder = MessageBuilder(self)
     def m0 : Message0 = Message0(self)
-    def mq : MessageQuantity = MessageQuantity(self)
+    def choice : Choice = Choice(self)
   }
 
   implicit def mkI18NConfig(implicit

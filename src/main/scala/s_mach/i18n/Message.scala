@@ -56,7 +56,7 @@ case class Message2[A,B](key: String) extends Message {
   }
 }
 
-case class MessageQuantity(
+case class Choice(
   key: String
   ) extends Message {
   def apply[N](n: N)(implicit numeric:Numeric[N],cfg: I18NConfig) : I18NString = {
