@@ -33,7 +33,7 @@ package object i18n extends I18N.BuiltInImplicits {
 
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
     def i18n(args: I18NString*) : I18NString =
-      self.raw(args:_*).i18n
+      self.raw(args:_*).asI18N
   }
 
   implicit class EverythingPML_gQdBkrozvt[A](val self: A) extends AnyVal {
@@ -41,8 +41,12 @@ package object i18n extends I18N.BuiltInImplicits {
       i18n(self)
   }
 
+  implicit class CharPML_gQdBkrozvt(val self: Char) extends AnyVal {
+    def toI18N : I18NString = I18NString(self.toString)
+  }
+
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
-    def i18n : I18NString = I18NString(self)
+    def asI18N : I18NString = I18NString(self)
     def m : MessageBuilder = MessageBuilder(self)
     def m0 : Message0 = Message0(self)
     def choice : Choice = Choice(self)

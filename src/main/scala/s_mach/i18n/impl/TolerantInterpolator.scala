@@ -27,12 +27,12 @@ class TolerantInterpolator extends Interpolator {
     if(args.nonEmpty) {
       cfg.messages.interpolations.get(key) match {
         case Some(parts) => interpolate(parts,args:_*)
-        case None => s"{$key}(${args.mkString(",")})".i18n
+        case None => s"{$key}(${args.mkString(",")})".asI18N
       }
     } else {
       cfg.messages.literals.get(key) match {
-        case Some(s) => s.i18n
-        case None => s"{$key}".i18n
+        case Some(s) => s.asI18N
+        case None => s"{$key}".asI18N
       }
     }
   }

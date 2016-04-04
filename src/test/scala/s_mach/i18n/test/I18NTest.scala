@@ -21,46 +21,76 @@ package s_mach.i18n.test
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
-import CommonTest._
+import s_mach.i18n._
 
 class I18NTest extends FlatSpec with Matchers {
 
-  val name = "Lance"
-  val qty = 10000.1
 
-  "I18N for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
-    // import this unused import to ensure no implicit shadow conflicts
-    import s_mach.i18n._
+  "I18N[Number]" should "format numbers correctly using the US locale" in {
     implicit val locale = Locale.US
-
-    m_hello() should equal("hello")
-    m_hello_name_qty(name.i18n,qty) should equal("hello Lance test 10,000.1")
-
-    m_there_are_qty_apples(0) should equal("There are no apples")
-    m_there_are_qty_apples(1) should equal("There is one apple")
-    m_there_are_qty_apples(2) should equal("There are 2 apples")
-
-    m_hello_name_qty(m_there_are_qty_apples(2),qty) should equal("hello There are 2 apples test 10,000.1")
-
-    i18n"${m_there_are_qty_apples(0)} test $qty ${name.i18n}" should equal("There are no apples test 10,000.1 Lance")
+    implicit val m = UTF8Messages()
+    1000.i18n should equal(I18NString("1,000"))
+    (-1000).i18n should equal(I18NString("-1,000"))
+    127.toByte.i18n should equal(I18NString("127"))
+    (-127).toByte.i18n should equal(I18NString("-127"))
+    32767.toShort.i18n should equal(I18NString("32,767"))
+    (-32767).toShort.i18n should equal(I18NString("-32,767"))
+    999999.i18n should equal(I18NString("999,999")) // Int
+    (-999999).i18n should equal(I18NString("-999,999")) // Int
+    10000000000l.i18n should equal(I18NString("10,000,000,000")) // Long
+    (-10000000000l).i18n should equal(I18NString("-10,000,000,000")) // Long
+    10000.1f.i18n should equal(I18NString("10,000.1")) // float
+    (-10000.1f).i18n should equal(I18NString("-10,000.1")) // float
+    10000.1.i18n should equal(I18NString("10,000.1")) // double
+    (-10000.1).i18n should equal(I18NString("-10,000.1"))
+    BigInt("10000000000").i18n should equal(I18NString("10,000,000,000"))
+    BigInt("-10000000000").i18n should equal(I18NString("-10,000,000,000"))
+    BigDecimal("10000000000.1").i18n should equal(I18NString("10,000,000,000.1"))
+    BigDecimal("-10000000000.1").i18n should equal(I18NString("-10,000,000,000.1"))
   }
 
-  "I18N for FR" should "internationalize arguments correctly for custom locale" in {
-    // import this unused import to ensure no implicit shadow conflicts
-    import s_mach.i18n._
+  "I18N[Number]" should "format numbers correctly using the FRENCH locale" in {
     implicit val locale = Locale.FRENCH
-
-    m_hello() should equal("bonjour")
-    // Note: not a space between '10' and '000' below
-    m_hello_name_qty(name.i18n,qty) should equal("bonjour Lance test 10 000,1")
-
-    m_there_are_qty_apples(0) should equal("Il n'y a pas de pommes")
-    m_there_are_qty_apples(1) should equal("Il y a une pomme")
-    m_there_are_qty_apples(2) should equal("Il y a 2 pommes")
-
-    m_hello_name_qty(m_there_are_qty_apples(2),qty) should equal("bonjour Il y a 2 pommes test 10 000,1")
-
-    i18n"${m_there_are_qty_apples(0)} test $qty ${name.i18n}" should equal("Il n'y a pas de pommes test 10 000,1 Lance")
+    implicit val m = UTF8Messages()
+    1000.i18n should equal(I18NString("1 000"))
+    (-1000).i18n should equal(I18NString("-1 000"))
+    127.toByte.i18n should equal(I18NString("127"))
+    (-127).toByte.i18n should equal(I18NString("-127"))
+    32767.toShort.i18n should equal(I18NString("32 767"))
+    (-32767).toShort.i18n should equal(I18NString("-32 767"))
+    999999.i18n should equal(I18NString("999 999")) // Int
+    (-999999).i18n should equal(I18NString("-999 999")) // Int
+    10000000000l.i18n should equal(I18NString("10 000 000 000")) // Long
+    (-10000000000l).i18n should equal(I18NString("-10 000 000 000")) // Long
+    10000.1f.i18n should equal(I18NString("10 000,1")) // float
+    (-10000.1f).i18n should equal(I18NString("-10 000,1")) // float
+    10000.1.i18n should equal(I18NString("10 000,1")) // double
+    (-10000.1).i18n should equal(I18NString("-10 000,1"))
+    BigInt("10000000000").i18n should equal(I18NString("10 000 000 000"))
+    BigInt("-10000000000").i18n should equal(I18NString("-10 000 000 000"))
+    BigDecimal("10000000000.1").i18n should equal(I18NString("10 000 000 000,1"))
+    BigDecimal("-10000000000.1").i18n should equal(I18NString("-10 000 000 000,1"))
   }
+
+  "I18N[I18NString]" should "return the same value" in {
+    implicit val locale = Locale.US
+    implicit val m = UTF8Messages()
+    I18NString("test").asI18N should equal(I18NString("test"))
+  }
+
+  "I18N[Boolean]" should "format boolean values correctly using the US locale messages" in {
+    implicit val locale = Locale.US
+    implicit val m = UTF8Messages()
+    true.i18n should equal("true")
+    false.i18n should equal("false")
+  }
+
+  "I18N[Boolean]" should "format boolean values correctly using the FRENCH locale messages" in {
+    implicit val locale = Locale.FRENCH
+    implicit val m = UTF8Messages()
+    true.i18n should equal("vrai")
+    false.i18n should equal("faux")
+  }
+
 
 }

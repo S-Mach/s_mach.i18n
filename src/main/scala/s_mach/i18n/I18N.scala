@@ -86,18 +86,6 @@ object I18N {
         I18NString(fmt.format(a))
       }
 
-    implicit val i18n_Char =
-      I18N[Char] { cfg => a =>
-        I18NString(a.toString)
-      }
-
-    // Note: implicit val i18n_String is intentionally not declared
-    // to prevent accidentally converting a String to I18NString without
-    // internationalization. To cast a String to I18NString use String.i18n
-
-    implicit val i18n_I18NString =
-      I18N[I18NString] { cfg => a => a }
-
     implicit val i18n_BigInt =
       I18N[BigInt] { cfg => a =>
         val fmt = NumberFormat.getNumberInstance(cfg.locale)
@@ -109,5 +97,14 @@ object I18N {
         val fmt = NumberFormat.getNumberInstance(cfg.locale)
         I18NString(fmt.format(a.underlying()))
       }
+
+    // Note: I18N[String] and I18N[Char] are intentionally not declared
+    // to prevent accidentally converting a String/Char to I18NString without
+    // custom internationalization. To cast a String to I18NString use
+    // String.asI18N. To promote Char, use Char.toI18N
+
+    implicit val i18n_I18NString =
+      I18N[I18NString] { cfg => a => a }
+
   }
 }

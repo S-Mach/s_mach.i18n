@@ -45,34 +45,34 @@ class InterpolatorTest extends FlatSpec with Matchers {
   )
 
   "Interpolator.strict.interpolate" should "assemble literals and replace in order arguments correctly" in {
-    Interpolator.strict.interpolate(parts1,"1".i18n,"2".i18n) should equal("hello 1 test 2 {2}")
+    Interpolator.strict.interpolate(parts1,"1".asI18N,"2".asI18N) should equal("hello 1 test 2 {2}")
   }
 
   "Interpolator.strict.interpolate" should "assemble literals and replace repeated or out of order arguments correctly" in {
-    Interpolator.strict.interpolate(parts2,"1".i18n,"2".i18n,"3".i18n) should equal("When 2 on 2, there will be 3 on moon 1")
+    Interpolator.strict.interpolate(parts2,"1".asI18N,"2".asI18N,"3".asI18N) should equal("When 2 on 2, there will be 3 on moon 1")
   }
 
   "Interpolator.strict.interpolate" should "throw if too many arguments are passed" in {
-    an[IllegalArgumentException] should be thrownBy Interpolator.strict.interpolate(parts1,"1".i18n,"2".i18n,"3".i18n)
+    an[IllegalArgumentException] should be thrownBy Interpolator.strict.interpolate(parts1,"1".asI18N,"2".asI18N,"3".asI18N)
   }
 
   "Interpolator.strict.interpolate" should "throw if an argument is missing" in {
-    an[IllegalArgumentException] should be thrownBy Interpolator.strict.interpolate(parts1,"1".i18n)
+    an[IllegalArgumentException] should be thrownBy Interpolator.strict.interpolate(parts1,"1".asI18N)
   }
 
   "Interpolator.strict.interpolate" should "throw if key is missing" in {
-    an[NoSuchElementException] should be thrownBy Interpolator.strict.interpolate("test","1".i18n)
+    an[NoSuchElementException] should be thrownBy Interpolator.strict.interpolate("test","1".asI18N)
   }
 
   "Interpolator.tolerant.interpolate" should "ignore extra arguments" in {
-    Interpolator.tolerant.interpolate(parts1,"1".i18n,"2".i18n,"3".i18n) should equal("hello 1 test 2 {2}")
+    Interpolator.tolerant.interpolate(parts1,"1".asI18N,"2".asI18N,"3".asI18N) should equal("hello 1 test 2 {2}")
   }
 
   "Interpolator.tolerant.interpolate" should "replace missing arguments with '(null)'" in {
-    Interpolator.tolerant.interpolate(parts1,"1".i18n) should equal("hello 1 test (null) {2}")
+    Interpolator.tolerant.interpolate(parts1,"1".asI18N) should equal("hello 1 test (null) {2}")
   }
 
   "Interpolator.tolerant.interpolate" should "show key and args for missing keys" in {
-    Interpolator.tolerant.interpolate("test","1".i18n,"2".i18n) should equal("{test}(1,2)")
+    Interpolator.tolerant.interpolate("test","1".asI18N,"2".asI18N) should equal("{test}(1,2)")
   }
 }

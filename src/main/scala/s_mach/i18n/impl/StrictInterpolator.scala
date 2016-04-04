@@ -27,7 +27,7 @@ class StrictInterpolator extends Interpolator {
     if(args.nonEmpty) {
       interpolate(cfg.messages.interpolations(key),args:_*)
     } else {
-      cfg.messages.literals(key).i18n
+      cfg.messages.literals(key).asI18N
     }
   }
 }

@@ -63,7 +63,7 @@ object CommonTest {
     }"
   )}
   
-  implicit def mkMessages(implicit l:Locale) = {
+  def mkTestMessages()(implicit l:Locale) = {
     import s_mach.i18n._
     import Interpolation._
 

@@ -85,9 +85,9 @@ object InterpolatorOps {
       }
       val sb = new StringBuilder(handle(parts.head))
       parts.tail.foreach(i => sb.append(handle(i)))
-      sb.toString().i18n
+      sb.toString().asI18N
     } else {
-      "".i18n
+      "".asI18N
     }
   }
 
