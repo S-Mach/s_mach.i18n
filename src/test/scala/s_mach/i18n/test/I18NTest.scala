@@ -28,7 +28,7 @@ class I18NTest extends FlatSpec with Matchers {
   val name = "Lance"
   val qty = 10000.1
 
-  "Messages for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
+  "I18N for EN US" should "internationalize arguments correctly using JVM default locale (EN_US)" in {
     // import this unused import to ensure no implicit shadow conflicts
     import s_mach.i18n._
     implicit val locale = Locale.US
@@ -45,7 +45,7 @@ class I18NTest extends FlatSpec with Matchers {
     i18n"${m_there_are_qty_apples(0)} test $qty ${name.i18n}" should equal("There are no apples test 10,000.1 Lance")
   }
 
-  "Messages for FR" should "internationalize arguments correctly for custom locale" in {
+  "I18N for FR" should "internationalize arguments correctly for custom locale" in {
     // import this unused import to ensure no implicit shadow conflicts
     import s_mach.i18n._
     implicit val locale = Locale.FRENCH

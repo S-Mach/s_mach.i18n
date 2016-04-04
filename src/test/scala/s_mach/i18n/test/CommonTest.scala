@@ -19,6 +19,8 @@
 package s_mach.i18n.test
 
 import java.util.Locale
+import s_mach.i18n._
+import Interpolation._
 
 object CommonTest {
   val m_hello = {
@@ -46,6 +48,21 @@ object CommonTest {
     "there_are_qty_apples".choice
   }
 
+  val m_hello_us_value = "hello"
+  val m_hello_name_qty_us_value = Literal("hello ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil
+  val m_there_are_qty_apples_us_value = { n: BigDecimal => I18NString(
+    s"There ${
+      n match {
+        case v if v == BigDecimal(0) =>
+          "are no apples"
+        case v if v == BigDecimal(1) =>
+          "is one apple"
+        case v =>
+          s"are $v apples"
+      }
+    }"
+  )}
+  
   implicit def mkMessages(implicit l:Locale) = {
     import s_mach.i18n._
     import Interpolation._
@@ -54,24 +71,13 @@ object CommonTest {
       case l if l == Locale.US =>
         Messages(
           literals = Map(
-            m_hello.key -> "hello"
+            m_hello.key -> m_hello_us_value
           ),
           interpolations = Map(
-            m_hello_name_qty.key -> (Literal("hello ") :: Arg(0) :: Literal(" test ") :: Arg(1) :: Nil)
+            m_hello_name_qty.key -> m_hello_name_qty_us_value
           ),
           choices = Map(
-            m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(
-              s"There ${
-                n match {
-                  case v if v == BigDecimal(0) =>
-                    "are no apples"
-                  case v if v == BigDecimal(1) =>
-                    "is one apple"
-                  case v =>
-                    s"are $v apples"
-                }
-              }"
-            )}
+            m_there_are_qty_apples.key -> m_there_are_qty_apples_us_value
           )
         )
       case l if l == Locale.FRENCH =>
