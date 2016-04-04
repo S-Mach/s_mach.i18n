@@ -20,16 +20,16 @@ package s_mach.i18n
 
 import java.util.Locale
 
-import s_mach.i18n.impl.UTF8MessagesOps
+import s_mach.i18n.impl.DefaultUTF8Messages
 
 object UTF8Messages {
   def apply(
+    locale: Locale,
     fileBaseDir: String = "conf",
     fileBaseName: String = "messages",
     fileExt: String = "txt"
-  )(implicit
-    locale: Locale = Locale.getDefault
-  ) : Messages = UTF8MessagesOps.apply(
+  ) : Messages = DefaultUTF8Messages(
+    locale = locale,
     fileBaseDir = fileBaseDir,
     fileBaseName = fileBaseName,
     fileExt = fileExt

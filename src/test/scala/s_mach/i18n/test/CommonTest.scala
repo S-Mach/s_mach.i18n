@@ -63,13 +63,14 @@ object CommonTest {
     }"
   )}
   
-  def mkTestMessages()(implicit l:Locale) = {
+  def mkTestMessages(locale:Locale) = {
     import s_mach.i18n._
     import StringPart._
 
-    l match {
+    locale match {
       case l if l == Locale.US =>
         Messages(
+          locale = locale,
           literals = Map(
             m_hello.key -> m_hello_us_value
           ),
@@ -82,6 +83,7 @@ object CommonTest {
         )
       case l if l == Locale.FRENCH =>
         Messages(
+          locale = locale,
           literals = Map(
             m_hello.key -> "bonjour"
           ),

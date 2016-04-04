@@ -23,7 +23,7 @@ import java.util.{Locale, ResourceBundle}
 import s_mach.i18n._
 import s_mach.string._
 
-object UTF8MessagesOps {
+object DefaultUTF8Messages {
   // todo: support for Choices parsed from ChoiceFormat
 
   private val fakeFormat = new Format {
@@ -37,10 +37,11 @@ object UTF8MessagesOps {
   private val parseRegex = s"$uniqueKey([0-9]+)".r
 
   def apply(
+    locale: Locale,
     fileBaseDir: String = "conf",
     fileBaseName: String = "messages",
     fileExt: String = "txt"
-  )(implicit locale: Locale) : Messages = {
+  ) : Messages = {
     // Note: can't load multiple resources with same name without a base dir
     // See https://stackoverflow.com/questions/6730580/how-to-read-several-resource-files-with-the-same-name-from-different-jars
     require(fileBaseDir.length > 0,"Base directory must not be empty")
@@ -105,6 +106,7 @@ object UTF8MessagesOps {
         k -> parts
       }
     Messages(
+      locale = locale,
       literals = keyToParts.collect { case (k,R(Some(literal),None,None)) =>
         (k,literal)
       }.toMap,

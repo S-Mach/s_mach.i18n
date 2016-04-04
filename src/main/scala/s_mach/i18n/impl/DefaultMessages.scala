@@ -18,9 +18,12 @@
 */
 package s_mach.i18n.impl
 
+import java.util.Locale
+
 import s_mach.i18n._
 
 class DefaultMessages(
+  val locale: Locale,
   _literals: Map[String,String] = Map.empty,
   _interpolations: Map[String,Seq[StringPart]] = Map.empty,
   _choices: Map[String,BigDecimal => String] = Map.empty

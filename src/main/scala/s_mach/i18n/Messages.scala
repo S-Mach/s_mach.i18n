@@ -18,9 +18,13 @@
 */
 package s_mach.i18n
 
+import java.util.Locale
+
 import s_mach.i18n.impl.DefaultMessages
 
 trait Messages {
+  def locale: Locale
+
   trait Lookup[A] {
     def get(key: String): Option[A]
     def apply(key: String): A
@@ -35,12 +39,16 @@ trait Messages {
 }
 
 object Messages {
-  val empty = apply()
-
   def apply(
+    locale: Locale,
     literals: Map[String,String] = Map.empty,
     interpolations: Map[String,Seq[StringPart]] = Map.empty,
     choices: Map[String,BigDecimal => String] = Map.empty
   ) : Messages =
-    new DefaultMessages(literals,interpolations,choices)
+    new DefaultMessages(
+      locale = locale,
+      _literals = literals,
+      _interpolations = interpolations,
+      _choices = choices
+    )
 }

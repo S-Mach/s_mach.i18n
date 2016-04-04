@@ -18,11 +18,13 @@
 */
 package s_mach.i18n.test
 
+import java.util.Locale
+
 import org.scalatest.{Matchers, FlatSpec}
 import s_mach.i18n._
 
 class InterpolatorTest extends FlatSpec with Matchers {
-  implicit val cfg = I18NConfig(Messages())
+  implicit val cfg = I18NConfig(Messages(Locale.US))
 
   val parts1 = List(
     StringPart.Literal("hello "),
