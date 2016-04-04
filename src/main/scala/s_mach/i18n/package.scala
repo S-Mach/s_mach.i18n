@@ -20,7 +20,7 @@ package s_mach
 
 import java.util.Locale
 
-import s_mach.i18n.impl.I18NOps
+import s_mach.i18n.impl.InterpolatorOps
 
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
@@ -31,15 +31,16 @@ package object i18n extends I18N.BuiltInImplicits {
   type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]
   implicit def toI18NString[A](value: A)(implicit i18n:I18N[A],cfg: I18NConfig) : I18NString =
-    i18n.i18n(value)(cfg)
+    i18n.apply(value)(cfg)
 
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
-    def i18n(args: I18NString*) : I18NString = I18NOps.i(self)(args:_*)
+    def i18n(args: I18NString*) : I18NString =
+      self.raw(args:_*).i18n
   }
 
   implicit class EverythingPML_gQdBkrozvt[A](val self: A) extends AnyVal {
     def i18n(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
-      I18NOps.i18n(self)(i18n,cfg)
+      i18n(self)
   }
 
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
@@ -53,12 +54,12 @@ package object i18n extends I18N.BuiltInImplicits {
     l: Locale = Locale.getDefault,
     m:Messages,
     c:Choices = Choices(),
-    h:MissingArgHandler = MissingArgHandler.default
+    i:Interpolator = Interpolator.default
   ) : I18NConfig =
-    I18NConfig(l,m,c,h)
+    I18NConfig(l,m,c,i)
 
-  implicit class SeqInterpolationPML_gQdBkrozvt(val self: Seq[Interpolation]) extends AnyVal {
-    def interpolate(args: I18NString*)(implicit cfg:I18NConfig): I18NString =
-      I18NOps.interpolate(self)(args: _*)
-  }
+//  implicit class SeqInterpolationPML_gQdBkrozvt(val self: Seq[Interpolation]) extends AnyVal {
+//    def interpolate(args: I18NString*)(implicit cfg:I18NConfig): I18NString =
+//      cfg.interpolator.interpolate(self,args:_*)
+//  }
 }

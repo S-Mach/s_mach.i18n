@@ -6,5 +6,5 @@ case class I18NConfig(
   locale: Locale,
   messages: Messages,
   choices: Choices,
-  handleMissingArg: MissingArgHandler
+  interpolator: Interpolator
 )

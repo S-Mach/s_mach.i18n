@@ -25,13 +25,13 @@ import java.text.NumberFormat
  * (generally based on locale)
  */
 trait I18N[A] {
-  def i18n(a: A)(implicit cfg: I18NConfig) : I18NString
+  def apply(a: A)(implicit cfg: I18NConfig) : I18NString
 }
 
 object I18N {
   def apply[A](f: I18NConfig => A => I18NString) : I18N[A] =
     new I18N[A] {
-      def i18n(a: A)(implicit cfg:I18NConfig) = I18NString(f(cfg)(a))
+      def apply(a: A)(implicit cfg:I18NConfig) = I18NString(f(cfg)(a))
     }
 
   object BuiltInImplicits extends BuiltInImplicits

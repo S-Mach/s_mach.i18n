@@ -33,7 +33,7 @@ case class Message0(
   def apply()(implicit
     cfg: I18NConfig
     ) : I18NString = {
-    cfg.messages(key).head.asInstanceOf[Interpolation.Literal].value.i18n
+    cfg.interpolator.interpolate(key)
   }
 }
 
@@ -42,7 +42,7 @@ case class Message1[A](key: String) extends Message {
     cfg: I18NConfig,
     ia: I18N[A]
     ) : I18NString = {
-    cfg.messages(key).interpolate(ia.i18n(a))
+    cfg.interpolator.interpolate(key,ia(a))
   }
 }
 
@@ -52,6 +52,6 @@ case class Message2[A,B](key: String) extends Message {
     ia: I18N[A],
     ib: I18N[B]
   ) : I18NString = {
-    cfg.messages(key).interpolate(ia.i18n(a),ib.i18n(b))
+    cfg.interpolator.interpolate(key,ia(a),ib(b))
   }
 }

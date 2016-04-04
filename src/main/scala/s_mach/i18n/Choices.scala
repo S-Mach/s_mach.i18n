@@ -18,6 +18,7 @@
 */
 package s_mach.i18n
 
+// todo: combine this into messages
 trait Choices {
   def keys: Iterable[String]
   def contains(key: String) : Boolean
