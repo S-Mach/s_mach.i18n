@@ -35,31 +35,31 @@ object I18N {
   object BuiltInImplicits extends BuiltInImplicits
   trait BuiltInImplicits {
     implicit val i18n_Boolean =
-      I18N[Boolean] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Boolean] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_Byte =
-      I18N[Byte] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Byte] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_Short =
-      I18N[Short] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Short] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_Int =
-      I18N[Int] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Int] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_Long =
-      I18N[Long] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Long] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_Float =
-      I18N[Float] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Float] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_Double =
-      I18N[Double] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[Double] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_BigInt =
-      I18N[BigInt] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[BigInt] { implicit cfg => cfg.numFmt.i18n }
 
     implicit val i18n_BigDecimal =
-      I18N[BigDecimal] { implicit cfg => cfg.numberFormat.i18n }
+      I18N[BigDecimal] { implicit cfg => cfg.numFmt.i18n }
 
     // Note: I18N[String] and I18N[Char] are intentionally not declared
     // to prevent accidentally converting a String/Char to I18NString without

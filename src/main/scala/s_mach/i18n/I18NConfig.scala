@@ -20,8 +20,8 @@ package s_mach.i18n
 
 case class I18NConfig(
   messages: Messages,
-  interpolator: Interpolator = Interpolator.default,
-  numberFormat: I18NNumberFormat = I18NNumberFormat.default
+  fmt: I18NFormat = I18NFormat.default,
+  numFmt: I18NNumberFormat = I18NNumberFormat.default
 ) {
   def locale = messages.locale
 }

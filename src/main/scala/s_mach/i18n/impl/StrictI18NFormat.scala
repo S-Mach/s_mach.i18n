@@ -16,28 +16,23 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-import s_mach.i18n.impl._
+import s_mach.i18n._
 
-trait Interpolator {
-  def interpolate(
-    parts: Seq[StringPart],
-    args: I18NString*
-  )(implicit
-    cfg:I18NConfig
-  ) : I18NString
+class StrictI18NFormat extends I18NFormat {
 
-  def interpolate(
-    key: String,
-    args: I18NString*
-  )(implicit
-    cfg:I18NConfig
-  ) : I18NString
-}
+  def getLiteral(key: String)(implicit cfg: I18NConfig) =
+    cfg.messages.literals(key).asI18N
 
-object Interpolator {
-  val strict = new StrictInterpolator
-  val tolerant = new TolerantInterpolator
-  val default = strict
+  def interpolate(parts: Seq[StringPart],args: I18NString*)(implicit cfg: I18NConfig) =
+    InterpolatorOps.strictInterpolate(parts,args:_*)
+
+  def getInterpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) = {
+    require(args.nonEmpty,"args must not be empty")
+    interpolate(cfg.messages.interpolations(key),args:_*)
+  }
+
+  def getChoice(key: String, value: BigDecimal)(implicit cfg: I18NConfig) =
+    cfg.messages.choices(key)(value).asI18N
 }

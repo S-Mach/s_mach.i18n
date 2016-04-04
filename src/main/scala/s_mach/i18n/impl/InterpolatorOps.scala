@@ -34,7 +34,7 @@ object InterpolatorOps {
       args:_*
     )
 
-  @inline def tolerantInterpolate(
+  @inline def laxInterpolate(
     parts: Seq[StringPart],
     args: I18NString*
     )(implicit

@@ -47,7 +47,7 @@ case class Literal(
   def apply()(implicit
     cfg: I18NConfig
     ) : I18NString = {
-    cfg.interpolator.interpolate(key)
+    cfg.fmt.getLiteral(key)
   }
 }
 
@@ -56,7 +56,7 @@ case class Message1[A](key: String) extends Message {
     cfg: I18NConfig,
     ia: I18N[A]
     ) : I18NString = {
-    cfg.interpolator.interpolate(key,ia(a))
+    cfg.fmt.getInterpolate(key,ia(a))
   }
 }
 
@@ -66,7 +66,7 @@ case class Message2[A,B](key: String) extends Message {
     ia: I18N[A],
     ib: I18N[B]
   ) : I18NString = {
-    cfg.interpolator.interpolate(key,ia(a),ib(b))
+    cfg.fmt.getInterpolate(key,ia(a),ib(b))
   }
 }
 
@@ -74,9 +74,6 @@ case class Choice(
   key: String
   ) extends Message {
   def apply[N](n: N)(implicit numeric:Numeric[N],cfg: I18NConfig) : I18NString = {
-    import cfg._
-    I18NString(
-      messages.choices(key)(BigDecimal(n.toString))
-    )
+    cfg.fmt.getChoice(key,BigDecimal(n.toString))
   }
 }
