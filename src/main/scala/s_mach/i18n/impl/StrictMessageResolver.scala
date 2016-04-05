@@ -16,13 +16,24 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-case class I18NConfig(
-  messages: Messages,
-  interpolator: Interpolator = Interpolator.default,
-  resolver: MessageResolver = MessageResolver.default,
-  numFmt: I18NNumberFormat = I18NNumberFormat.default
-) {
-  def locale = messages.locale
+import s_mach.i18n._
+
+class StrictMessageResolver extends MessageResolver {
+
+  def literal(m: Messages, key: String) =
+    m.literals(key).asI18N
+
+  def interpolate(m: Messages, key: String, i: Interpolator) = {
+    val parts = m.interpolations(key)
+
+    { args =>
+      require(args.nonEmpty,"args must not be empty")
+      i.interpolate(parts,args:_*)
+    }
+  }
+
+  def choice(m: Messages, key: String) =
+    m.choices(key).andThen(_.asI18N)
 }

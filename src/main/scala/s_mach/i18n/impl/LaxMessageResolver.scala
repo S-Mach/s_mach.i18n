@@ -20,32 +20,31 @@ package s_mach.i18n.impl
 
 import s_mach.i18n._
 
-class LaxI18NFormat extends I18NFormat {
+class LaxMessageResolver extends MessageResolver {
 
-  def getLiteral(key: String)(implicit cfg: I18NConfig) =
-    cfg.messages.literals.get(key) match {
+  def literal(m: Messages, key: String) =
+    m.literals.get(key) match {
       case Some(s) => s.asI18N
       case None => s"{$key}".asI18N
     }
 
-  def interpolate(parts: Seq[StringPart], args: I18NString*)(implicit cfg: I18NConfig) =
-    InterpolatorOps.laxInterpolate(parts,args:_*)
-
-  def getInterpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) = {
-    if(args.nonEmpty) {
-      cfg.messages.interpolations.get(key) match {
-        case Some(parts) => interpolate(parts,args:_*)
-        case None => s"{$key}(${args.mkString(",")})".asI18N
-      }
-    } else {
-      getLiteral(key)
+  def interpolate(m: Messages, key: String, i: Interpolator) = {
+    m.interpolations.get(key) match {
+      case Some(parts) =>
+        { args:Seq[I18NString] =>
+          i.interpolate(parts,args:_*)
+        }
+      case None =>
+        { args: Seq[I18NString] =>
+          s"{$key}(${args.mkString(",")})".asI18N
+        }
     }
   }
 
-  def getChoice(key: String, value: BigDecimal)(implicit cfg: I18NConfig) =
-    cfg.messages.choices.get(key) match {
-      case Some(f) => f(value).asI18N
-      case None => s"{$key}($value)".asI18N
+  def choice(m: Messages, key: String) =
+    m.choices.get(key) match {
+      case Some(f) => { value => f(value).asI18N }
+      case None => { value => s"{$key}($value)".asI18N }
     }
 }
 

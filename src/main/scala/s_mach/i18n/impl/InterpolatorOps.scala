@@ -25,62 +25,47 @@ object InterpolatorOps {
   @inline def strictInterpolate(
     parts: Seq[StringPart],
     args: I18NString*
-  )(implicit
-    cfg:I18NConfig
-  ) : I18NString =
+  ) : I18NString = {
+    val argCount = {
+      var idx = -1
+      parts.foreach {
+        case Arg(n) =>
+          require(n >= 0,"Argument index must be positive")
+          if(n > idx) {
+            idx = n
+          }
+        case _ =>
+      }
+      idx + 1
+    }
+    require(args.size == argCount,s"Expected $argCount args, found ${args.size} args")
     interpolate(
-      strict = true,
-      parts = parts,
-      args:_*
+      parts,
+      args.apply
     )
+  }
 
   @inline def laxInterpolate(
+    missingArg: Int => String
+  )(
     parts: Seq[StringPart],
     args: I18NString*
-    )(implicit
-    cfg:I18NConfig
-    ) : I18NString =
+  ) : I18NString =
     interpolate(
-      strict = false,
-      parts = parts,
-      args:_*
+      parts,
+      args.applyOrElse(_:Int,missingArg)
     )
 
   @inline def interpolate(
-    strict: Boolean,
     parts: Seq[StringPart],
-    args: I18NString*
-  )(implicit
-    cfg:I18NConfig
+    args: Int => String
   ) : I18NString = {
-    val _args = args.asInstanceOf[Seq[String]]
-    if(strict) {
-      val argCount = {
-        var idx = -1
-        parts.foreach {
-          case Arg(n) =>
-            require(n >= 0,"Argument index must be positive")
-            if(n > idx) {
-              idx = n
-            }
-          case _ =>
-        }
-        idx + 1
-      }
-      require(args.size == argCount,s"Expected $argCount args, found ${args.size} args")
-    }
-
     if(parts.nonEmpty) {
-      val f = if(strict) {
-        _args(_:Int)
-      } else {
-        _args.applyOrElse(_:Int,(_:Int) => "(null)")
-      }
       def handle(i: StringPart) : String = {
         import StringPart._
         i match {
           case Literal(value) => value
-          case Arg(arg) => f(arg)
+          case Arg(arg) => args(arg)
         }
       }
       val sb = new StringBuilder(handle(parts.head))

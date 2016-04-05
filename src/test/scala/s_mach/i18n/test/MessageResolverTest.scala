@@ -16,32 +16,31 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.test
 
-import s_mach.i18n.impl._
+import java.util.Locale
 
-trait I18NFormat {
-  def getChoice(key: String, value: BigDecimal)(implicit cfg:I18NConfig) : I18NString
+import org.scalatest.{Matchers, FlatSpec}
+import s_mach.i18n._
+import CommonTest._
 
-  def getLiteral(key: String)(implicit cfg:I18NConfig) : I18NString
-  
-  def interpolate(
-    parts: Seq[StringPart],
-    args: I18NString*
-  )(implicit
-    cfg:I18NConfig
-  ) : I18NString
+class MessageResolverTest extends FlatSpec with Matchers {
+  implicit val cfg = I18NConfig(Messages(Locale.US))
+  import cfg._
 
-  def getInterpolate(
-    key: String,
-    args: I18NString*
-  )(implicit
-    cfg:I18NConfig
-  ) : I18NString
-}
+  "MessageResolver.strict.interpolate" should "throw if key is missing" in {
+    an[NoSuchElementException] should be thrownBy MessageResolver.strict.interpolate(
+      messages,
+      "test",
+      interpolator
+    )(Seq("1".asI18N))
+  }
 
-object I18NFormat {
-  val strict = new StrictI18NFormat
-  val lax = new LaxI18NFormat
-  val default = strict
+  "MessageResolver.lax.interpolate" should "show key and args for missing keys" in {
+    MessageResolver.lax.interpolate(
+      messages,
+      "test",
+      interpolator
+    )(Seq("1".asI18N,"2".asI18N)) should equal("{test}(1,2)")
+  }
 }

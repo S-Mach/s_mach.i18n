@@ -18,11 +18,22 @@
 */
 package s_mach.i18n
 
-case class I18NConfig(
-  messages: Messages,
-  interpolator: Interpolator = Interpolator.default,
-  resolver: MessageResolver = MessageResolver.default,
-  numFmt: I18NNumberFormat = I18NNumberFormat.default
-) {
-  def locale = messages.locale
+import s_mach.i18n.impl._
+
+trait MessageResolver {
+  def choice(m: Messages, key: String) : BigDecimal => I18NString
+
+  def literal(m: Messages, key: String) : I18NString
+  
+  def interpolate(
+    m: Messages,
+    key: String,
+    i: Interpolator
+  ) : Seq[I18NString] => I18NString
+}
+
+object MessageResolver {
+  val strict = new StrictMessageResolver
+  val lax = new LaxMessageResolver
+  val default = strict
 }

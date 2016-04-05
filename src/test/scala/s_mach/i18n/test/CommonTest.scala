@@ -108,4 +108,24 @@ object CommonTest {
         )
     }
   }
+
+  val parts1 = List(
+    StringPart.Literal("hello "),
+    StringPart.Arg(0),
+    StringPart.Literal(" test "),
+    StringPart.Arg(1),
+    StringPart.Literal(" {2}")
+  )
+
+  val parts2 = List(
+    StringPart.Literal("When "),
+    StringPart.Arg(1),
+    StringPart.Literal(" on "),
+    StringPart.Arg(1),
+    StringPart.Literal(", there will be "),
+    StringPart.Arg(2),
+    StringPart.Literal(" on moon "),
+    StringPart.Arg(0)
+  )
+
 }

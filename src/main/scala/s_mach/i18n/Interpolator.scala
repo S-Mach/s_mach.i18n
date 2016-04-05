@@ -16,23 +16,23 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n.impl
+package s_mach.i18n
 
-import s_mach.i18n._
+import s_mach.i18n.impl.InterpolatorOps
 
-class StrictI18NFormat extends I18NFormat {
+trait Interpolator {
+  def interpolate(
+    parts: Seq[StringPart],
+    args: I18NString*
+  ) : I18NString
+}
 
-  def getLiteral(key: String)(implicit cfg: I18NConfig) =
-    cfg.messages.literals(key).asI18N
-
-  def interpolate(parts: Seq[StringPart],args: I18NString*)(implicit cfg: I18NConfig) =
-    InterpolatorOps.strictInterpolate(parts,args:_*)
-
-  def getInterpolate(key: String, args: I18NString*)(implicit cfg: I18NConfig) = {
-    require(args.nonEmpty,"args must not be empty")
-    interpolate(cfg.messages.interpolations(key),args:_*)
+object Interpolator {
+  def apply(f: (Seq[StringPart],Seq[I18NString]) => I18NString) : Interpolator = new Interpolator {
+    def interpolate(parts: Seq[StringPart], args: I18NString*) =
+      f(parts,args)
   }
-
-  def getChoice(key: String, value: BigDecimal)(implicit cfg: I18NConfig) =
-    cfg.messages.choices(key)(value).asI18N
+  val strict = Interpolator(InterpolatorOps.strictInterpolate)
+  val lax = Interpolator(InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:null}"))
+  val default = strict
 }
