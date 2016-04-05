@@ -20,12 +20,14 @@ package s_mach.i18n.impl
 
 import s_mach.i18n._
 
-class LaxMessageResolver extends MessageResolver {
+class LaxMessageResolver(
+  missingKey: (String,Seq[String]) => String
+) extends MessageResolver {
 
   def literal(m: Messages, key: String) =
     m.literals.get(key) match {
       case Some(s) => s.asI18N
-      case None => s"{$key}".asI18N
+      case None => missingKey(key,Nil).asI18N
     }
 
   def interpolate(m: Messages, key: String, i: Interpolator) = {
@@ -36,7 +38,7 @@ class LaxMessageResolver extends MessageResolver {
         }
       case None =>
         { args: Seq[I18NString] =>
-          s"{$key}(${args.mkString(",")})".asI18N
+          missingKey(key,args).asI18N
         }
     }
   }
@@ -44,7 +46,7 @@ class LaxMessageResolver extends MessageResolver {
   def choice(m: Messages, key: String) =
     m.choices.get(key) match {
       case Some(f) => { value => f(value).asI18N }
-      case None => { value => s"{$key}($value)".asI18N }
+      case None => { value => missingKey(key,Seq(value.toString())).asI18N }
     }
 }
 

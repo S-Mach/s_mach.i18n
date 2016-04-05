@@ -34,6 +34,8 @@ trait MessageResolver {
 
 object MessageResolver {
   val strict = new StrictMessageResolver
-  val lax = new LaxMessageResolver
+  val lax = new LaxMessageResolver((missingKey,args) =>
+    s"{$missingKey:null}(${args.mkString(",")})"
+  )
   val default = strict
 }

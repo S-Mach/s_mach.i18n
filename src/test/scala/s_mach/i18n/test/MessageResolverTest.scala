@@ -41,6 +41,6 @@ class MessageResolverTest extends FlatSpec with Matchers {
       messages,
       "test",
       interpolator
-    )(Seq("1".asI18N,"2".asI18N)) should equal("{test}(1,2)")
+    )(Seq("1".asI18N,"2".asI18N)) should equal("{test:null}(1,2)")
   }
 }
