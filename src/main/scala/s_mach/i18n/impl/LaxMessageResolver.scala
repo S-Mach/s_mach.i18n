@@ -24,13 +24,13 @@ class LaxMessageResolver(
   missingKey: (String,Seq[String]) => String
 ) extends MessageResolver {
 
-  def literal(m: Messages, key: String) =
+  def resolveLiteral(m: Messages, key: String) =
     m.literals.get(key) match {
       case Some(s) => s.asI18N
       case None => missingKey(key,Nil).asI18N
     }
 
-  def interpolate(m: Messages, key: String, i: Interpolator) = {
+  def resolveInterpolation(m: Messages, key: String, i: Interpolator) = {
     m.interpolations.get(key) match {
       case Some(parts) =>
         { args:Seq[I18NString] =>
@@ -43,7 +43,7 @@ class LaxMessageResolver(
     }
   }
 
-  def choice(m: Messages, key: String) =
+  def resolveChoice(m: Messages, key: String) =
     m.choices.get(key) match {
       case Some(f) => { value => f(value).asI18N }
       case None => { value => missingKey(key,Seq(value.toString())).asI18N }

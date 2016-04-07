@@ -48,28 +48,7 @@ case class Literal(
     cfg: I18NConfig
   ) : I18NString = {
     import cfg._
-    resolver.literal(messages, key)
-  }
-}
-
-case class Message1[A](key: String) extends Message {
-  def apply(a: A)(implicit
-    cfg: I18NConfig,
-    ia: I18N[A]
-    ) : I18NString = {
-    import cfg._
-    resolver.interpolate(messages, key, interpolator)(Seq(ia(a)))
-  }
-}
-
-case class Message2[A,B](key: String) extends Message {
-  def apply(a: A, b: B)(implicit
-    cfg: I18NConfig,
-    ia: I18N[A],
-    ib: I18N[B]
-  ) : I18NString = {
-    import cfg._
-    resolver.interpolate(messages, key, interpolator)(Seq(ia(a),ib(b)))
+    resolver.resolveLiteral(messages, key)
   }
 }
 
@@ -78,11 +57,87 @@ case class Choice(
   ) extends Message {
   def apply[N](
     n: N
-  )(implicit
-    numeric:Numeric[N],
+    )(implicit
+    numeri18nC:Numeric[N],
     cfg: I18NConfig
-  ) : I18NString = {
+    ) : I18NString = {
     import cfg._
-    resolver.choice(messages, key)(BigDecimal(n.toString))
+    resolver.resolveChoice(messages, key)(BigDecimal(n.toString))
   }
 }
+
+case class Message1[A](key: String) extends Message {
+  def apply(a: A)(implicit
+    cfg: I18NConfig,
+    i18nA: I18N[A]
+    ) : I18NString = {
+    import cfg._
+    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a)))
+  }
+}
+
+case class Message2[A,B](key: String) extends Message {
+  def apply(a: A, b: B)(implicit
+    cfg: I18NConfig,
+    i18nA: I18N[A],
+    i18nB: I18N[B]
+  ) : I18NString = {
+    import cfg._
+    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b)))
+  }
+}
+
+case class Message3[A,B,C](key: String) extends Message {
+  def apply(a: A, b: B, c: C)(implicit
+    cfg: I18NConfig,
+    i18nA: I18N[A],
+    i18nB: I18N[B],
+    i18nC: I18N[C]
+  ) : I18NString = {
+    import cfg._
+    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c)))
+  }
+}
+
+case class Message4[A,B,C,D](key: String) extends Message {
+  def apply(a: A, b: B, c: C, d: D)(implicit
+    cfg: I18NConfig,
+    i18nA: I18N[A],
+    i18nB: I18N[B],
+    i18nC: I18N[C],
+    i18nD: I18N[D]
+  ) : I18NString = {
+    import cfg._
+    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c),i18nD(d)))
+  }
+}
+
+case class Message5[A,B,C,D,E](key: String) extends Message {
+  def apply(a: A, b: B, c: C, d: D, e: E)(implicit
+    cfg: I18NConfig,
+    i18nA: I18N[A],
+    i18nB: I18N[B],
+    i18nC: I18N[C],
+    i18nD: I18N[D],
+    i18nE: I18N[E]
+  ) : I18NString = {
+    import cfg._
+    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e)))
+  }
+}
+
+case class Message6[A,B,C,D,E,F](key: String) extends Message {
+  def apply(a: A, b: B, c: C, d: D, e: E, f: F)(implicit
+    cfg: I18NConfig,
+    i18nA: I18N[A],
+    i18nB: I18N[B],
+    i18nC: I18N[C],
+    i18nD: I18N[D],
+    i18nE: I18N[E],
+    i18nF: I18N[F]
+  ) : I18NString = {
+    import cfg._
+    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e),i18nF(f)))
+  }
+}
+

@@ -22,10 +22,10 @@ import s_mach.i18n._
 
 class StrictMessageResolver extends MessageResolver {
 
-  def literal(m: Messages, key: String) =
+  def resolveLiteral(m: Messages, key: String) =
     m.literals(key).asI18N
 
-  def interpolate(m: Messages, key: String, i: Interpolator) = {
+  def resolveInterpolation(m: Messages, key: String, i: Interpolator) = {
     val parts = m.interpolations(key)
 
     { args =>
@@ -34,6 +34,6 @@ class StrictMessageResolver extends MessageResolver {
     }
   }
 
-  def choice(m: Messages, key: String) =
+  def resolveChoice(m: Messages, key: String) =
     m.choices(key).andThen(_.asI18N)
 }

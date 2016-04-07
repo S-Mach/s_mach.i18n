@@ -21,11 +21,11 @@ package s_mach.i18n
 import s_mach.i18n.impl._
 
 trait MessageResolver {
-  def choice(m: Messages, key: String) : BigDecimal => I18NString
+  def resolveChoice(m: Messages, key: String) : BigDecimal => I18NString
 
-  def literal(m: Messages, key: String) : I18NString
+  def resolveLiteral(m: Messages, key: String) : I18NString
   
-  def interpolate(
+  def resolveInterpolation(
     m: Messages,
     key: String,
     i: Interpolator

@@ -4,7 +4,7 @@ import java.text.NumberFormat
 
 import s_mach.i18n._
 
-class DefaultI18NNumberFormat extends I18NNumberFormat {
+class DefaultStdI18N extends StdI18N {
 
   // Note: NumberFormat is not thread-safe so can't save instance
   // without synchronization
@@ -14,9 +14,9 @@ class DefaultI18NNumberFormat extends I18NNumberFormat {
 
   def i18n(value: Boolean)(implicit cfg: I18NConfig) = {
     if(value) {
-      m_true()(cfg)
+      m_true()
     } else {
-      m_false()(cfg)
+      m_false()
     }
   }
   def i18n(value: Byte)(implicit cfg: I18NConfig) = {

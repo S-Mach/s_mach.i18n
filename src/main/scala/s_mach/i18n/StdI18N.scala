@@ -1,8 +1,8 @@
 package s_mach.i18n
 
-import s_mach.i18n.impl.DefaultI18NNumberFormat
+import s_mach.i18n.impl.DefaultStdI18N
 
-trait I18NNumberFormat {
+trait StdI18N {
   def i18n(value: Boolean)(implicit cfg: I18NConfig) : I18NString
   def i18n(value: Byte)(implicit cfg: I18NConfig) : I18NString
   def i18n(value: Short)(implicit cfg: I18NConfig) : I18NString
@@ -14,6 +14,6 @@ trait I18NNumberFormat {
   def i18n(value: BigDecimal)(implicit cfg: I18NConfig) : I18NString
 }
 
-object I18NNumberFormat {
-  val default = new DefaultI18NNumberFormat
+object StdI18N {
+  val default = new DefaultStdI18N
 }

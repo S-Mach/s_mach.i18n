@@ -29,7 +29,7 @@ class MessageResolverTest extends FlatSpec with Matchers {
   import cfg._
 
   "MessageResolver.strict.interpolate" should "throw if key is missing" in {
-    an[NoSuchElementException] should be thrownBy MessageResolver.strict.interpolate(
+    an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveInterpolation(
       messages,
       "test",
       interpolator
@@ -37,7 +37,7 @@ class MessageResolverTest extends FlatSpec with Matchers {
   }
 
   "MessageResolver.lax.interpolate" should "show key and args for missing keys" in {
-    MessageResolver.lax.interpolate(
+    MessageResolver.lax.resolveInterpolation(
       messages,
       "test",
       interpolator

@@ -22,7 +22,7 @@ case class I18NConfig(
   messages: Messages,
   interpolator: Interpolator = Interpolator.default,
   resolver: MessageResolver = MessageResolver.default,
-  numFmt: I18NNumberFormat = I18NNumberFormat.default
+  stdI18N: StdI18N = StdI18N.default
 ) {
   def locale = messages.locale
 }
