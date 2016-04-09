@@ -39,42 +39,42 @@ class DefaultMessagesTest extends FlatSpec with Matchers {
     m.contains(m_hello.key) should equal(true)
     m.contains(m_hello_name_qty.key) should equal(true)
     m.contains(m_there_are_qty_apples.key) should equal(true)
-    m.contains("missing") should equal(false)
+    m.contains('missing) should equal(false)
   }
 
   "DefaultMessages.literals.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
     m.literals.get(m_hello.key) should equal(Some("hello"))
-    m.literals.get("missing") should equal(None)
+    m.literals.get('missing) should equal(None)
   }
 
   "DefaultMessages.literals.apply" should "return the value associated with a key and throw an exception if key is missing" in {
     val m = mkTestMessages(Locale.US)
     m.literals(m_hello.key) should equal(m_hello_us_value)
-    an[NoSuchElementException] should be thrownBy m.literals("missing")
+    an[NoSuchElementException] should be thrownBy m.literals('missing)
   }
 
   "DefaultMessages.interpolations.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
     m.interpolations.get(m_hello_name_qty.key) should equal(Some(m_hello_name_qty_us_value))
-    m.interpolations.get("missing") should equal(None)
+    m.interpolations.get('missing) should equal(None)
   }
 
   "DefaultMessages.interpolations.apply" should "return the value associated with a key and throw an exception if key is missing" in {
     val m = mkTestMessages(Locale.US)
     m.interpolations(m_hello_name_qty.key) should equal(m_hello_name_qty_us_value)
-    an[NoSuchElementException] should be thrownBy m.interpolations("missing")
+    an[NoSuchElementException] should be thrownBy m.interpolations('missing)
   }
 
   "DefaultMessages.choices.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
     m.choices.get(m_there_are_qty_apples.key) should equal(Some(m_there_are_qty_apples_us_value))
-    m.choices.get("missing") should equal(None)
+    m.choices.get('missing) should equal(None)
   }
 
   "DefaultMessages.choices.apply" should "return the value associated with a key and throw an exception if key is missing" in {
     val m = mkTestMessages(Locale.US)
     m.choices(m_there_are_qty_apples.key) should equal(m_there_are_qty_apples_us_value)
-    an[NoSuchElementException] should be thrownBy m.choices("missing")
+    an[NoSuchElementException] should be thrownBy m.choices('missing)
   }
 }

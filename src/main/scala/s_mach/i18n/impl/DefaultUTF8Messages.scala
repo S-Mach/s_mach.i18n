@@ -101,7 +101,7 @@ object DefaultUTF8Messages {
               }
               R(optInterpolation = Some(builder.result()))
           }
-        k -> parts
+        Symbol(k) -> parts
       }
     Messages(
       locale = locale,

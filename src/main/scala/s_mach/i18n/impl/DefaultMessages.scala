@@ -24,9 +24,9 @@ import s_mach.i18n._
 
 class DefaultMessages(
   val locale: Locale,
-  _literals: Map[String,String] = Map.empty,
-  _interpolations: Map[String,Seq[StringPart]] = Map.empty,
-  _choices: Map[String,BigDecimal => String] = Map.empty
+  _literals: Map[Symbol,String] = Map.empty,
+  _interpolations: Map[Symbol,Seq[StringPart]] = Map.empty,
+  _choices: Map[Symbol,BigDecimal => String] = Map.empty
 ) extends Messages {
   {
     val keyCounts = (
@@ -41,20 +41,20 @@ class DefaultMessages(
   }
 
   val literals = new Lookup[String] {
-    def get(key: String) = _literals.get(key)
-    def apply(key: String) = _literals(key)
+    def get(key: Symbol) = _literals.get(key)
+    def apply(key: Symbol) = _literals(key)
   }
   val choices = new Lookup[BigDecimal => String] {
-    def get(key: String) = _choices.get(key)
-    def apply(key: String) = _choices(key)
+    def get(key: Symbol) = _choices.get(key)
+    def apply(key: Symbol) = _choices(key)
   }
   val interpolations = new Lookup[Seq[StringPart]] {
-    def get(key: String) = _interpolations.get(key)
-    def apply(key: String) = _interpolations(key)
+    def get(key: Symbol) = _interpolations.get(key)
+    def apply(key: Symbol) = _interpolations(key)
   }
 
   val keys = (_literals.keys ++ _interpolations.keys ++ _choices.keys).toSet
-  def contains(key: String) =
+  def contains(key: Symbol) =
     keys.contains(key)
 
   override def toString = s"Messages(keys=${keys.mkString(",")})"

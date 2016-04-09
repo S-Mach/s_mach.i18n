@@ -31,7 +31,7 @@ class MessageResolverTest extends FlatSpec with Matchers {
   "MessageResolver.strict.interpolate" should "throw if key is missing" in {
     an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveInterpolation(
       messages,
-      "test",
+      'test,
       interpolator
     )(Seq("1".asI18N))
   }
@@ -39,7 +39,7 @@ class MessageResolverTest extends FlatSpec with Matchers {
   "MessageResolver.lax.interpolate" should "show key and args for missing keys" in {
     MessageResolver.lax.resolveInterpolation(
       messages,
-      "test",
+      'test,
       interpolator
     )(Seq("1".asI18N,"2".asI18N)) should equal("{test:null}(1,2)")
   }

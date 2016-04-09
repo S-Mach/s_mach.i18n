@@ -26,12 +26,12 @@ trait Messages {
   def locale: Locale
 
   trait Lookup[A] {
-    def get(key: String): Option[A]
-    def apply(key: String): A
+    def get(key: Symbol): Option[A]
+    def apply(key: Symbol): A
   }
 
-  def keys: Iterable[String]
-  def contains(key: String): Boolean
+  def keys: Iterable[Symbol]
+  def contains(key: Symbol): Boolean
 
   def literals : Lookup[String]
   def interpolations : Lookup[Seq[StringPart]]
@@ -41,9 +41,9 @@ trait Messages {
 object Messages {
   def apply(
     locale: Locale,
-    literals: Map[String,String] = Map.empty,
-    interpolations: Map[String,Seq[StringPart]] = Map.empty,
-    choices: Map[String,BigDecimal => String] = Map.empty
+    literals: Map[Symbol,String] = Map.empty,
+    interpolations: Map[Symbol,Seq[StringPart]] = Map.empty,
+    choices: Map[Symbol,BigDecimal => String] = Map.empty
   ) : Messages =
     new DefaultMessages(
       locale = locale,

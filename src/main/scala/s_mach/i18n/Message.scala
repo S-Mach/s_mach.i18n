@@ -22,7 +22,7 @@ import scala.language.implicitConversions
 
 trait Message {
 
-  def key: String
+  def key: Symbol
 
   def throwIfMissing()(implicit m:Messages) : this.type = {
     if(m.contains(key) == false) {
@@ -35,14 +35,14 @@ trait Message {
 }
 
 case class MessageBuilder(
-  key: String
+  key: Symbol
 ) {
   def apply[A] = Message1[A](key)
   def apply[A,B] = Message2[A,B](key)
 }
 
 case class Literal(
-  key: String
+  key: Symbol
 ) extends Message {
   def apply()(implicit
     cfg: I18NConfig
@@ -53,7 +53,7 @@ case class Literal(
 }
 
 case class Choice(
-  key: String
+  key: Symbol
   ) extends Message {
   def apply[N](
     n: N
@@ -66,7 +66,7 @@ case class Choice(
   }
 }
 
-case class Message1[A](key: String) extends Message {
+case class Message1[A](key: Symbol) extends Message {
   def apply(a: A)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A]
@@ -76,7 +76,7 @@ case class Message1[A](key: String) extends Message {
   }
 }
 
-case class Message2[A,B](key: String) extends Message {
+case class Message2[A,B](key: Symbol) extends Message {
   def apply(a: A, b: B)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A],
@@ -87,7 +87,7 @@ case class Message2[A,B](key: String) extends Message {
   }
 }
 
-case class Message3[A,B,C](key: String) extends Message {
+case class Message3[A,B,C](key: Symbol) extends Message {
   def apply(a: A, b: B, c: C)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A],
@@ -99,7 +99,7 @@ case class Message3[A,B,C](key: String) extends Message {
   }
 }
 
-case class Message4[A,B,C,D](key: String) extends Message {
+case class Message4[A,B,C,D](key: Symbol) extends Message {
   def apply(a: A, b: B, c: C, d: D)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A],
@@ -112,7 +112,7 @@ case class Message4[A,B,C,D](key: String) extends Message {
   }
 }
 
-case class Message5[A,B,C,D,E](key: String) extends Message {
+case class Message5[A,B,C,D,E](key: Symbol) extends Message {
   def apply(a: A, b: B, c: C, d: D, e: E)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A],
@@ -126,7 +126,7 @@ case class Message5[A,B,C,D,E](key: String) extends Message {
   }
 }
 
-case class Message6[A,B,C,D,E,F](key: String) extends Message {
+case class Message6[A,B,C,D,E,F](key: Symbol) extends Message {
   def apply(a: A, b: B, c: C, d: D, e: E, f: F)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A],
