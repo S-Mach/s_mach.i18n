@@ -24,8 +24,6 @@ import s_mach.i18n._
 import s_mach.string._
 
 object DefaultUTF8Messages {
-  // todo: support for Choices parsed from ChoiceFormat
-
   private val fakeFormat = new Format {
     // Never called
     def parseObject(source: String, pos: ParsePosition) = ???

@@ -21,7 +21,7 @@ package s_mach
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
-package object i18n extends I18N.BuiltInImplicits {
+package object i18n extends I18N.Implicits {
   /* gQdBkrozvt suffix added to prevent shadowing issues */
 
   type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]

@@ -32,8 +32,8 @@ object I18N {
       def apply(a: A)(implicit cfg:I18NConfig) = I18NString(f(cfg)(a))
     }
 
-  object BuiltInImplicits extends BuiltInImplicits
-  trait BuiltInImplicits {
+  object Implicits extends Implicits
+  trait Implicits {
     implicit val i18n_Boolean =
       I18N[Boolean] { implicit cfg => cfg.stdI18N.i18n }
 
