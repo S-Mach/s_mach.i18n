@@ -20,7 +20,6 @@ package s_mach.i18n.test
 
 import java.util.Locale
 import s_mach.i18n._
-import StringPart._
 
 object CommonTest {
   val m_hello = {
@@ -48,9 +47,11 @@ object CommonTest {
     "there_are_qty_apples".choice
   }
 
-  val m_hello_us_value = "hello"
-  val m_hello_name_qty_us_value = StringPart.Literal("hello ") :: StringPart.Arg(0) :: StringPart.Literal(" test ") :: Arg(1) :: Nil
-  val m_there_are_qty_apples_us_value = { n: BigDecimal => I18NString(
+  val m_hello_us_value = Format.Literal("hello")
+  val m_hello_name_qty_us_value = Format.Interpolation(
+    FormatPart.Literal("hello ") :: FormatPart.StringArg(0) :: FormatPart.Literal(" test ") :: FormatPart.StringArg(1) :: Nil
+  )
+  val m_there_are_qty_apples_us_value = Format.Choice({ n: BigDecimal => I18NString(
     s"There ${
       n match {
         case v if v == BigDecimal(0) =>
@@ -61,71 +62,61 @@ object CommonTest {
           s"are $v apples"
       }
     }"
-  )}
+  )})
   
-  def mkTestMessages(locale:Locale) = {
+  def mkTestMessages(locale:Locale) : Messages = {
     import s_mach.i18n._
-    import StringPart._
+    import FormatPart._
 
     locale match {
       case l if l == Locale.US =>
         Messages(
           locale = locale,
-          literals = Map(
-            m_hello.key -> m_hello_us_value
-          ),
-          interpolations = Map(
-            m_hello_name_qty.key -> m_hello_name_qty_us_value
-          ),
-          choices = Map(
-            m_there_are_qty_apples.key -> m_there_are_qty_apples_us_value
-          )
+          m_hello.key -> m_hello_us_value,
+          m_hello_name_qty.key -> m_hello_name_qty_us_value,
+          m_there_are_qty_apples.key -> m_there_are_qty_apples_us_value
         )
       case l if l == Locale.FRENCH =>
         Messages(
           locale = locale,
-          literals = Map(
-            m_hello.key -> "bonjour"
+          m_hello.key -> Format.Literal("bonjour"),
+          m_hello_name_qty.key -> Format.Interpolation(
+            FormatPart.Literal("bonjour ") :: FormatPart.StringArg(0) :: FormatPart.Literal(" test ") :: FormatPart.StringArg(1) :: Nil
           ),
-          interpolations = Map(
-            m_hello_name_qty.key -> (StringPart.Literal("bonjour ") :: StringPart.Arg(0) :: StringPart.Literal(" test ") :: StringPart.Arg(1) :: Nil)
-          ),
-          choices = Map(
-            m_there_are_qty_apples.key -> { n: BigDecimal => I18NString(
-              s"Il ${
-                n match {
-                  case v if v == BigDecimal(0) =>
-                    "n'y a pas de pommes"
-                  case v if v == BigDecimal(1) =>
-                    "y a une pomme"
-                  case v =>
-                    s"y a $v pommes"
-                }
-              }"
-            )
-            }
+          m_there_are_qty_apples.key -> Format.Choice({ n: BigDecimal => I18NString(
+            s"Il ${
+              n match {
+                case v if v == BigDecimal(0) =>
+                  "n'y a pas de pommes"
+                case v if v == BigDecimal(1) =>
+                  "y a une pomme"
+                case v =>
+                  s"y a $v pommes"
+              }
+            }"
           )
+          })
         )
     }
   }
 
   val parts1 = List(
-    StringPart.Literal("hello "),
-    StringPart.Arg(0),
-    StringPart.Literal(" test "),
-    StringPart.Arg(1),
-    StringPart.Literal(" {2}")
+    FormatPart.Literal("hello "),
+    FormatPart.StringArg(0),
+    FormatPart.Literal(" test "),
+    FormatPart.StringArg(1),
+    FormatPart.Literal(" {2}")
   )
 
   val parts2 = List(
-    StringPart.Literal("When "),
-    StringPart.Arg(1),
-    StringPart.Literal(" on "),
-    StringPart.Arg(1),
-    StringPart.Literal(", there will be "),
-    StringPart.Arg(2),
-    StringPart.Literal(" on moon "),
-    StringPart.Arg(0)
+    FormatPart.Literal("When "),
+    FormatPart.StringArg(1),
+    FormatPart.Literal(" on "),
+    FormatPart.StringArg(1),
+    FormatPart.Literal(", there will be "),
+    FormatPart.StringArg(2),
+    FormatPart.Literal(" on moon "),
+    FormatPart.StringArg(0)
   )
 
 }

@@ -48,7 +48,7 @@ case class Literal(
     cfg: I18NConfig
   ) : I18NString = {
     import cfg._
-    resolver.resolveLiteral(messages, key)
+    resolver.resolveLiteral(key)
   }
 }
 
@@ -62,7 +62,7 @@ case class Choice(
     cfg: I18NConfig
     ) : I18NString = {
     import cfg._
-    resolver.resolveChoice(messages, key)(BigDecimal(n.toString))
+    resolver.resolveChoice(key, BigDecimal(n.toString))
   }
 }
 
@@ -72,7 +72,7 @@ case class Message1[A](key: Symbol) extends Message {
     i18nA: I18N[A]
     ) : I18NString = {
     import cfg._
-    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a)))
+    resolver.resolveInterpolation(key, i18nA(a))
   }
 }
 
@@ -83,7 +83,7 @@ case class Message2[A,B](key: Symbol) extends Message {
     i18nB: I18N[B]
   ) : I18NString = {
     import cfg._
-    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b)))
+    resolver.resolveInterpolation(key, i18nA(a),i18nB(b))
   }
 }
 
@@ -95,7 +95,7 @@ case class Message3[A,B,C](key: Symbol) extends Message {
     i18nC: I18N[C]
   ) : I18NString = {
     import cfg._
-    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c)))
+    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c))
   }
 }
 
@@ -108,7 +108,7 @@ case class Message4[A,B,C,D](key: Symbol) extends Message {
     i18nD: I18N[D]
   ) : I18NString = {
     import cfg._
-    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c),i18nD(d)))
+    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d))
   }
 }
 
@@ -122,7 +122,7 @@ case class Message5[A,B,C,D,E](key: Symbol) extends Message {
     i18nE: I18N[E]
   ) : I18NString = {
     import cfg._
-    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e)))
+    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e))
   }
 }
 
@@ -137,7 +137,7 @@ case class Message6[A,B,C,D,E,F](key: Symbol) extends Message {
     i18nF: I18N[F]
   ) : I18NString = {
     import cfg._
-    resolver.resolveInterpolation(messages, key, interpolator)(Seq(i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e),i18nF(f)))
+    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e),i18nF(f))
   }
 }
 

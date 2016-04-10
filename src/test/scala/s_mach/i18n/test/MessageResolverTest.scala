@@ -22,25 +22,22 @@ import java.util.Locale
 
 import org.scalatest.{Matchers, FlatSpec}
 import s_mach.i18n._
-import CommonTest._
 
 class MessageResolverTest extends FlatSpec with Matchers {
   implicit val cfg = I18NConfig(Messages(Locale.US))
-  import cfg._
 
   "MessageResolver.strict.interpolate" should "throw if key is missing" in {
     an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveInterpolation(
-      messages,
       'test,
-      interpolator
-    )(Seq("1".asI18N))
+      "1".asI18N
+    )
   }
 
   "MessageResolver.lax.interpolate" should "show key and args for missing keys" in {
     MessageResolver.lax.resolveInterpolation(
-      messages,
       'test,
-      interpolator
-    )(Seq("1".asI18N,"2".asI18N)) should equal("{test:null}(1,2)")
+       "1".asI18N,
+      "2".asI18N
+    ) should equal("{test:null}(1,2)")
   }
 }

@@ -22,14 +22,14 @@ import s_mach.i18n.impl.InterpolatorOps
 
 trait Interpolator {
   def interpolate(
-    parts: Seq[StringPart],
+    parts: Seq[FormatPart],
     args: I18NString*
   ) : I18NString
 }
 
 object Interpolator {
-  def apply(f: (Seq[StringPart],Seq[I18NString]) => I18NString) : Interpolator = new Interpolator {
-    def interpolate(parts: Seq[StringPart], args: I18NString*) =
+  def apply(f: (Seq[FormatPart],Seq[I18NString]) => I18NString) : Interpolator = new Interpolator {
+    def interpolate(parts: Seq[FormatPart], args: I18NString*) =
       f(parts,args)
   }
   val strict = Interpolator(InterpolatorOps.strictInterpolate)

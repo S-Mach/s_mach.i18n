@@ -21,21 +21,16 @@ package s_mach.i18n
 import s_mach.i18n.impl._
 
 trait MessageResolver {
-  def resolveChoice(m: Messages, key: Symbol) : BigDecimal => I18NString
-
-  def resolveLiteral(m: Messages, key: Symbol) : I18NString
-  
-  def resolveInterpolation(
-    m: Messages,
-    key: Symbol,
-    i: Interpolator
-  ) : Seq[I18NString] => I18NString
+  def resolveLiteral(key: Symbol)(implicit cfg: I18NConfig) : I18NString
+  def resolveChoice(key: Symbol, value: BigDecimal)(implicit cfg: I18NConfig) : I18NString
+  def resolveInterpolation(key: Symbol, args: I18NString*)(implicit cfg: I18NConfig) : I18NString
 }
 
 object MessageResolver {
   val strict = new StrictMessageResolver
-  val lax = new LaxMessageResolver((missingKey,args) =>
-    s"{${missingKey.name}:null}(${args.mkString(",")})"
+  val lax = new LaxMessageResolver(
+    missingKey = (missingKey,args) => s"{${missingKey.name}:null}(${args.mkString(",")})",
+    invalidFormat = (key,args) => s"{${key}:invalid}(${args.mkString(",")})"
   )
   val default = strict
 }

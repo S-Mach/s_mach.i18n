@@ -18,8 +18,18 @@
 */
 package s_mach.i18n
 
-sealed trait StringPart
-object StringPart {
-  case class Literal(value: String) extends StringPart
-  case class Arg(index: Int) extends StringPart
+sealed trait FormatPart
+object FormatPart {
+  case class Literal(value: String) extends FormatPart
+  sealed trait FormatPartArg extends FormatPart {
+    def index: Int
+  }
+  case class StringArg(index: Int) extends FormatPartArg
+}
+
+sealed trait Format
+object Format {
+  case class Literal(value: String) extends Format
+  case class Interpolation(parts: Seq[FormatPart]) extends Format
+  case class Choice(value: BigDecimal => String) extends Format
 }

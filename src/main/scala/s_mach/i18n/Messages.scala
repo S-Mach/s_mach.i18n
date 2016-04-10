@@ -25,30 +25,16 @@ import s_mach.i18n.impl.DefaultMessages
 trait Messages {
   def locale: Locale
 
-  trait Lookup[A] {
-    def get(key: Symbol): Option[A]
-    def apply(key: Symbol): A
-  }
-
   def keys: Iterable[Symbol]
   def contains(key: Symbol): Boolean
-
-  def literals : Lookup[String]
-  def interpolations : Lookup[Seq[StringPart]]
-  def choices : Lookup[BigDecimal => String]
+  def get(key: Symbol) : Option[Format]
+  def apply(key: Symbol) : Format
 }
 
 object Messages {
   def apply(
     locale: Locale,
-    literals: Map[Symbol,String] = Map.empty,
-    interpolations: Map[Symbol,Seq[StringPart]] = Map.empty,
-    choices: Map[Symbol,BigDecimal => String] = Map.empty
+    formats: (Symbol,Format)*
   ) : Messages =
-    new DefaultMessages(
-      locale = locale,
-      _literals = literals,
-      _interpolations = interpolations,
-      _choices = choices
-    )
+    new DefaultMessages(locale,formats:_*)
 }

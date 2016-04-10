@@ -20,33 +20,51 @@ package s_mach.i18n.impl
 
 import s_mach.i18n._
 
+import scala.util.control.NonFatal
+
 class LaxMessageResolver(
-  missingKey: (Symbol,Seq[String]) => String
+  missingKey: (Symbol,Seq[String]) => String,
+  invalidFormat: (Symbol,Seq[String]) => String
 ) extends MessageResolver {
 
-  def resolveLiteral(m: Messages, key: Symbol) =
-    m.literals.get(key) match {
-      case Some(s) => s.asI18N
-      case None => missingKey(key,Nil).asI18N
+  def resolveLiteral(key: Symbol)(implicit cfg: I18NConfig) = {
+    import cfg._
+    messages.get(key) match {
+      case Some(Format.Literal(value)) => value
+      case Some(Format.Interpolation(parts)) =>
+        interpolator.interpolate(parts)
+      case Some(Format.Choice(_)) => invalidFormat(key,Nil)
+      case None => missingKey(key,Nil)
     }
+  }.asI18N
 
-  def resolveInterpolation(m: Messages, key: Symbol, i: Interpolator) = {
-    m.interpolations.get(key) match {
-      case Some(parts) =>
-        { args:Seq[I18NString] =>
-          i.interpolate(parts,args:_*)
-        }
-      case None =>
-        { args: Seq[I18NString] =>
-          missingKey(key,args).asI18N
-        }
-    }
-  }
+  def resolveInterpolation(key: Symbol, args: I18NString*)(implicit cfg: I18NConfig) = {
+    import cfg._
+      messages.get(key) match {
+        case Some(Format.Interpolation(parts)) =>
+          interpolator.interpolate(parts,args:_*)
+        case Some(Format.Literal(value)) => value
+        case Some(Format.Choice(choice)) =>
+          try {
+            choice(BigDecimal(args.head))
+          } catch {
+            case NonFatal(_) =>
+              invalidFormat(key,args)
+          }
+        case None =>
+          missingKey(key,args)
+      }
+  }.asI18N
 
-  def resolveChoice(m: Messages, key: Symbol) =
-    m.choices.get(key) match {
-      case Some(f) => { value => f(value).asI18N }
-      case None => { value => missingKey(key,Seq(value.toString())).asI18N }
+  def resolveChoice(key: Symbol, value: BigDecimal)(implicit cfg: I18NConfig) = {
+    import cfg._
+    messages.get(key) match {
+      case Some(Format.Choice(choice)) => choice(value)
+      case Some(Format.Interpolation(parts)) =>
+        interpolator.interpolate(parts,value.toString.asI18N)
+      case Some(Format.Literal(literal)) => literal
+      case None => missingKey(key,Seq(value.toString()))
     }
+  }.asI18N
 }
 

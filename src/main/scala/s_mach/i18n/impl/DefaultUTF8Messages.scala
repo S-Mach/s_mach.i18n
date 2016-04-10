@@ -18,16 +18,15 @@
 */
 package s_mach.i18n.impl
 
-import java.text._
 import java.util.{Locale, ResourceBundle}
 import s_mach.i18n._
 import s_mach.string._
 
 object DefaultUTF8Messages {
-  private val fakeFormat = new Format {
+  private val fakeFormat = new java.text.Format {
     // Never called
-    def parseObject(source: String, pos: ParsePosition) = ???
-    def format(obj: scala.Any, toAppendTo: StringBuffer, pos: FieldPosition) =
+    def parseObject(source: String, pos: java.text.ParsePosition) = ???
+    def format(obj: scala.Any, toAppendTo: StringBuffer, pos: java.text.FieldPosition) =
       toAppendTo.append(obj.toString)
   }
 
@@ -49,28 +48,23 @@ object DefaultUTF8Messages {
     )
     val bundle = ResourceBundle.getBundle(s"${fileBaseDir.ensureSuffix("/")}$fileBaseName", locale, control)
 
-    case class R(
-      optLiteral: Option[String] = None,
-      optInterpolation: Option[Seq[StringPart]] = None,
-      optChoice: Option[BigDecimal => String] = None
-    )
-    val keyToParts =
+    val keyToFormats =
       bundle.getKeys.toStream.map { k =>
-        import StringPart._
+        import FormatPart._
         val raw = bundle.getString(k)
-        val fmt = new MessageFormat(raw)
+        val fmt = new java.text.MessageFormat(raw)
         val parts =
-          fmt.getFormats.size match {
-            case 0 => R(optLiteral = Some(raw))
-            case 1 if fmt.getFormats.head.isInstanceOf[ChoiceFormat] =>
-              R(optChoice = Some({ n =>
+          fmt.getFormats.length match {
+            case 0 => Format.Literal(raw)
+            case 1 if fmt.getFormats.head.isInstanceOf[java.text.ChoiceFormat] =>
+              Format.Choice({ n =>
                 fmt.format(
                   Array(n.underlying().doubleValue()).map(_.asInstanceOf[java.lang.Object])
                 )
-              }))
+              })
             case argsCount =>
               // Force all formats to simple string replacement
-              val formats = Array.fill[Format](argsCount)(fakeFormat)
+              val formats = Array.fill[java.text.Format](argsCount)(fakeFormat)
               fmt.setFormats(formats)
               // Inject unique key and arg number as fake args to allow
               // standardized parsing below
@@ -87,33 +81,25 @@ object DefaultUTF8Messages {
                 .map(m => M(m.start,m.end,m.group(1).toInt))
               // Note: impossible for ms not to match at least once since there at
               // least one arg at this point
-              val builder = Seq.newBuilder[StringPart]
+              val builder = Seq.newBuilder[FormatPart]
               val _lastIdx =
                 ms.foldLeft(0) { case (lastIdx,m) =>
                   if(lastIdx < m.start) {
-                    builder += StringPart.Literal(parseable.substring(lastIdx, m.start))
+                    builder += FormatPart.Literal(parseable.substring(lastIdx, m.start))
                   }
-                  builder += StringPart.Arg(m.argIdx)
+                  builder += FormatPart.StringArg(m.argIdx)
                   m.end
                 }
               if(_lastIdx != parseable.length) {
-                builder += StringPart.Literal(parseable.substring(_lastIdx))
+                builder += FormatPart.Literal(parseable.substring(_lastIdx))
               }
-              R(optInterpolation = Some(builder.result()))
+              Format.Interpolation(builder.result())
           }
         Symbol(k) -> parts
       }
     Messages(
       locale = locale,
-      literals = keyToParts.collect { case (k,R(Some(literal),None,None)) =>
-        (k,literal)
-      }.toMap,
-      interpolations = keyToParts.collect { case (k,R(None,Some(interpolation),None)) =>
-        (k,interpolation)
-      }.toMap,
-      choices = keyToParts.collect { case (k,R(None,None,Some(choice))) =>
-        (k,choice)
-      }.toMap
+      keyToFormats:_*
     )
   }
 

@@ -18,18 +18,18 @@
 */
 package s_mach.i18n.impl
 
-import s_mach.i18n.StringPart.Arg
 import s_mach.i18n._
 
 object InterpolatorOps {
   @inline def strictInterpolate(
-    parts: Seq[StringPart],
+    parts: Seq[FormatPart],
     args: I18NString*
   ) : I18NString = {
     val argCount = {
       var idx = -1
+      import FormatPart._
       parts.foreach {
-        case Arg(n) =>
+        case StringArg(n) =>
           require(n >= 0,"Argument index must be positive")
           if(n > idx) {
             idx = n
@@ -48,7 +48,7 @@ object InterpolatorOps {
   @inline def laxInterpolate(
     missingArg: Int => String
   )(
-    parts: Seq[StringPart],
+    parts: Seq[FormatPart],
     args: I18NString*
   ) : I18NString =
     interpolate(
@@ -57,15 +57,15 @@ object InterpolatorOps {
     )
 
   @inline def interpolate(
-    parts: Seq[StringPart],
+    parts: Seq[FormatPart],
     args: Int => String
   ) : I18NString = {
     if(parts.nonEmpty) {
-      def handle(i: StringPart) : String = {
-        import StringPart._
+      def handle(i: FormatPart) : String = {
+        import FormatPart._
         i match {
           case Literal(value) => value
-          case Arg(arg) => args(arg)
+          case StringArg(arg) => args(arg)
         }
       }
       val sb = new StringBuilder(handle(parts.head))

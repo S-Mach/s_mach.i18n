@@ -24,39 +24,13 @@ import s_mach.i18n._
 
 class DefaultMessages(
   val locale: Locale,
-  _literals: Map[Symbol,String] = Map.empty,
-  _interpolations: Map[Symbol,Seq[StringPart]] = Map.empty,
-  _choices: Map[Symbol,BigDecimal => String] = Map.empty
+  _formats: (Symbol,Format)*
 ) extends Messages {
-  {
-    val keyCounts = (
-      _literals.keys ++
-      _interpolations.keys ++
-      _choices.keys
-    ).groupBy(k => k).mapValues(_.size)
-    require(
-      keyCounts.forall(_._2 == 1),
-      s"Non unique keys: ${keyCounts.filter(_._2 > 1).mkString(",")}"
-    )
-  }
-
-  val literals = new Lookup[String] {
-    def get(key: Symbol) = _literals.get(key)
-    def apply(key: Symbol) = _literals(key)
-  }
-  val choices = new Lookup[BigDecimal => String] {
-    def get(key: Symbol) = _choices.get(key)
-    def apply(key: Symbol) = _choices(key)
-  }
-  val interpolations = new Lookup[Seq[StringPart]] {
-    def get(key: Symbol) = _interpolations.get(key)
-    def apply(key: Symbol) = _interpolations(key)
-  }
-
-  val keys = (_literals.keys ++ _interpolations.keys ++ _choices.keys).toSet
-  def contains(key: Symbol) =
-    keys.contains(key)
-
+  val formats = _formats.toMap
+  def keys = formats.keys
+  def contains(key: Symbol) = formats.contains(key)
+  def get(key: Symbol) = formats.get(key)
+  def apply(key: Symbol) = formats(key)
   override def toString = s"Messages(keys=${keys.mkString(",")})"
 }
 
