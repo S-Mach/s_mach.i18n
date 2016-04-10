@@ -30,7 +30,7 @@ object MessageResolver {
   val strict = new StrictMessageResolver
   val lax = new LaxMessageResolver(
     missingKey = (missingKey,args) => s"{${missingKey.name}:null}(${args.mkString(",")})",
-    invalidFormat = (key,args) => s"{${key}:invalid}(${args.mkString(",")})"
+    invalidFormat = (key,args) => s"{${key.name}:invalid}(${args.mkString(",")})"
   )
   val default = strict
 }

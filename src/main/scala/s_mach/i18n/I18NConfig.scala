@@ -20,9 +20,62 @@ package s_mach.i18n
 
 case class I18NConfig(
   messages: Messages,
-  interpolator: Interpolator = Interpolator.default,
-  resolver: MessageResolver = MessageResolver.default,
-  stdI18N: StdI18N = StdI18N.default
+  interpolator: Interpolator,
+  resolver: MessageResolver,
+  stdI18N: StdI18N
 ) {
   def locale = messages.locale
+}
+
+object I18NConfig {
+  def apply(
+    messages: Messages
+  ) : I18NConfig = I18NConfig(
+    messages = messages,
+    interpolator = Interpolator.default,
+    resolver = MessageResolver.default,
+    stdI18N = StdI18N.default
+  )
+
+  def apply(
+    messages: Messages,
+    interpolator: Interpolator,
+    resolver: MessageResolver
+  ) : I18NConfig = I18NConfig(
+    messages = messages,
+    interpolator = interpolator,
+    resolver = resolver,
+    stdI18N = StdI18N.default
+  )
+
+  def apply(
+    messages: Messages,
+    stdI18N : StdI18N
+  ) : I18NConfig = I18NConfig(
+    messages = messages,
+    interpolator = Interpolator.default,
+    resolver = MessageResolver.default,
+    stdI18N = stdI18N
+  )
+
+  def apply(
+    messages: Messages,
+    strict: Boolean,
+    stdI18N: StdI18N = StdI18N.default
+  ) : I18NConfig =
+    if(strict) {
+      I18NConfig(
+        messages = messages,
+        interpolator = Interpolator.strict,
+        resolver = MessageResolver.strict,
+        stdI18N = stdI18N
+      )
+    } else {
+      I18NConfig(
+        messages = messages,
+        interpolator = Interpolator.lax,
+        resolver = MessageResolver.lax,
+        stdI18N = stdI18N
+      )
+    }
 }
