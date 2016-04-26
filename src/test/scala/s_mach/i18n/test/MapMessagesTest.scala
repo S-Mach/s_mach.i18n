@@ -24,7 +24,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import CommonTest._
 import s_mach.i18n._
 
-class DefaultMessagesTest extends FlatSpec with Matchers {
+class MapMessagesTest extends FlatSpec with Matchers {
   
   "DefaultMessages.keys" should "return all keys" in {
     val m = mkTestMessages(Locale.US)

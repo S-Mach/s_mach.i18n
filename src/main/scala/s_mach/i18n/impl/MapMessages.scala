@@ -22,15 +22,16 @@ import java.util.Locale
 
 import s_mach.i18n._
 
-class DefaultMessages(
-  val locale: Locale,
-  _formats: (Symbol,Format)*
+case class MapMessages(
+  locale: Locale,
+  formats: Map[Symbol,Format]
 ) extends Messages {
-  val formats = _formats.toMap
   def keys = formats.keys
   def contains(key: Symbol) = formats.contains(key)
   def get(key: Symbol) = formats.get(key)
   def apply(key: Symbol) = formats(key)
+  def applyOrElse(key: Symbol, default: Symbol => Format): Format =
+    formats.applyOrElse(key,default)
   override def toString = s"Messages(keys=${keys.mkString(",")})"
 }
 

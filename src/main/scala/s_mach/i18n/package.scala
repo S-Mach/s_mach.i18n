@@ -57,4 +57,9 @@ package object i18n extends I18N.Implicits {
     def literal : Literal = Literal(self)
     def choice : Choice = Choice(self)
   }
+
+  implicit class MessagesPML_gQdBkrozvt(val self: Messages) extends AnyVal {
+    def orElse(other: Messages) : Messages =
+      Messages.orElse(self,other)
+  }
 }

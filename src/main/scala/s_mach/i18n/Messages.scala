@@ -20,7 +20,7 @@ package s_mach.i18n
 
 import java.util.Locale
 
-import s_mach.i18n.impl.DefaultMessages
+import s_mach.i18n.impl._
 
 trait Messages {
   def locale: Locale
@@ -29,6 +29,7 @@ trait Messages {
   def contains(key: Symbol): Boolean
   def get(key: Symbol) : Option[Format]
   def apply(key: Symbol) : Format
+  def applyOrElse(key: Symbol, default: Symbol => Format) : Format
 }
 
 object Messages {
@@ -36,5 +37,11 @@ object Messages {
     locale: Locale,
     formats: (Symbol,Format)*
   ) : Messages =
-    new DefaultMessages(locale,formats:_*)
+    new MapMessages(locale,formats.toMap)
+
+  def orElse(
+    m1: Messages,
+    m2: Messages
+  ) : Messages =
+    OrElseMessages(m1,m2)
 }
