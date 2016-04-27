@@ -19,7 +19,10 @@
 package s_mach.i18n.impl
 
 import java.util.{Locale, ResourceBundle}
+
+import s_mach.i18n.I18NFormat.Interpolation
 import s_mach.i18n._
+import s_mach.i18n.messages.Messages
 import s_mach.string._
 
 object DefaultUTF8Messages {
@@ -50,14 +53,14 @@ object DefaultUTF8Messages {
 
     val keyToFormats =
       bundle.getKeys.toStream.map { k =>
-        import FormatPart._
+        import Interpolation.Part._
         val raw = bundle.getString(k)
         val fmt = new java.text.MessageFormat(raw)
         val parts =
           fmt.getFormats.length match {
-            case 0 => Format.Literal(raw)
+            case 0 => I18NFormat.Literal(raw)
             case 1 if fmt.getFormats.head.isInstanceOf[java.text.ChoiceFormat] =>
-              Format.Choice({ n =>
+              I18NFormat.Choice({ n =>
                 fmt.format(
                   Array(n.underlying().doubleValue()).map(_.asInstanceOf[java.lang.Object])
                 )
@@ -81,19 +84,19 @@ object DefaultUTF8Messages {
                 .map(m => M(m.start,m.end,m.group(1).toInt))
               // Note: impossible for ms not to match at least once since there at
               // least one arg at this point
-              val builder = Seq.newBuilder[FormatPart]
+              val builder = Seq.newBuilder[Interpolation.Part]
               val _lastIdx =
                 ms.foldLeft(0) { case (lastIdx,m) =>
                   if(lastIdx < m.start) {
-                    builder += FormatPart.Literal(parseable.substring(lastIdx, m.start))
+                    builder += Interpolation.Part.Literal(parseable.substring(lastIdx, m.start))
                   }
-                  builder += FormatPart.StringArg(m.argIdx)
+                  builder += Interpolation.Part.StringArg(m.argIdx)
                   m.end
                 }
               if(_lastIdx != parseable.length) {
-                builder += FormatPart.Literal(parseable.substring(_lastIdx))
+                builder += Interpolation.Part.Literal(parseable.substring(_lastIdx))
               }
-              Format.Interpolation(builder.result())
+              I18NFormat.Interpolation(builder.result())
           }
         Symbol(k) -> parts
       }

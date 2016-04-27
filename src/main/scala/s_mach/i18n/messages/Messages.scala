@@ -16,23 +16,33 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.messages
 
-import s_mach.i18n.impl.InterpolatorOps
+import java.util.Locale
 
-trait Interpolator {
-  def interpolate(
-    parts: Seq[FormatPart],
-    args: I18NString*
-  ) : I18NString
+import s_mach.i18n.I18NFormat
+import s_mach.i18n.impl._
+
+trait Messages {
+  def locale: Locale
+
+  def keys: Iterable[Symbol]
+  def contains(key: Symbol): Boolean
+  def get(key: Symbol) : Option[I18NFormat]
+  def apply(key: Symbol) : I18NFormat
+  def applyOrElse(key: Symbol, default: Symbol => I18NFormat) : I18NFormat
 }
 
-object Interpolator {
-  def apply(f: (Seq[FormatPart],Seq[I18NString]) => I18NString) : Interpolator = new Interpolator {
-    def interpolate(parts: Seq[FormatPart], args: I18NString*) =
-      f(parts,args)
-  }
-  val strict = Interpolator(InterpolatorOps.strictInterpolate)
-  val lax = Interpolator(InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:null}"))
-  val default = strict
+object Messages {
+  def apply(
+    locale: Locale,
+    formats: (Symbol,I18NFormat)*
+  ) : Messages =
+    new MessagesMap(locale,formats.toMap)
+
+  def orElse(
+    m1: Messages,
+    m2: Messages
+  ) : Messages =
+    OrElseMessages(m1,m2)
 }

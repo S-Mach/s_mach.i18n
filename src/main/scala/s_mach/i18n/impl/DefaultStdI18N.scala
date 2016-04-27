@@ -3,14 +3,15 @@ package s_mach.i18n.impl
 import java.text.NumberFormat
 
 import s_mach.i18n._
+import s_mach.i18n.messages.MessageLiteral
 
 class DefaultStdI18N extends StdI18N {
 
   // Note: NumberFormat is not thread-safe so can't save instance
   // without synchronization
 
-  val m_true = Literal('m_true)
-  val m_false = Literal('m_false)
+  val m_true = MessageLiteral('m_true)
+  val m_false = MessageLiteral('m_false)
 
   def i18n(value: Boolean)(implicit cfg: I18NConfig) = {
     if(value) {

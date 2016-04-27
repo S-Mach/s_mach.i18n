@@ -16,21 +16,23 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.impl
 
-import s_mach.i18n.impl._
+import java.util.Locale
 
-trait MessageResolver {
-  def resolveLiteral(key: Symbol)(implicit cfg: I18NConfig) : I18NString
-  def resolveChoice(key: Symbol, value: BigDecimal)(implicit cfg: I18NConfig) : I18NString
-  def resolveInterpolation(key: Symbol, args: I18NString*)(implicit cfg: I18NConfig) : I18NString
+import s_mach.i18n._
+import s_mach.i18n.messages.Messages
+
+case class MessagesMap(
+  locale: Locale,
+  formats: Map[Symbol,I18NFormat]
+) extends Messages {
+  def keys = formats.keys
+  def contains(key: Symbol) = formats.contains(key)
+  def get(key: Symbol) = formats.get(key)
+  def apply(key: Symbol) = formats(key)
+  def applyOrElse(key: Symbol, default: Symbol => I18NFormat): I18NFormat =
+    formats.applyOrElse(key,default)
+  override def toString = s"Messages(keys=${keys.mkString(",")})"
 }
 
-object MessageResolver {
-  val strict = new StrictMessageResolver
-  val lax = new LaxMessageResolver(
-    missingKey = (missingKey,args) => s"{${missingKey.name}:null}(${args.mkString(",")})",
-    invalidFormat = (key,args) => s"{${key.name}:invalid}(${args.mkString(",")})"
-  )
-  val default = strict
-}

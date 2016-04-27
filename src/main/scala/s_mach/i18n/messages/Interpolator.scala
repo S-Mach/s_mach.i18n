@@ -16,22 +16,25 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.messages
 
-import java.util.Locale
+import s_mach.i18n.I18NFormat.Interpolation
+import s_mach.i18n._
+import s_mach.i18n.impl.InterpolatorOps
 
-import s_mach.i18n.impl.DefaultUTF8Messages
+trait Interpolator {
+  def interpolate(
+    parts: Seq[Interpolation.Part],
+    args: I18NString*
+  ) : I18NString
+}
 
-object UTF8Messages {
-  def apply(
-    locale: Locale,
-    fileBaseDir: String = "conf",
-    fileBaseName: String = "messages",
-    fileExt: String = "txt"
-  ) : Messages = DefaultUTF8Messages(
-    locale = locale,
-    fileBaseDir = fileBaseDir,
-    fileBaseName = fileBaseName,
-    fileExt = fileExt
-  )
+object Interpolator {
+  def apply(f: (Seq[Interpolation.Part],Seq[I18NString]) => I18NString) : Interpolator = new Interpolator {
+    def interpolate(parts: Seq[Interpolation.Part], args: I18NString*) =
+      f(parts,args)
+  }
+  val strict = Interpolator(InterpolatorOps.strictInterpolate)
+  val lax = Interpolator(InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:null}"))
+  val default = strict
 }

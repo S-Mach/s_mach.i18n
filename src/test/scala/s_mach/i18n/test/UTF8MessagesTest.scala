@@ -20,44 +20,46 @@ package s_mach.i18n.test
 
 import java.util.Locale
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import s_mach.i18n._
+import s_mach.i18n.I18NFormat._
+import s_mach.i18n.messages._
 
 class UTF8MessagesTest extends FlatSpec with Matchers {
   "UTF8Messages" should "read messages from default resource files when no locale specific file is present" in {
     val messages = UTF8Messages(Locale.US)
-    messages('m_true) should equal(Format.Literal("true"))
-    messages('m_false) should equal(Format.Literal("false"))
+    messages('m_true) should equal(Literal("true"))
+    messages('m_false) should equal(Literal("false"))
     // extra key found in extra messages.txt (UTF8Messages should concat same named files)
-    messages('test_key) should equal(Format.Literal("testvalue"))
+    messages('test_key) should equal(Literal("testvalue"))
   }
 
   "UTF8Messages" should "concat same named message files located in different jars" in {
     val messages = UTF8Messages(Locale.US)
-    messages('m_true) should equal(Format.Literal("true"))
+    messages('m_true) should equal(Literal("true"))
     // extra key found in test messages.txt (UTF8Messages should concat same named files)
-    messages('test_key) should equal(Format.Literal("testvalue"))
+    messages('test_key) should equal(Literal("testvalue"))
   }
 
   "UTF8Messages" should "replace messages in base messages file with locale specific file" in {
     // should replace messages read from messages.txt with those in messages_fr.txt
     val messages = UTF8Messages(Locale.FRENCH)
-    messages('m_true) should equal(Format.Literal("vrai"))
-    messages('m_false) should equal(Format.Literal("faux"))
+    messages('m_true) should equal(Literal("vrai"))
+    messages('m_false) should equal(Literal("faux"))
   }
 
   "UTF8Messages" should "still concat same named message files located in different jars when using a specific locale" in {
     val messages = UTF8Messages(Locale.FRENCH)
     // extra key found in extra messages.txt (UTF8Messages should concat same named files)
-    messages('test_key) should equal(Format.Literal("testvalue"))
+    messages('test_key) should equal(Literal("testvalue"))
   }
 
   "UTF8Messages" should "parse message value into parts based on MessageFormat format" in {
     val messages = UTF8Messages(Locale.US)
 
     messages('fmt_test1_key) should equal {
-      import FormatPart._
-      Format.Interpolation(List(
+      import Interpolation.Part._
+      Interpolation(List(
         Literal("hello "),
         StringArg(0),
         Literal(" test "),
@@ -70,8 +72,8 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
   "UTF8Messages" should "ignore any kind of specialized formatting in message value MessageFormat and just return parts" in {
     val messages = UTF8Messages(Locale.US)
     messages('fmt_test2_key) should equal {
-      import FormatPart._
-      Format.Interpolation(List(
+      import Interpolation.Part._
+      Interpolation(List(
         Literal("When "),
         StringArg(1),
         Literal(" on "),
@@ -86,16 +88,16 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
 
   "UTF8Messages" should "parse choices and format them correctly for default" in {
     val messages = UTF8Messages(Locale.US)
-    messages('fmt_choice_key).asInstanceOf[Format.Choice].value(0) should equal("There are no apples.")
-    messages('fmt_choice_key).asInstanceOf[Format.Choice].value(1) should equal("There is one apple.")
-    messages('fmt_choice_key).asInstanceOf[Format.Choice].value(2) should equal("There are 2 apples.")
+    messages('fmt_choice_key).asInstanceOf[Choice].value(0) should equal("There are no apples.")
+    messages('fmt_choice_key).asInstanceOf[Choice].value(1) should equal("There is one apple.")
+    messages('fmt_choice_key).asInstanceOf[Choice].value(2) should equal("There are 2 apples.")
   }
 
   "UTF8Messages" should "parse choices and format them correctly for FR" in {
     val messages = UTF8Messages(Locale.FRENCH)
-    messages('fmt_choice_key).asInstanceOf[Format.Choice].value(0) should equal("Il n'y a pas de pommes.")
-    messages('fmt_choice_key).asInstanceOf[Format.Choice].value(1) should equal("Il y a une pomme.")
-    messages('fmt_choice_key).asInstanceOf[Format.Choice].value(2) should equal("Il y a 2 pommes.")
+    messages('fmt_choice_key).asInstanceOf[Choice].value(0) should equal("Il n'y a pas de pommes.")
+    messages('fmt_choice_key).asInstanceOf[Choice].value(1) should equal("Il y a une pomme.")
+    messages('fmt_choice_key).asInstanceOf[Choice].value(2) should equal("Il y a 2 pommes.")
   }
 
 }

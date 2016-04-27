@@ -18,6 +18,8 @@
 */
 package s_mach.i18n
 
+import s_mach.i18n.messages.{Interpolator, MessageResolver, Messages}
+
 case class I18NConfig(
   messages: Messages,
   interpolator: Interpolator,

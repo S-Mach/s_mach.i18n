@@ -20,8 +20,9 @@ package s_mach.i18n.test
 
 import java.util.Locale
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import s_mach.i18n._
+import s_mach.i18n.messages._
 
 class MessageResolverTest extends FlatSpec with Matchers {
   implicit val cfg = I18NConfig(Messages(Locale.US))

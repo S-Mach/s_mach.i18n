@@ -19,6 +19,7 @@
 package s_mach.i18n.impl
 
 import s_mach.i18n._
+import s_mach.i18n.messages.MessageResolver
 
 import scala.util.control.NonFatal
 
@@ -30,10 +31,10 @@ class LaxMessageResolver(
   def resolveLiteral(key: Symbol)(implicit cfg: I18NConfig) = {
     import cfg._
     messages.get(key) match {
-      case Some(Format.Literal(value)) => value
-      case Some(Format.Interpolation(parts)) =>
+      case Some(I18NFormat.Literal(value)) => value
+      case Some(I18NFormat.Interpolation(parts)) =>
         interpolator.interpolate(parts)
-      case Some(Format.Choice(_)) => invalidFormat(key,Nil)
+      case Some(I18NFormat.Choice(_)) => invalidFormat(key,Nil)
       case None => missingKey(key,Nil)
     }
   }.asI18N
@@ -41,10 +42,10 @@ class LaxMessageResolver(
   def resolveInterpolation(key: Symbol, args: I18NString*)(implicit cfg: I18NConfig) = {
     import cfg._
       messages.get(key) match {
-        case Some(Format.Interpolation(parts)) =>
+        case Some(I18NFormat.Interpolation(parts)) =>
           interpolator.interpolate(parts,args:_*)
-        case Some(Format.Literal(value)) => value
-        case Some(Format.Choice(choice)) =>
+        case Some(I18NFormat.Literal(value)) => value
+        case Some(I18NFormat.Choice(choice)) =>
           try {
             choice(BigDecimal(args.head))
           } catch {
@@ -59,10 +60,10 @@ class LaxMessageResolver(
   def resolveChoice(key: Symbol, value: BigDecimal)(implicit cfg: I18NConfig) = {
     import cfg._
     messages.get(key) match {
-      case Some(Format.Choice(choice)) => choice(value)
-      case Some(Format.Interpolation(parts)) =>
+      case Some(I18NFormat.Choice(choice)) => choice(value)
+      case Some(I18NFormat.Interpolation(parts)) =>
         interpolator.interpolate(parts,value.toString.asI18N)
-      case Some(Format.Literal(literal)) => literal
+      case Some(I18NFormat.Literal(literal)) => literal
       case None => missingKey(key,Seq(value.toString()))
     }
   }.asI18N

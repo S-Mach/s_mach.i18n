@@ -16,20 +16,22 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.messages
 
-sealed trait FormatPart
-object FormatPart {
-  case class Literal(value: String) extends FormatPart
-  sealed trait FormatPartArg extends FormatPart {
-    def index: Int
-  }
-  case class StringArg(index: Int) extends FormatPartArg
-}
+import java.util.Locale
 
-sealed trait Format
-object Format {
-  case class Literal(value: String) extends Format
-  case class Interpolation(parts: Seq[FormatPart]) extends Format
-  case class Choice(value: BigDecimal => String) extends Format
+import s_mach.i18n.impl.DefaultUTF8Messages
+
+object UTF8Messages {
+  def apply(
+    locale: Locale,
+    fileBaseDir: String = "conf",
+    fileBaseName: String = "messages",
+    fileExt: String = "txt"
+  ) : Messages = DefaultUTF8Messages(
+    locale = locale,
+    fileBaseDir = fileBaseDir,
+    fileBaseName = fileBaseName,
+    fileExt = fileExt
+  )
 }

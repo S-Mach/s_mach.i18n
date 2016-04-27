@@ -19,7 +19,10 @@
 package s_mach.i18n.test
 
 import java.util.Locale
+
 import s_mach.i18n._
+import s_mach.i18n.messages._
+import s_mach.i18n.I18NFormat._
 
 object CommonTest {
   val m_hello = {
@@ -47,11 +50,12 @@ object CommonTest {
     "there_are_qty_apples".choice
   }
 
-  val m_hello_us_value = Format.Literal("hello")
-  val m_hello_name_qty_us_value = Format.Interpolation(
-    FormatPart.Literal("hello ") :: FormatPart.StringArg(0) :: FormatPart.Literal(" test ") :: FormatPart.StringArg(1) :: Nil
-  )
-  val m_there_are_qty_apples_us_value = Format.Choice({ n: BigDecimal => I18NString(
+  val m_hello_us_value = I18NFormat.Literal("hello")
+  val m_hello_name_qty_us_value = Interpolation {
+    import Interpolation.Part._
+    Literal("hello ") :: StringArg(0) :: Literal(" test ") :: StringArg(1) :: Nil
+  }
+  val m_there_are_qty_apples_us_value = I18NFormat.Choice({ n: BigDecimal => I18NString(
     s"There ${
       n match {
         case v if v == BigDecimal(0) =>
@@ -66,7 +70,7 @@ object CommonTest {
   
   def mkTestMessages(locale:Locale) : Messages = {
     import s_mach.i18n._
-    import FormatPart._
+    import Interpolation.Part._
 
     locale match {
       case l if l == Locale.US =>
@@ -79,11 +83,12 @@ object CommonTest {
       case l if l == Locale.FRENCH =>
         Messages(
           locale = locale,
-          m_hello.key -> Format.Literal("bonjour"),
-          m_hello_name_qty.key -> Format.Interpolation(
-            FormatPart.Literal("bonjour ") :: FormatPart.StringArg(0) :: FormatPart.Literal(" test ") :: FormatPart.StringArg(1) :: Nil
-          ),
-          m_there_are_qty_apples.key -> Format.Choice({ n: BigDecimal => I18NString(
+          m_hello.key -> I18NFormat.Literal("bonjour"),
+          m_hello_name_qty.key -> Interpolation {
+            import Interpolation.Part._
+            Literal("bonjour ") :: StringArg(0) :: Literal(" test ") :: StringArg(1) :: Nil
+          },
+          m_there_are_qty_apples.key -> I18NFormat.Choice({ n: BigDecimal => I18NString(
             s"Il ${
               n match {
                 case v if v == BigDecimal(0) =>
@@ -100,23 +105,29 @@ object CommonTest {
     }
   }
 
-  val parts1 = List(
-    FormatPart.Literal("hello "),
-    FormatPart.StringArg(0),
-    FormatPart.Literal(" test "),
-    FormatPart.StringArg(1),
-    FormatPart.Literal(" {2}")
-  )
+  val parts1 = {
+    import Interpolation.Part._
+    List(
+      Literal("hello "),
+      StringArg(0),
+      Literal(" test "),
+      StringArg(1),
+      Literal(" {2}")
+    )
+  }
 
-  val parts2 = List(
-    FormatPart.Literal("When "),
-    FormatPart.StringArg(1),
-    FormatPart.Literal(" on "),
-    FormatPart.StringArg(1),
-    FormatPart.Literal(", there will be "),
-    FormatPart.StringArg(2),
-    FormatPart.Literal(" on moon "),
-    FormatPart.StringArg(0)
-  )
+  val parts2 = {
+    import Interpolation.Part._
+    List(
+      Literal("When "),
+      StringArg(1),
+      Literal(" on "),
+      StringArg(1),
+      Literal(", there will be "),
+      StringArg(2),
+      Literal(" on moon "),
+      StringArg(0)
+    )
+  }
 
 }

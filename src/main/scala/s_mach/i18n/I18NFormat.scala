@@ -18,30 +18,18 @@
 */
 package s_mach.i18n
 
-import java.util.Locale
+sealed trait I18NFormat
+object I18NFormat {
+  case class Literal(value: String) extends I18NFormat
 
-import s_mach.i18n.impl._
+  case class Interpolation(parts: Seq[Interpolation.Part]) extends I18NFormat
+  object Interpolation {
+    sealed trait Part
+    object Part {
+      case class Literal(value: String) extends Part
+      case class StringArg(index: Int) extends Part
+    }
+  }
 
-trait Messages {
-  def locale: Locale
-
-  def keys: Iterable[Symbol]
-  def contains(key: Symbol): Boolean
-  def get(key: Symbol) : Option[Format]
-  def apply(key: Symbol) : Format
-  def applyOrElse(key: Symbol, default: Symbol => Format) : Format
-}
-
-object Messages {
-  def apply(
-    locale: Locale,
-    formats: (Symbol,Format)*
-  ) : Messages =
-    new MapMessages(locale,formats.toMap)
-
-  def orElse(
-    m1: Messages,
-    m2: Messages
-  ) : Messages =
-    OrElseMessages(m1,m2)
+  case class Choice(value: BigDecimal => String) extends I18NFormat
 }

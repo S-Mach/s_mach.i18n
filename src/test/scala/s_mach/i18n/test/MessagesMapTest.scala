@@ -21,12 +21,12 @@ package s_mach.i18n.test
 import java.util.{Locale, NoSuchElementException}
 
 import org.scalatest.{FlatSpec, Matchers}
-import CommonTest._
 import s_mach.i18n._
+import CommonTest._
 
-class MapMessagesTest extends FlatSpec with Matchers {
+class MessagesMapTest extends FlatSpec with Matchers {
   
-  "DefaultMessages.keys" should "return all keys" in {
+  "MessagesMap.keys" should "return all keys" in {
     val m = mkTestMessages(Locale.US)
     m.keys should equal(Set(
       m_hello.key,
@@ -35,7 +35,7 @@ class MapMessagesTest extends FlatSpec with Matchers {
     ))
   }
 
-  "DefaultMessages.contains" should "return true if a key is present false otherwise" in {
+  "MessagesMap.contains" should "return true if a key is present false otherwise" in {
     val m = mkTestMessages(Locale.US)
     m.contains(m_hello.key) should equal(true)
     m.contains(m_hello_name_qty.key) should equal(true)
@@ -43,37 +43,37 @@ class MapMessagesTest extends FlatSpec with Matchers {
     m.contains('missing) should equal(false)
   }
 
-  "DefaultMessages.literals.get" should "return Some(value) for a key and None for a missing key" in {
+  "MessagesMap.literals.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
-    m.get(m_hello.key) should equal(Some(Format.Literal("hello")))
+    m.get(m_hello.key) should equal(Some(I18NFormat.Literal("hello")))
     m.get('missing) should equal(None)
   }
 
-  "DefaultMessages.literals.apply" should "return the value associated with a key and throw an exception if key is missing" in {
+  "MessagesMap.literals.apply" should "return the value associated with a key and throw an exception if key is missing" in {
     val m = mkTestMessages(Locale.US)
     m(m_hello.key) should equal(m_hello_us_value)
     an[NoSuchElementException] should be thrownBy m('missing)
   }
 
-  "DefaultMessages.interpolations.get" should "return Some(value) for a key and None for a missing key" in {
+  "MessagesMap.interpolations.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
     m.get(m_hello_name_qty.key) should equal(Some(m_hello_name_qty_us_value))
     m.get('missing) should equal(None)
   }
 
-  "DefaultMessages.interpolations.apply" should "return the value associated with a key and throw an exception if key is missing" in {
+  "MessagesMap.interpolations.apply" should "return the value associated with a key and throw an exception if key is missing" in {
     val m = mkTestMessages(Locale.US)
     m(m_hello_name_qty.key) should equal(m_hello_name_qty_us_value)
     an[NoSuchElementException] should be thrownBy m('missing)
   }
 
-  "DefaultMessages.choices.get" should "return Some(value) for a key and None for a missing key" in {
+  "MessagesMap.choices.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
     m.get(m_there_are_qty_apples.key) should equal(Some(m_there_are_qty_apples_us_value))
     m.get('missing) should equal(None)
   }
 
-  "DefaultMessages.choices.apply" should "return the value associated with a key and throw an exception if key is missing" in {
+  "MessagesMap.choices.apply" should "return the value associated with a key and throw an exception if key is missing" in {
     val m = mkTestMessages(Locale.US)
     m(m_there_are_qty_apples.key) should equal(m_there_are_qty_apples_us_value)
     an[NoSuchElementException] should be thrownBy m('missing)

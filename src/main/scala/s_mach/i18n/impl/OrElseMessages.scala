@@ -1,6 +1,8 @@
 package s_mach.i18n.impl
 
-import s_mach.i18n.{Format, Messages}
+import s_mach.i18n._
+import s_mach.i18n.messages.Messages
+
 
 case class OrElseMessages(
   m1: Messages,
@@ -10,7 +12,7 @@ case class OrElseMessages(
 
   val locale = m1.locale
 
-  def get(key: Symbol): Option[Format] =
+  def get(key: Symbol): Option[I18NFormat] =
     m1.get(key) orElse m2.get(key)
 
   def keys: Iterable[Symbol] =
@@ -19,10 +21,10 @@ case class OrElseMessages(
   def contains(key: Symbol): Boolean =
     m1.contains(key) || m2.contains(key)
 
-  def apply(key: Symbol) : Format =
+  def apply(key: Symbol) : I18NFormat =
     m1.applyOrElse(key,m2.apply)
 
-  def applyOrElse(key: Symbol, default: Symbol => Format): Format =
+  def applyOrElse(key: Symbol, default: Symbol => I18NFormat): I18NFormat =
     m1.applyOrElse(key,m2.applyOrElse(_, default))
 
 }

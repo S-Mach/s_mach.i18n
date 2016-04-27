@@ -16,9 +16,10 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.i18n
+package s_mach.i18n.messages
 
 import scala.language.implicitConversions
+import s_mach.i18n._
 
 trait Message {
 
@@ -41,18 +42,17 @@ case class MessageBuilder(
   def apply[A,B] = Message2[A,B](key)
 }
 
-case class Literal(
+case class MessageLiteral(
   key: Symbol
 ) extends Message {
   def apply()(implicit
     cfg: I18NConfig
   ) : I18NString = {
-    import cfg._
-    resolver.resolveLiteral(key)
+    cfg.resolver.resolveLiteral(key)
   }
 }
 
-case class Choice(
+case class MessageChoice(
   key: Symbol
   ) extends Message {
   def apply[N](
@@ -61,18 +61,17 @@ case class Choice(
     numeri18nC:Numeric[N],
     cfg: I18NConfig
     ) : I18NString = {
-    import cfg._
-    resolver.resolveChoice(key, BigDecimal(n.toString))
+    cfg.resolver.resolveChoice(key, BigDecimal(n.toString))
   }
 }
 
+// todo: code generator for these
 case class Message1[A](key: Symbol) extends Message {
   def apply(a: A)(implicit
     cfg: I18NConfig,
     i18nA: I18N[A]
     ) : I18NString = {
-    import cfg._
-    resolver.resolveInterpolation(key, i18nA(a))
+    cfg.resolver.resolveInterpolation(key, i18nA(a))
   }
 }
 
@@ -82,8 +81,7 @@ case class Message2[A,B](key: Symbol) extends Message {
     i18nA: I18N[A],
     i18nB: I18N[B]
   ) : I18NString = {
-    import cfg._
-    resolver.resolveInterpolation(key, i18nA(a),i18nB(b))
+    cfg.resolver.resolveInterpolation(key, i18nA(a),i18nB(b))
   }
 }
 
@@ -94,8 +92,7 @@ case class Message3[A,B,C](key: Symbol) extends Message {
     i18nB: I18N[B],
     i18nC: I18N[C]
   ) : I18NString = {
-    import cfg._
-    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c))
+    cfg.resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c))
   }
 }
 
@@ -107,8 +104,7 @@ case class Message4[A,B,C,D](key: Symbol) extends Message {
     i18nC: I18N[C],
     i18nD: I18N[D]
   ) : I18NString = {
-    import cfg._
-    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d))
+    cfg.resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d))
   }
 }
 
@@ -121,8 +117,7 @@ case class Message5[A,B,C,D,E](key: Symbol) extends Message {
     i18nD: I18N[D],
     i18nE: I18N[E]
   ) : I18NString = {
-    import cfg._
-    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e))
+    cfg.resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e))
   }
 }
 
@@ -136,8 +131,7 @@ case class Message6[A,B,C,D,E,F](key: Symbol) extends Message {
     i18nE: I18N[E],
     i18nF: I18N[F]
   ) : I18NString = {
-    import cfg._
-    resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e),i18nF(f))
+    cfg.resolver.resolveInterpolation(key, i18nA(a),i18nB(b),i18nC(c),i18nD(d),i18nE(e),i18nF(f))
   }
 }
 

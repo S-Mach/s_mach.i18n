@@ -20,6 +20,7 @@ package s_mach
 
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
+import s_mach.i18n.messages.{MessageBuilder, MessageChoice, MessageLiteral, Messages}
 
 package object i18n extends I18N.Implicits {
   /* gQdBkrozvt suffix added to prevent shadowing issues */
@@ -32,6 +33,7 @@ package object i18n extends I18N.Implicits {
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
     def i18n(args: I18NString*) : I18NString =
       self.raw(args:_*).asI18N
+    def i(args: I18NString*) : I18NString = i18n(args:_*)
   }
 
   implicit class EverythingPML_gQdBkrozvt[A](val self: A) extends AnyVal {
@@ -46,16 +48,16 @@ package object i18n extends I18N.Implicits {
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def asI18N : I18NString = I18NString(self)
     def m : MessageBuilder = MessageBuilder(Symbol(self))
-    def m0 : Literal = Literal(Symbol(self))
-    def literal : Literal = Literal(Symbol(self))
-    def choice : Choice = Choice(Symbol(self))
+    def m0 : MessageLiteral = MessageLiteral(Symbol(self))
+    def literal : MessageLiteral = MessageLiteral(Symbol(self))
+    def choice : MessageChoice = MessageChoice(Symbol(self))
   }
 
   implicit class SymbolPML_gQdBkrozvt(val self: Symbol) extends AnyVal {
     def m : MessageBuilder = MessageBuilder(self)
-    def m0 : Literal = Literal(self)
-    def literal : Literal = Literal(self)
-    def choice : Choice = Choice(self)
+    def m0 : MessageLiteral = MessageLiteral(self)
+    def literal : MessageLiteral = MessageLiteral(self)
+    def choice : MessageChoice = MessageChoice(self)
   }
 
   implicit class MessagesPML_gQdBkrozvt(val self: Messages) extends AnyVal {
