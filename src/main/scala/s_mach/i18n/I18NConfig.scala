@@ -18,7 +18,9 @@
 */
 package s_mach.i18n
 
-import s_mach.i18n.messages.{Interpolator, MessageResolver, Messages}
+import java.util.Locale
+
+import s_mach.i18n.messages._
 
 case class I18NConfig(
   messages: Messages,
@@ -30,6 +32,11 @@ case class I18NConfig(
 }
 
 object I18NConfig {
+  def apply(
+    locale: Locale
+  ) : I18NConfig =
+    apply(UTF8Messages(locale))
+
   def apply(
     messages: Messages
   ) : I18NConfig = I18NConfig(

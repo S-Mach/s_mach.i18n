@@ -20,7 +20,6 @@ package s_mach
 
 import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
-import s_mach.i18n.messages.{MessageBuilder, MessageChoice, MessageLiteral, Messages}
 
 package object i18n extends I18N.Implicits {
   /* gQdBkrozvt suffix added to prevent shadowing issues */
@@ -47,21 +46,6 @@ package object i18n extends I18N.Implicits {
 
   implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
     def asI18N : I18NString = I18NString(self)
-    def m : MessageBuilder = MessageBuilder(Symbol(self))
-    def m0 : MessageLiteral = MessageLiteral(Symbol(self))
-    def literal : MessageLiteral = MessageLiteral(Symbol(self))
-    def choice : MessageChoice = MessageChoice(Symbol(self))
   }
 
-  implicit class SymbolPML_gQdBkrozvt(val self: Symbol) extends AnyVal {
-    def m : MessageBuilder = MessageBuilder(self)
-    def m0 : MessageLiteral = MessageLiteral(self)
-    def literal : MessageLiteral = MessageLiteral(self)
-    def choice : MessageChoice = MessageChoice(self)
-  }
-
-  implicit class MessagesPML_gQdBkrozvt(val self: Messages) extends AnyVal {
-    def orElse(other: Messages) : Messages =
-      Messages.orElse(self,other)
-  }
 }
