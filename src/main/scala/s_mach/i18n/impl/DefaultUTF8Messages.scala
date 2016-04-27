@@ -20,9 +20,9 @@ package s_mach.i18n.impl
 
 import java.util.{Locale, ResourceBundle}
 
-import s_mach.i18n.I18NFormat.Interpolation
+import I18NFormat.Interpolation
 import s_mach.i18n._
-import s_mach.i18n.messages.Messages
+import s_mach.i18n.messages.{I18NFormat, Messages}
 import s_mach.string._
 
 object DefaultUTF8Messages {

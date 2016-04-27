@@ -19,7 +19,7 @@
 package s_mach.i18n.impl
 
 import s_mach.i18n._
-import s_mach.i18n.messages.MessageResolver
+import s_mach.i18n.messages.{I18NFormat, MessageResolver}
 
 class StrictMessageResolver extends MessageResolver {
   def resolveLiteral(key: Symbol)(implicit cfg: I18NConfig): I18NString =

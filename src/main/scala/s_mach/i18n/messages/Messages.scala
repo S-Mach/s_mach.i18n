@@ -19,8 +19,6 @@
 package s_mach.i18n.messages
 
 import java.util.Locale
-
-import s_mach.i18n.I18NFormat
 import s_mach.i18n.impl._
 
 trait Messages {

@@ -22,7 +22,7 @@ import java.util.Locale
 
 import s_mach.i18n._
 import s_mach.i18n.messages._
-import s_mach.i18n.I18NFormat._
+import I18NFormat._
 
 object CommonTest {
   val m_hello = {

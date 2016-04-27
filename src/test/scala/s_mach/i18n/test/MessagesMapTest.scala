@@ -23,6 +23,7 @@ import java.util.{Locale, NoSuchElementException}
 import org.scalatest.{FlatSpec, Matchers}
 import s_mach.i18n._
 import CommonTest._
+import s_mach.i18n.messages.I18NFormat
 
 class MessagesMapTest extends FlatSpec with Matchers {
   

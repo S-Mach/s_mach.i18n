@@ -18,7 +18,7 @@
 */
 package s_mach.i18n.messages
 
-import s_mach.i18n.I18NFormat.Interpolation
+import I18NFormat.Interpolation
 import s_mach.i18n._
 import s_mach.i18n.impl.InterpolatorOps
 
