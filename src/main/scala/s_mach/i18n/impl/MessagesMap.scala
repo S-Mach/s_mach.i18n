@@ -19,8 +19,6 @@
 package s_mach.i18n.impl
 
 import java.util.Locale
-
-import s_mach.i18n._
 import s_mach.i18n.messages.{I18NFormat, Messages}
 
 case class MessagesMap(

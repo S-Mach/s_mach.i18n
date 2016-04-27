@@ -3,9 +3,8 @@ package s_mach.i18n.test
 import java.util.Locale
 
 import org.scalatest.{FlatSpec, Matchers}
-import s_mach.i18n._
+import s_mach.i18n.messages._
 import I18NFormat._
-import s_mach.i18n.messages.{I18NFormat, _}
 
 class OrElseMessagesTest extends FlatSpec with Matchers {
   "Messages.orElse" should "fall back to second Messages if not present in first" in {

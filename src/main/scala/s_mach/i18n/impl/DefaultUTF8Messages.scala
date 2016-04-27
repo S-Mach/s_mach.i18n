@@ -19,11 +19,9 @@
 package s_mach.i18n.impl
 
 import java.util.{Locale, ResourceBundle}
-
-import I18NFormat.Interpolation
-import s_mach.i18n._
-import s_mach.i18n.messages.{I18NFormat, Messages}
+import s_mach.i18n.messages._
 import s_mach.string._
+import I18NFormat.Interpolation._
 
 object DefaultUTF8Messages {
   private val fakeFormat = new java.text.Format {
@@ -53,7 +51,6 @@ object DefaultUTF8Messages {
 
     val keyToFormats =
       bundle.getKeys.toStream.map { k =>
-        import Interpolation.Part._
         val raw = bundle.getString(k)
         val fmt = new java.text.MessageFormat(raw)
         val parts =
@@ -84,17 +81,17 @@ object DefaultUTF8Messages {
                 .map(m => M(m.start,m.end,m.group(1).toInt))
               // Note: impossible for ms not to match at least once since there at
               // least one arg at this point
-              val builder = Seq.newBuilder[Interpolation.Part]
+              val builder = Seq.newBuilder[Part]
               val _lastIdx =
                 ms.foldLeft(0) { case (lastIdx,m) =>
                   if(lastIdx < m.start) {
-                    builder += Interpolation.Part.Literal(parseable.substring(lastIdx, m.start))
+                    builder += Part.Literal(parseable.substring(lastIdx, m.start))
                   }
-                  builder += Interpolation.Part.StringArg(m.argIdx)
+                  builder += Part.StringArg(m.argIdx)
                   m.end
                 }
               if(_lastIdx != parseable.length) {
-                builder += Interpolation.Part.Literal(parseable.substring(_lastIdx))
+                builder += Part.Literal(parseable.substring(_lastIdx))
               }
               I18NFormat.Interpolation(builder.result())
           }
