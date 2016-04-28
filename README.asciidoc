@@ -1,37 +1,43 @@
-= s_mach.$PROJECT: $PROJECT_SHORT_DESC 
+= s_mach.i18n: Internationalization library
 Lance Gatlin <lance.gatlin@gmail.com>
-v1,$DATE
+v1,27-Apr-16
 :blogpost-status: unpublished
 :blogpost-categories: s_mach, scala
 
-image:https://travis-ci.org/S-Mach/s_mach.$PROJECT.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.$PROJECT"]
-image:https://coveralls.io/repos/S-Mach/s_mach.$PROJECT/badge.png[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.$PROJECT"]
-image:https://api.codacy.com/project/badge/grade/cf9048205e154e8a9e01244de497db25[Codacy Badge,link="https://www.codacy.com/public/lancegatlin/s_mach.$PROJECT"]
-https://github.com/S-Mach/s_mach.$PROJECT[Code]
-http://s-mach.github.io/s_mach.$PROJECT/#s_mach.$PROJECT.package[Scaladoc]
+image:https://travis-ci.org/S-Mach/s_mach.i18n.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.i18n"]
+image:https://coveralls.io/repos/S-Mach/s_mach.i18n/badge.png[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.i18n"]
+image:https://api.codacy.com/project/badge/grade/cf9048205e154e8a9e01244de497db25[Codacy Badge,link="https://www.codacy.com/public/lancegatlin/s_mach.i18n"]
+https://github.com/S-Mach/s_mach.i18n[Code]
+http://s-mach.github.io/s_mach.i18n/#s_mach.i18n.package[Scaladoc]
 
-+s_mach.$PROJECT+ $PROJECT_LONG_DESC
++s_mach.i18n+ is an open-source Scala library for internationalization.
+
 
 == Include in SBT
 1. Add to +build.sbt+
 +
 [source,sbt,numbered]
 ----
-libraryDependencies += "net.s_mach" %% "$PROJECT" % "$PROJECT_VERSION"
+libraryDependencies += "net.s_mach" %% "i18n" % "1.0.0"
 ----
-NOTE: +s_mach.$PROJECT+ is currently only compiled for Scala 2.11 (though 2.10.4
+NOTE: +s_mach.i18n+ is currently only compiled for Scala 2.11 (though 2.10.4
 support can be added if there is interest)
 
 == Versioning
-+s_mach.$PROJECT+ uses semantic versioning (http://semver.org/). +s_mach.$PROJECT+
++s_mach.i18n+ uses semantic versioning (http://semver.org/). +s_mach.i18n+
 does not use the package private modifier. Instead, all code files outside of
-the +s_mach.$PROJECT.impl+ package form the public interface and are governed by
-the rules of semantic versioning. Code files inside the +s_mach.$PROJECT.impl+
+the +s_mach.i18n.impl+ package form the public interface and are governed by
+the rules of semantic versioning. Code files inside the +s_mach.i18n.impl+
 package may be used by downstream applications and libraries. However, no
 guarantees are made as to the stability or interface of code in the
-+s_mach.$PROJECT.impl+ package between versions.
++s_mach.i18n.impl+ package between versions.
 
 == Overview
+
++s_mach.i18n+ enforces a internationalization compile-time guarantee by requiring all i18n strings printed by the I18N
+ type-class to be I18NString, a distinct type alias for String. To prevent non-internationalized strings from being
+ interpolated in messages, all interpolations require I18NStrings. +s_mach.i18n+ also provides UTF8Messages, a wrapper
+ around Java resource bundles that loads bundles of resources containing messages by locale.
 
 == Features
 
