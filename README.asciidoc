@@ -41,10 +41,10 @@ for String used by all +s_mach.i18n+ code to enforce a compile-time guarantee of
 * I18N[A]: a type-class which can format an instance of a type to an I18NString. Wrapper implementations
 for all built-in types are provided that wrap the existing Java i18n Format classes. Custom I18N
 implementations can be created for any type
-* +UTF8Messages+: a wrapper around Java resource bundles, that loads all matching
-message files for a specific locale (and default "no locale") from all jars located on the
-classpath. These message files contain a simple message key to message format lookup on each
-line (See https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here] for example)
+* +UTF8Messages+: a wrapper around Java resource bundles that loads all matching
+message files for a specific locale (and any default "no locale" message files) from all jars located on the
+classpath. These message files contain a simple message key to message format lookup on each line
+(See https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here] for example)
 * MessageN[A,B .. Z]: message key wrappers that allow specifying the number of and type of arguments to
 be interpolated into the output I18NString. All arguments passed to the message's apply method
 are automatically converted to I18NString by using the type's I18N[A] type-class.
