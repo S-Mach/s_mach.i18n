@@ -20,7 +20,7 @@ package s_mach.i18n.messages
 
 import MessageFormat.Interpolation
 import s_mach.i18n._
-import s_mach.i18n.impl.{InterpolatorOps, LaxInterpolator, StrictInterpolator}
+import s_mach.i18n.impl.{LaxInterpolator, StrictInterpolator}
 
 /**
   * A trait for interpolating arguments into a message format interpolation

@@ -27,18 +27,44 @@ import s_mach.i18n.messages._
 class MessageResolverTest extends FlatSpec with Matchers {
   implicit val cfg = I18NConfig(Messages(Locale.ENGLISH))
 
-  "MessageResolver.strict.interpolate" should "throw if key is missing" in {
+  "MessageResolver.strict.resolveInterpolation" should "throw if key is missing" in {
     an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveInterpolation(
       'test,
       "1".asI18N
     )
   }
 
-  "MessageResolver.lax.interpolate" should "show key and args for missing keys" in {
+  "MessageResolver.strict.resolveLiteral" should "throw if key is missing" in {
+    an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveLiteral(
+      'test
+    )
+  }
+
+  "MessageResolver.strict.resolveChoice" should "throw if key is missing" in {
+    an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveChoice(
+      'test,
+      BigDecimal("1")
+    )
+  }
+
+  "MessageResolver.lax.resolveInterpolation" should "show key and args for missing keys" in {
     MessageResolver.lax.resolveInterpolation(
       'test,
        "1".asI18N,
       "2".asI18N
-    ) should equal("{test:null}(1,2)")
+    ) should equal("{test:missing}(1,2)")
+  }
+
+  "MessageResolver.lax.resolveLiteral" should "show key and args for missing keys" in {
+    MessageResolver.lax.resolveLiteral(
+      'test
+    ) should equal("{test:missing}")
+  }
+
+  "MessageResolver.lax.resolveChoice" should "show key and args for missing keys" in {
+    MessageResolver.lax.resolveChoice(
+      'test,
+      BigDecimal("1")
+    ) should equal("{test:missing}(1)")
   }
 }

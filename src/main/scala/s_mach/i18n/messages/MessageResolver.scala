@@ -39,7 +39,13 @@ object MessageResolver {
   /** A message resolver that never throws an error if a problem is encountered and instead
     * returns an error I18NString */
   val lax = new LaxMessageResolver(
-    missingKey = (missingKey,args) => s"{${missingKey.name}:null}(${args.mkString(",")})",
+    missingKey = (missingKey,args) => s"{${missingKey.name}:missing}${
+      if(args.nonEmpty) {
+        s"(${args.mkString(",")})"
+      } else {
+        ""
+      }
+    }",
     invalidFormat = (key,args) => s"{${key.name}:invalid}(${args.mkString(",")})"
   )
   val default = strict
