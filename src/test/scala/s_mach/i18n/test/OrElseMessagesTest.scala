@@ -39,7 +39,17 @@ class OrElseMessagesTest extends FlatSpec with Matchers {
     m3.get('key1) should equal(Some(Literal("test1")))
     m3.get('key2) should equal(Some(Literal("test2")))
     m3.get('key3) should equal(None)
+    m3.contains('key1) should equal(true)
+    m3.contains('key2) should equal(true)
+    m3.contains('key3) should equal(false)
+    m3.apply('key1) should equal(Literal("test1"))
+    m3.apply('key2) should equal(Literal("test2"))
+    an[NoSuchElementException] should be thrownBy m3.apply('key3)
+    m3.applyOrElse('key1,_ => Literal("default")) should equal(Literal("test1"))
+    m3.applyOrElse('key2,_ => Literal("default")) should equal(Literal("test2"))
+    m3.applyOrElse('key3,_ => Literal("default")) should equal(Literal("default"))
   }
+
   "Messages.orElse" should "should contain keys from both messages" in {
     val m1 = Messages(
       Locale.ENGLISH,
@@ -65,4 +75,6 @@ class OrElseMessagesTest extends FlatSpec with Matchers {
     )
     an[IllegalArgumentException] should be thrownBy (m1 orElse m2)
   }
+
+  "Messages.orElse" should ""
 }
