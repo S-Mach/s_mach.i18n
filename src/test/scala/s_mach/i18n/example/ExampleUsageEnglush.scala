@@ -1,13 +1,13 @@
 package s_mach.i18n.example
 
-object ExampleUsageUS {
+object ExampleUsageEnglush {
 
 import java.util.Locale
 import s_mach.i18n._
 import s_mach.i18n.messages._
 
 // Uses UTF8Messages by default
-implicit val i18ncfg = I18NConfig(Locale.US)
+implicit val i18ncfg = I18NConfig(Locale.ENGLISH)
 
 // Create a message with the key m_test that accepts 2 arguments, an Int and an I18NString
 val m_test = 'm_test.m[Int,I18NString]

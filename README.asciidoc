@@ -47,18 +47,15 @@ for automatically formatting interpolated values as I18NStrings.
 message files (named by their locale) from all jars located on the classpath. These
 message files contain a simple message key to message formats lookup on each line.
 
-== Example (US)
+== Example (EN)
 
 ----
-scala> :paste
-// Entering paste mode (ctrl-D to finish)
-
 import java.util.Locale
 import s_mach.i18n._
 import s_mach.i18n.messages._
 
 // Uses UTF8Messages by default
-implicit val i18ncfg = I18NConfig(Locale.US)
+implicit val i18ncfg = I18NConfig(Locale.ENGLISH)
 
 // Create a message with the key m_test that accepts 2 arguments, an Int and an I18NString
 val m_test = 'm_test.m[Int,I18NString]
@@ -71,19 +68,6 @@ val test_message_lookup = m_test(1,"test".asI18N)
 // Note: the Double argument is automatically converted to I18NString by invoking the
 // I18N[Double] type-class
 val test_i18n_str = i18n"interpolate some arguments $test_message_lookup ${25.0}"
-
-
-// Exiting paste mode, now interpreting.
-
-import java.util.Locale
-import s_mach.i18n._
-import s_mach.i18n.messages._
-i18ncfg: s_mach.i18n.I18NConfig = I18NConfig(Messages(keys=test_key,m_false,fmt_test1_key,m_true,fmt_choice_key,fmt_test2_key,m_test),StrictInterpolator,StrictMessageResolver,DefaultStdI18N)
-m_test: s_mach.i18n.messages.Message2[Int,s_mach.i18n.I18NString] = Message2('m_test)
-test_message_lookup: s_mach.i18n.I18NString = this is a test message format that accepts two arguments 1 and test
-test_i18n_str: String with s_mach.i18n.I18NStringTag with s_mach.codetools.IsDistinctTypeAlias[String] = interpolate some arguments this is a test message format that accepts two arguments 1 and test 25
-
-scala>
 ----
 
 == Example (FR)
