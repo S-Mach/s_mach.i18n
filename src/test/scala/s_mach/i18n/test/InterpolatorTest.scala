@@ -45,6 +45,6 @@ class InterpolatorTest extends FlatSpec with Matchers {
   }
 
   "Interpolator.lax.interpolate" should "replace missing arguments with missing arg string'" in {
-    Interpolator.lax.interpolate(parts1,"1".asI18N) should equal("hello 1 test {1:null} {2}")
+    Interpolator.lax.interpolate(parts1,"1".asI18N) should equal("hello 1 test {1:missing} {2}")
   }
 }

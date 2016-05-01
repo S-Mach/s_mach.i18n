@@ -21,7 +21,7 @@ package s_mach.i18n.impl
 import java.util.{Locale, ResourceBundle}
 import s_mach.i18n.messages._
 import s_mach.string._
-import I18NFormat.Interpolation._
+import MessageFormat.Interpolation._
 
 object DefaultUTF8Messages {
   private val fakeFormat = new java.text.Format {
@@ -55,9 +55,9 @@ object DefaultUTF8Messages {
         val fmt = new java.text.MessageFormat(raw)
         val parts =
           fmt.getFormats.length match {
-            case 0 => I18NFormat.Literal(raw)
+            case 0 => MessageFormat.Literal(raw)
             case 1 if fmt.getFormats.head.isInstanceOf[java.text.ChoiceFormat] =>
-              I18NFormat.Choice({ n =>
+              MessageFormat.Choice({ n =>
                 fmt.format(
                   Array(n.underlying().doubleValue()).map(_.asInstanceOf[java.lang.Object])
                 )
@@ -93,7 +93,7 @@ object DefaultUTF8Messages {
               if(_lastIdx != parseable.length) {
                 builder += Part.Literal(parseable.substring(_lastIdx))
               }
-              I18NFormat.Interpolation(builder.result())
+              MessageFormat.Interpolation(builder.result())
           }
         Symbol(k) -> parts
       }

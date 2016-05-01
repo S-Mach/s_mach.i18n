@@ -18,11 +18,14 @@
 */
 package s_mach.i18n.messages
 
-sealed trait I18NFormat
-object I18NFormat {
-  case class Literal(value: String) extends I18NFormat
+/**
+  * Format
+  */
+sealed trait MessageFormat
+object MessageFormat {
+  case class Literal(value: String) extends MessageFormat
 
-  case class Interpolation(parts: Seq[Interpolation.Part]) extends I18NFormat
+  case class Interpolation(parts: Seq[Interpolation.Part]) extends MessageFormat
   object Interpolation {
     sealed trait Part
     object Part {
@@ -31,5 +34,5 @@ object I18NFormat {
     }
   }
 
-  case class Choice(value: BigDecimal => String) extends I18NFormat
+  case class Choice(value: BigDecimal => String) extends MessageFormat
 }

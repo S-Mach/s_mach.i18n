@@ -23,7 +23,7 @@ import java.util.{Locale, NoSuchElementException}
 import org.scalatest.{FlatSpec, Matchers}
 import s_mach.i18n._
 import CommonTest._
-import s_mach.i18n.messages.I18NFormat
+import s_mach.i18n.messages.MessageFormat
 
 class MessagesMapTest extends FlatSpec with Matchers {
   
@@ -46,7 +46,7 @@ class MessagesMapTest extends FlatSpec with Matchers {
 
   "MessagesMap.literals.get" should "return Some(value) for a key and None for a missing key" in {
     val m = mkTestMessages(Locale.US)
-    m.get(m_hello.key) should equal(Some(I18NFormat.Literal("hello")))
+    m.get(m_hello.key) should equal(Some(MessageFormat.Literal("hello")))
     m.get('missing) should equal(None)
   }
 

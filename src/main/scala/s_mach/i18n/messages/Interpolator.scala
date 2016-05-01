@@ -18,7 +18,7 @@
 */
 package s_mach.i18n.messages
 
-import I18NFormat.Interpolation
+import MessageFormat.Interpolation
 import s_mach.i18n._
 import s_mach.i18n.impl.InterpolatorOps
 
@@ -35,6 +35,6 @@ object Interpolator {
       f(parts,args)
   }
   val strict = Interpolator(InterpolatorOps.strictInterpolate)
-  val lax = Interpolator(InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:null}"))
+  val lax = Interpolator(InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:missing}"))
   val default = strict
 }

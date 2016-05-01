@@ -19,17 +19,17 @@
 package s_mach.i18n.impl
 
 import java.util.Locale
-import s_mach.i18n.messages.{I18NFormat, Messages}
+import s_mach.i18n.messages.{MessageFormat, Messages}
 
 case class MessagesMap(
   locale: Locale,
-  formats: Map[Symbol,I18NFormat]
+  formats: Map[Symbol,MessageFormat]
 ) extends Messages {
   def keys = formats.keys
   def contains(key: Symbol) = formats.contains(key)
   def get(key: Symbol) = formats.get(key)
   def apply(key: Symbol) = formats(key)
-  def applyOrElse(key: Symbol, default: Symbol => I18NFormat): I18NFormat =
+  def applyOrElse(key: Symbol, default: Symbol => MessageFormat): MessageFormat =
     formats.applyOrElse(key,default)
   override def toString = s"Messages(keys=${keys.mkString(",")})"
 }

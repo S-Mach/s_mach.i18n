@@ -18,29 +18,14 @@
 */
 package s_mach.i18n.messages
 
-import java.util.Locale
-import s_mach.i18n.impl._
+import s_mach.i18n._
 
-trait Messages {
-  def locale: Locale
-
-  def keys: Iterable[Symbol]
-  def contains(key: Symbol): Boolean
-  def get(key: Symbol) : Option[MessageFormat]
-  def apply(key: Symbol) : MessageFormat
-  def applyOrElse(key: Symbol, default: Symbol => MessageFormat) : MessageFormat
-}
-
-object Messages {
-  def apply(
-    locale: Locale,
-    formats: (Symbol,MessageFormat)*
-  ) : Messages =
-    new MessagesMap(locale,formats.toMap)
-
-  def orElse(
-    m1: Messages,
-    m2: Messages
-  ) : Messages =
-    OrElseMessages(m1,m2)
+case class MessageLiteral(
+  key: Symbol
+) extends Message {
+  def apply()(implicit
+    cfg: I18NConfig
+  ) : I18NString = {
+    cfg.resolver.resolveLiteral(key)
+  }
 }

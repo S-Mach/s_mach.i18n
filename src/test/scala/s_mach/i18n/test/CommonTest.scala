@@ -22,7 +22,7 @@ import java.util.Locale
 
 import s_mach.i18n._
 import s_mach.i18n.messages._
-import I18NFormat._
+import MessageFormat._
 
 object CommonTest {
   val m_hello = {
@@ -50,12 +50,12 @@ object CommonTest {
     "there_are_qty_apples".choice
   }
 
-  val m_hello_us_value = I18NFormat.Literal("hello")
+  val m_hello_us_value = MessageFormat.Literal("hello")
   val m_hello_name_qty_us_value = Interpolation {
     import Interpolation.Part._
     Literal("hello ") :: StringArg(0) :: Literal(" test ") :: StringArg(1) :: Nil
   }
-  val m_there_are_qty_apples_us_value = I18NFormat.Choice({ n: BigDecimal => I18NString(
+  val m_there_are_qty_apples_us_value = MessageFormat.Choice({ n: BigDecimal => I18NString(
     s"There ${
       n match {
         case v if v == BigDecimal(0) =>
@@ -83,12 +83,12 @@ object CommonTest {
       case l if l == Locale.FRENCH =>
         Messages(
           locale = locale,
-          m_hello.key -> I18NFormat.Literal("bonjour"),
+          m_hello.key -> MessageFormat.Literal("bonjour"),
           m_hello_name_qty.key -> Interpolation {
             import Interpolation.Part._
             Literal("bonjour ") :: StringArg(0) :: Literal(" test ") :: StringArg(1) :: Nil
           },
-          m_there_are_qty_apples.key -> I18NFormat.Choice({ n: BigDecimal => I18NString(
+          m_there_are_qty_apples.key -> MessageFormat.Choice({ n: BigDecimal => I18NString(
             s"Il ${
               n match {
                 case v if v == BigDecimal(0) =>

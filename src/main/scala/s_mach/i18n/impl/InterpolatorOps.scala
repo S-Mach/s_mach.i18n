@@ -19,7 +19,7 @@
 package s_mach.i18n.impl
 
 import s_mach.i18n._
-import s_mach.i18n.messages.I18NFormat.Interpolation._
+import s_mach.i18n.messages.MessageFormat.Interpolation._
 
 object InterpolatorOps {
   @inline def strictInterpolate(

@@ -1,4 +1,7 @@
-/*
+package s_mach.i18n.codegen
+
+object Header {
+val header = """/*
                     ,i::,
                :;;;;;;;
               ;:,,::;.
@@ -15,32 +18,6 @@
          Lft11ii;::;ii1tfL:       Author: lance.gatlin@gmail.com
           .L1 1tt1ttt,,Li
             ...1LLLL...
-*/
-package s_mach.i18n.messages
+*/"""
 
-import java.util.Locale
-import s_mach.i18n.impl._
-
-trait Messages {
-  def locale: Locale
-
-  def keys: Iterable[Symbol]
-  def contains(key: Symbol): Boolean
-  def get(key: Symbol) : Option[MessageFormat]
-  def apply(key: Symbol) : MessageFormat
-  def applyOrElse(key: Symbol, default: Symbol => MessageFormat) : MessageFormat
-}
-
-object Messages {
-  def apply(
-    locale: Locale,
-    formats: (Symbol,MessageFormat)*
-  ) : Messages =
-    new MessagesMap(locale,formats.toMap)
-
-  def orElse(
-    m1: Messages,
-    m2: Messages
-  ) : Messages =
-    OrElseMessages(m1,m2)
 }
