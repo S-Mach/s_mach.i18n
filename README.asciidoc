@@ -36,25 +36,30 @@ guarantees are made as to the stability or interface of code in the
 
 +s_mach.i18n+ is an internationalization (i18n) library that provides:
 
-* I18NString: a https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala[distinct type alias]
+* https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/package.scala[I18NString]:
+a https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala[distinct type alias]
 for String that is used to indicate a string that has been properly internationalized for display.
 I18NString is used by all +s_mach.i18n+ code to enforce a compile-time guarantee of proper
 internationalization. Code using the +s_mach.i18n+ library may use I18NString to extend this
 compile-time guarantee into calling code. Note: because I18NString is ultimately a type alias for
 String, there are no runtime (or code) impacts for simply casting it back to String.
-* I18N[A]: a type-class which can format an instance of a type to an I18NString. Wrapper implementations
+* https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/I18N.scala[I18N[A]]:
+a type-class which can format an instance of a type to an I18NString. Wrapper implementations
 for all built-in types are provided that wrap the existing Java i18n Format classes. Custom I18N
 implementations can be created for any type
-* +UTF8Messages+: a wrapper around Java resource bundles that loads all matching
-message files for a specific locale (and any default "no locale" message files) from all jars located on the
-classpath. These message files contain a simple message key to message format lookup on each line
-(See https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here] for example)
-* MessageN[A,B .. Z]: message key wrappers that allow specifying the number of and type of arguments to
+* https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/messages/UTF8Messages.scala[UTF8Messages]:
+a wrapper around Java resource bundles that loads all matching message files for a specific locale
+(and any default "no locale" message files) from all jars located on the classpath. These message files
+ contain a simple message key to message format lookup on each line (See
+ https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here] for example)
+* https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/messages/MessageN.scala[MessageN[A,B .. Z]]:
+message key wrappers that allow specifying the number of and type of arguments to
 be interpolated into the output I18NString. All arguments passed to the message's apply method
 are automatically converted to I18NString by using the type's I18N[A] type-class.
-* I18NConfig: configuration containing details about locale, messages, error handling and default
+* https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/I18NConfig.scala[I18NConfig]:
+configuration containing details about locale, messages, error handling and default
  i18n formatting for built-in types.
-* +i18n+ string interpolator (similar to +s+ interpolator): provides syntactic sugar
+* https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/package.scala[i18n] string interpolator (similar to +s+ interpolator): provides syntactic sugar
 for automatically using the I18N type-class to format interpolated values as I18NStrings
 
 == Example (EN)
