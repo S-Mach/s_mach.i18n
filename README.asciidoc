@@ -36,8 +36,8 @@ guarantees are made as to the stability or interface of code in the
 
 +s_mach.i18n+ is an internationalization (i18n) library that provides a compile-time
 guarantee of proper internationalization by requiring all i18n
-methods to require and return +I18NString+ (a distinct type alias for String). +s_mach.i18n+
-also provides:
+methods to require and return +I18NString+ (a https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala[distinct type alias]
+for String). +s_mach.i18n+ also provides:
 
 * I18N[A]: a type-class which can format an instance of a type to an I18NString. Implementations
 for all built-in types are provided. Custom I18N implementations can be created for any type
