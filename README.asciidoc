@@ -38,6 +38,7 @@ guarantees are made as to the stability or interface of code in the
 guarantee of proper internationalization by requiring all i18n
 methods to require and return +I18NString+ (a distinct type alias for String). +s_mach.i18n+
 also provides:
+
 * The I18N type-class which can format an instance of a type to an I18NString. Implementations
 for all built-in types are provided.
 * +i18n+ string interpolator (similar to s interpolator) which provides syntatic sugar
