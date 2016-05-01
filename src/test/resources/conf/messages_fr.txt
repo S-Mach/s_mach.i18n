@@ -1,3 +1,4 @@
+m_test=c''est un format de message de test qui accepte deux arguments {0} et {1}
 m_true=vrai
 m_false=faux
 fmt_choice_key=Il {0,choice,0#n''y a pas de pommes|1#y a une pomme|1<y a {0,number,integer} pommes}.
