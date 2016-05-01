@@ -24,7 +24,11 @@ import s_mach.codetools.IsDistinctTypeAlias
 package object i18n extends I18N.Implicits {
   /* gQdBkrozvt suffix added to prevent shadowing issues */
 
-  /** Distinct type alias I18NString */
+  /**
+    * Distinct type alias I18NString
+    * See https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala
+    * for full explanation of distinct type aliases
+    * */
   type I18NString = String with I18NStringTag with IsDistinctTypeAlias[String]
   // Note: important that this not be implicit
   def I18NString(value: String) : I18NString = value.asInstanceOf[I18NString]

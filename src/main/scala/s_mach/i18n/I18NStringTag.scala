@@ -18,5 +18,10 @@
 */
 package s_mach.i18n
 
-/** A type tag used to indicate the String is a I18NString */
+/**
+  * A type tag used to indicate the String is a I18NString
+  * See package.scala for full declaration of I18NString
+  * See https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala
+  * for full explanation of distinct type aliases
+  * */
 trait I18NStringTag
