@@ -22,20 +22,29 @@ package object messages {
   /* UOhrCDet suffix added to prevent shadowing issues */
 
   implicit class StringPML_UOhrCDet(val self: String) extends AnyVal {
+    /** Create a message builder with the key set to this string */
     def m : MessageBuilder = MessageBuilder(Symbol(self))
-    def m0 : MessageLiteral = MessageLiteral(Symbol(self))
+    /** Create a message literal with the key set to this string */
     def literal : MessageLiteral = MessageLiteral(Symbol(self))
+    /** Alias for literal */
+    def m0 : MessageLiteral = MessageLiteral(Symbol(self))
+    /** Create a message choice with the key set to this string */
     def choice : MessageChoice = MessageChoice(Symbol(self))
   }
 
   implicit class SymbolPML_UOhrCDet(val self: Symbol) extends AnyVal {
+    /** Create a message builder with the key set to this symbol */
     def m : MessageBuilder = MessageBuilder(self)
-    def m0 : MessageLiteral = MessageLiteral(self)
+    /** Create a message literal with the key set to this symbol */
     def literal : MessageLiteral = MessageLiteral(self)
+    /** Alias for literal */
+    def m0 : MessageLiteral = MessageLiteral(self)
+    /** Create a message choice with the key set to this symbol */
     def choice : MessageChoice = MessageChoice(self)
   }
 
   implicit class MessagesPML_UOhrCDet(val self: Messages) extends AnyVal {
+    /** @return a Messages that uses other as a backup if self does is missing a key */
     def orElse(other: Messages) : Messages =
       Messages.orElse(self,other)
   }

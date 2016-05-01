@@ -21,7 +21,11 @@ package s_mach.i18n.messages
 import java.util.Locale
 import s_mach.i18n.impl._
 
+/**
+  * A trait for retrieving message formats from a message key
+  */
 trait Messages {
+  /** @return locale for message formats returned by this messages */
   def locale: Locale
 
   def keys: Iterable[Symbol]
@@ -32,12 +36,14 @@ trait Messages {
 }
 
 object Messages {
+  /** @return Create an in-memory messages */
   def apply(
     locale: Locale,
     formats: (Symbol,MessageFormat)*
   ) : Messages =
     new MessagesMap(locale,formats.toMap)
 
+  /** @return a messages that tries m1 and fallsback to m2 if a key is missing */
   def orElse(
     m1: Messages,
     m2: Messages

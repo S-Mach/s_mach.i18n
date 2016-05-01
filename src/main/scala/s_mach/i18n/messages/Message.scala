@@ -18,10 +18,16 @@
 */
 package s_mach.i18n.messages
 
+/**
+  * A base trait for a message that has a message key
+  */
 trait Message {
 
   def key: Symbol
 
+  /**
+    * Throw IllegalArgumentException if the message key is missing
+    */
   def throwIfMissing()(implicit m:Messages) : this.type = {
     if(m.contains(key) == false) {
       throw new IllegalArgumentException(s"Messages missing key $key")

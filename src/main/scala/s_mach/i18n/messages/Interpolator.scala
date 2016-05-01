@@ -22,7 +22,16 @@ import MessageFormat.Interpolation
 import s_mach.i18n._
 import s_mach.i18n.impl.InterpolatorOps
 
+/**
+  * A trait for interpolating arguments into a message format interpolation
+  */
 trait Interpolator {
+  /**
+    * Interpolate the supplied arguments into the interpolation parts
+    * @param parts interpolation parts to substitute arguments for
+    * @param args arguments to substitute into the interpolation
+    * @return I18NString
+    */
   def interpolate(
     parts: Seq[Interpolation.Part],
     args: I18NString*
@@ -34,7 +43,12 @@ object Interpolator {
     def interpolate(parts: Seq[Interpolation.Part], args: I18NString*) =
       f(parts,args)
   }
+  /** An interpolator that throws an exception on error */
   val strict = Interpolator(InterpolatorOps.strictInterpolate)
-  val lax = Interpolator(InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:missing}"))
+  /** An interpolation that never throws an exception on error but instead
+    * returns an error I18NString */
+  val lax = Interpolator(
+    InterpolatorOps.laxInterpolate(missingArg => s"{$missingArg:missing}")
+  )
   val default = strict
 }

@@ -18,5 +18,5 @@
 */
 package s_mach.i18n
 
-/** A type tag used by I18NString */
+/** A type tag used to indicate the String is a I18NString */
 trait I18NStringTag

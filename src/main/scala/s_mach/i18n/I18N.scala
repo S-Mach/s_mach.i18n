@@ -19,8 +19,8 @@
 package s_mach.i18n
 
 /**
- * A type-class for converting an instance of a type to an internationalized string
- * (generally based on locale)
+ * A type-class for formatting an instance of a type to an internationalized string
+ * based on the I18N config in scope.
  */
 trait I18N[A] {
   def apply(a: A)(implicit cfg: I18NConfig) : I18NString
@@ -63,8 +63,8 @@ object I18N {
 
     // Note: I18N[String] and I18N[Char] are intentionally not declared
     // to prevent accidentally converting a String/Char to I18NString without
-    // custom internationalization. To cast a String to I18NString use
-    // String.asI18N. To promote Char, use Char.toI18N
+    // custom internationalization. To convert to I18NString use explicit
+    // converters, String.asI18N or Char.toI18N
 
     implicit val i18n_I18NString =
       I18N[I18NString] { cfg => a => a }

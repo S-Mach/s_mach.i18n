@@ -21,6 +21,10 @@ package s_mach.i18n.messages
 /* WARNING: Generated code. To modify see s_mach.i18n.codegen.MessageBuilderCodeGen */
 
 
+/**
+  * A case class for building a parameterized message
+  * @param key message key
+  */
 case class MessageBuilder(key: Symbol) {
   def apply[A] = Message1[A](key)
   def apply[A,B] = Message2[A,B](key)

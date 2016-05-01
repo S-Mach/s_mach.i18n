@@ -22,6 +22,13 @@ import java.util.Locale
 
 import s_mach.i18n.messages._
 
+/**
+  * The configuration used for formatting and internationalization
+  * @param messages retrieves message formats for messages
+  * @param interpolator interpolates arguments into message formats
+  * @param resolver resolves message formats from key
+  * @param stdI18N formats built-in types
+  */
 case class I18NConfig(
   messages: Messages,
   interpolator: Interpolator,

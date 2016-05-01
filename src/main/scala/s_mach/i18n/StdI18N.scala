@@ -20,6 +20,9 @@ package s_mach.i18n
 
 import s_mach.i18n.impl.DefaultStdI18N
 
+/**
+  * A trait that allows formatting any built-in type as an I18NString
+  */
 trait StdI18N {
   def i18n(value: Boolean)(implicit cfg: I18NConfig) : I18NString
   def i18n(value: Byte)(implicit cfg: I18NConfig) : I18NString
