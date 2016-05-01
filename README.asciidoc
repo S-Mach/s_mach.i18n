@@ -34,17 +34,17 @@ guarantees are made as to the stability or interface of code in the
 
 == Overview
 
-+s_mach.i18n+ is an internationalization (i18n) library that provides
-a compile-time guarantee of proper internationalization by requiring all i18n
-strings printed to be of type +I18NString+ (a distinct type alias for String).
-Additionally, to prevent non-i18n strings from being accidentally interpolated
-in messages, all interpolations require an +I18NString+ (though Strings may
-always be explicitly converted to +I18NString+) or an available implementation
-of the type-class I18N[A] for the type.
-
-+s_mach.i18n+ also provides +UTF8Messages+, a wrapper around Java resource bundles
-that loads bundles of resources containing message key to message format files
-(named by their locale) from all jars located on the classpath.
++s_mach.i18n+ is an internationalization (i18n) library that provides a compile-time
+guarantee of proper internationalization by requiring all i18n
+methods to require and return +I18NString+ (a distinct type alias for String). +s_mach.i18n+
+also provides:
+* The I18N type-class which can format an instance of a type to an I18NString. Implementations
+for all built-in types are provided.
+* +i18n+ string interpolator (similar to s interpolator) which provides syntatic sugar
+for automatically formatting interpolated values as I18NStrings.
+* +UTF8Messages+, a wrapper around Java resource bundles, that loads bundles of
+message files (named by their locale) from all jars located on the classpath. These
+message files contain a simple message key to message formats lookup on each line.
 
 == Example (US)
 
