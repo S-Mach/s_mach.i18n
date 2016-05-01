@@ -45,7 +45,7 @@ for all built-in types are provided.
 for automatically formatting interpolated values as I18NStrings.
 * +UTF8Messages+, a wrapper around Java resource bundles, that loads bundles of
 message files (named by their locale) from all jars located on the classpath. These
-message files contain a simple message key to message formats lookup on each line.
+message files contain a simple message key to message format lookup on each line.
 
 == Example (EN)
 
