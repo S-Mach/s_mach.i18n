@@ -27,6 +27,8 @@ import s_mach.i18n.messages._
 class MessageResolverTest extends FlatSpec with Matchers {
   implicit val cfg = I18NConfig(Messages(Locale.ENGLISH))
 
+  //todo: test when invalid format encountered
+
   "MessageResolver.strict.resolveInterpolation" should "throw if key is missing" in {
     an[NoSuchElementException] should be thrownBy MessageResolver.strict.resolveInterpolation(
       'test,

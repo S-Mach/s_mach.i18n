@@ -79,4 +79,16 @@ class MessagesMapTest extends FlatSpec with Matchers {
     m(m_there_are_qty_apples.key) should equal(m_there_are_qty_apples_us_value)
     an[NoSuchElementException] should be thrownBy m('missing)
   }
+
+  "MessagesMap.choices.applyOrElse" should "return the value associated with a key or call default if key is missing" in {
+    val m = mkTestMessages(Locale.ENGLISH)
+    val defaultFmt = MessageFormat.Literal("default")
+    m.applyOrElse(m_there_are_qty_apples.key,_ => defaultFmt) should equal(m_there_are_qty_apples_us_value)
+    m.applyOrElse('missing,_ => defaultFmt) should equal(defaultFmt)
+  }
+
+  "MessagesMap.toString" should "return number of keys" in {
+    val m = mkTestMessages(Locale.ENGLISH)
+    m.toString should equal(s"Messages(keys.size=3)")
+  }
 }

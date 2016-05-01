@@ -39,11 +39,6 @@ trait Interpolator {
 }
 
 object Interpolator {
-  def apply(f: (Seq[Interpolation.Part],Seq[I18NString]) => I18NString) : Interpolator =
-    new Interpolator {
-      def interpolate(parts: Seq[Interpolation.Part], args: I18NString*) =
-        f(parts,args)
-    }
   /** An interpolator that throws an exception on error */
   val strict = new StrictInterpolator
   /** An interpolation that never throws an exception on error but instead

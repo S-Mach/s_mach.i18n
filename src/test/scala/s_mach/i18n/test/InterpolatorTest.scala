@@ -24,6 +24,8 @@ import s_mach.i18n.messages._
 import CommonTest._
 
 class InterpolatorTest extends FlatSpec with Matchers {
+  //todo: test when invalid format encountered
+
   "Interpolator.strict.interpolate" should "assemble literals and replace in order arguments correctly" in {
     Interpolator.strict.interpolate(parts1,"1".asI18N,"2".asI18N) should equal("hello 1 test 2 {2}")
   }
