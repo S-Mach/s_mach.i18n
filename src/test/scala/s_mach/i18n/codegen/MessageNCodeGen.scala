@@ -53,7 +53,7 @@ import s_mach.i18n._
 
 /* WARNING: Generated code. To modify see s_mach.i18n.codegen.MessageNCodeGen */
 
-${(2 to 22).map(i => gen(i)).mkString("\n")}
+${(1 to 22).map(i => gen(i)).mkString("\n")}
 """
     
     import java.io._

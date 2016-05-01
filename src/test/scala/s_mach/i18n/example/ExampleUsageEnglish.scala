@@ -1,6 +1,6 @@
 package s_mach.i18n.example
 
-object ExampleUsageEnglush {
+object ExampleUsageEnglish {
 
 import java.util.Locale
 import s_mach.i18n._
@@ -10,6 +10,7 @@ import s_mach.i18n.messages._
 implicit val i18ncfg = I18NConfig(Locale.ENGLISH)
 
 // Create a message with the key m_test that accepts 2 arguments, an Int and an I18NString
+// Note: this is sugar for Message2[Int,I18NString]('m_test)
 val m_test = 'm_test.m[Int,I18NString]
 
 // Using i18ncfg, resolve the message key to a message format and interpolate the arguments
