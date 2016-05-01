@@ -40,6 +40,62 @@ object DefaultUTF8Messages {
     fileBaseName: String = "messages",
     fileExt: String = "txt"
   ) : Messages = {
+    def parseFormat(raw: String, fmt: java.text.MessageFormat) : MessageFormat = {
+      fmt.getFormats.length match {
+        case 0 => MessageFormat.Literal(raw)
+        case 1 if fmt.getFormats.head.isInstanceOf[java.text.ChoiceFormat] =>
+          parseChoice(fmt)
+        case argsCount => parseInterpolation(fmt,argsCount)
+      }
+    }
+
+    def parseChoice(fmt: java.text.MessageFormat) : MessageFormat.Choice = {
+      MessageFormat.Choice({ n =>
+        fmt.format(
+          Array(n.underlying().doubleValue()).map(_.asInstanceOf[java.lang.Object])
+        )
+      })
+    }
+
+    case class M(
+      start: Int,
+      end: Int,
+      argIdx: Int
+    )
+
+    def parseInterpolation(
+      fmt: java.text.MessageFormat,
+      argsCount: Int
+    ) : MessageFormat.Interpolation = {
+      // Force all formats to simple string replacement
+      val formats = Array.fill[java.text.Format](argsCount)(fakeFormat)
+      fmt.setFormats(formats)
+      // Inject unique key and arg number as fake args to allow
+      // standardized parsing below
+      val parseable = fmt.format(
+        (0 until argsCount).map(i => s"$uniqueKey$i").toArray
+      )
+      // Parse simplified interpolation format
+      val ms = parseRegex.findAllMatchIn(parseable)
+        .map(m => M(m.start,m.end,m.group(1).toInt))
+      // Note: impossible for ms not to match at least once since there at
+      // least one arg at this point
+      val builder = Seq.newBuilder[Part]
+      val _lastIdx =
+        ms.foldLeft(0) { case (lastIdx,m) =>
+          if(lastIdx < m.start) {
+            builder += Part.Literal(parseable.substring(lastIdx, m.start))
+          }
+          builder += Part.StringArg(m.argIdx)
+          m.end
+        }
+      if(_lastIdx != parseable.length) {
+        builder += Part.Literal(parseable.substring(_lastIdx))
+      }
+      MessageFormat.Interpolation(builder.result())
+    }
+
+
     // Note: can't load multiple resources with same name without a base dir
     // See https://stackoverflow.com/questions/6730580/how-to-read-several-resource-files-with-the-same-name-from-different-jars
     require(fileBaseDir.length > 0,"Base directory must not be empty")
@@ -53,54 +109,13 @@ object DefaultUTF8Messages {
       bundle.getKeys.toStream.map { k =>
         val raw = bundle.getString(k)
         val fmt = new java.text.MessageFormat(raw)
-        val parts =
-          fmt.getFormats.length match {
-            case 0 => MessageFormat.Literal(raw)
-            case 1 if fmt.getFormats.head.isInstanceOf[java.text.ChoiceFormat] =>
-              MessageFormat.Choice({ n =>
-                fmt.format(
-                  Array(n.underlying().doubleValue()).map(_.asInstanceOf[java.lang.Object])
-                )
-              })
-            case argsCount =>
-              // Force all formats to simple string replacement
-              val formats = Array.fill[java.text.Format](argsCount)(fakeFormat)
-              fmt.setFormats(formats)
-              // Inject unique key and arg number as fake args to allow
-              // standardized parsing below
-              val parseable = fmt.format(
-                (0 until argsCount).map(i => s"$uniqueKey$i").toArray
-              )
-              case class M(
-                start: Int,
-                end: Int,
-                argIdx: Int
-              )
-              // Parse simplified interpolation format
-              val ms = parseRegex.findAllMatchIn(parseable)
-                .map(m => M(m.start,m.end,m.group(1).toInt))
-              // Note: impossible for ms not to match at least once since there at
-              // least one arg at this point
-              val builder = Seq.newBuilder[Part]
-              val _lastIdx =
-                ms.foldLeft(0) { case (lastIdx,m) =>
-                  if(lastIdx < m.start) {
-                    builder += Part.Literal(parseable.substring(lastIdx, m.start))
-                  }
-                  builder += Part.StringArg(m.argIdx)
-                  m.end
-                }
-              if(_lastIdx != parseable.length) {
-                builder += Part.Literal(parseable.substring(_lastIdx))
-              }
-              MessageFormat.Interpolation(builder.result())
-          }
-        Symbol(k) -> parts
+        Symbol(k) -> parseFormat(raw,fmt)
       }
     Messages(
       locale = locale,
       keyToFormats:_*
     )
   }
+
 
 }
