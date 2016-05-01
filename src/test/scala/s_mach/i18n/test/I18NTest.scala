@@ -123,4 +123,12 @@ class I18NTest extends FlatSpec with Matchers {
   "StdI18N.default.toString" should "return DefaultStdI18N" in {
     StdI18N.default.toString should equal("DefaultStdI18N")
   }
+
+  "Char.toI18N" should "return I18NString" in {
+    'a'.toI18N should equal(I18NString("a"))
+  }
+
+  "String.asI18N" should "return I18NString" in {
+    "abc".asI18N should equal(I18NString("abc"))
+  }
 }
