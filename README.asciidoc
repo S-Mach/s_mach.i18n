@@ -47,7 +47,7 @@ for automatically using the I18N type-class to format interpolated values as I18
 message files for a specific locale (and default "no locale") from all jars located on the
 classpath. These message files contain a simple message key to message format lookup on each
 line (See https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here] for example)
-* Message[A..Z]: message key wrappers that allow specifying the number of and type of arguments to
+* MessageN[A,B .. Z]: message key wrappers that allow specifying the number of and type of arguments to
 be interpolated into the output I18NString
 
 == Example (EN)
