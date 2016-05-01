@@ -13,12 +13,11 @@ implicit val i18ncfg = I18NConfig(Locale.US)
 val m_test = 'm_test.m[Int,I18NString]
 
 // Using i18ncfg, resolve the message key to a message format and interpolate the arguments
-// Note: the Int argument automatically invokes I18N[Int] to correctly format the integer for
-// the current locale
+// Note: the Int argument is automatically converted to I18NString by invoking the
+// I18N[Int] type-class
 val test_i18n_str = m_test(1,"test".asI18N)
 
-// Note: the Double argument automatically invokes I18N[Double] to correctly for the double for
-// for the current locale
+// Note: the Double argument is automatically converted to I18NString by invoking the
+// I18N[Double] type-class
 i18n"interpolate some arguments $test_i18n_str ${25.0}"
-
 }
