@@ -38,7 +38,7 @@ object Implicits  {
   implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
     /** Create and interpolate a I18NString */
     def i18n(args: I18NString*) : I18NString =
-      self.raw(args:_*).asI18N
+      self.s(args:_*).asI18N
     /** Alias for i18n */
     def i(args: I18NString*) : I18NString = i18n(args:_*)
   }
