@@ -20,18 +20,19 @@ package s_mach.i18n.test
 
 import java.util.Locale
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 import s_mach.i18n._
 import CommonTest._
+import s_mach.i18n.messages.MessageLiteral
 
 class MessageTest extends FlatSpec with Matchers {
   val name = "Gary"
   val qty = 10000.1
 
 
-  "Message0.apply" should "retrieve the message from Messages for the current locale" in {
+  "MessageLiteral.apply" should "retrieve the message from Messages for the current locale" in {
     {
-      implicit val cfg = I18NConfig(mkTestMessages(Locale.US))
+      implicit val cfg = I18NConfig(mkTestMessages(Locale.ENGLISH))
       m_hello() should equal("hello")
     }
     {
@@ -42,7 +43,7 @@ class MessageTest extends FlatSpec with Matchers {
 
   "Message1.apply" should "retrieve the message from I18NConfig and interpolate arguments" in {
     {
-      implicit val cfg = I18NConfig(mkTestMessages(Locale.US))
+      implicit val cfg = I18NConfig(mkTestMessages(Locale.ENGLISH))
       m_hello_name_qty(name.asI18N,qty) should equal("hello Gary test 10,000.1")
     }
     {
@@ -53,7 +54,7 @@ class MessageTest extends FlatSpec with Matchers {
 
   "Message2.apply" should "retrieve the message from I18NConfig and interpolate arguments" in {
     {
-      implicit val cfg = I18NConfig(mkTestMessages(Locale.US))
+      implicit val cfg = I18NConfig(mkTestMessages(Locale.ENGLISH))
       m_hello_name_qty("There are 2 apples".asI18N,qty) should equal("hello There are 2 apples test 10,000.1")
     }
     {
@@ -64,7 +65,7 @@ class MessageTest extends FlatSpec with Matchers {
 
   "Choice.apply" should "retrieve the message from I18NConfig and choose the correct message" in {
     {
-      implicit val cfg = I18NConfig(mkTestMessages(Locale.US))
+      implicit val cfg = I18NConfig(mkTestMessages(Locale.ENGLISH))
       m_there_are_qty_apples(0) should equal("There are no apples")
       m_there_are_qty_apples(1) should equal("There is one apple")
       m_there_are_qty_apples(2) should equal("There are 2 apples")
@@ -77,5 +78,9 @@ class MessageTest extends FlatSpec with Matchers {
     }
   }
 
+  "Message.throwIfMissing" should "throw an exception if key is missing" in {
+    implicit val cfg = I18NConfig(mkTestMessages(Locale.ENGLISH))
+    an [NoSuchElementException] should be thrownBy MessageLiteral('m_missing_key).throwIfMissing()
+  }
 
 }

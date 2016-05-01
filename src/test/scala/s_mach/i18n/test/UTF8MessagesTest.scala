@@ -27,7 +27,7 @@ import MessageFormat._
 
 class UTF8MessagesTest extends FlatSpec with Matchers {
   "UTF8Messages" should "read messages from default resource files when no locale specific file is present" in {
-    val messages = UTF8Messages(Locale.US)
+    val messages = UTF8Messages(Locale.ENGLISH)
     messages('m_true) should equal(Literal("true"))
     messages('m_false) should equal(Literal("false"))
     // extra key found in extra messages.txt (UTF8Messages should concat same named files)
@@ -35,7 +35,7 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
   }
 
   "UTF8Messages" should "concat same named message files located in different jars" in {
-    val messages = UTF8Messages(Locale.US)
+    val messages = UTF8Messages(Locale.ENGLISH)
     messages('m_true) should equal(Literal("true"))
     // extra key found in test messages.txt (UTF8Messages should concat same named files)
     messages('test_key) should equal(Literal("testvalue"))
@@ -55,7 +55,7 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
   }
 
   "UTF8Messages" should "parse message value into parts based on MessageFormat format" in {
-    val messages = UTF8Messages(Locale.US)
+    val messages = UTF8Messages(Locale.ENGLISH)
 
     messages('fmt_test1_key) should equal {
       import Interpolation.Part._
@@ -70,7 +70,7 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
   }
 
   "UTF8Messages" should "ignore any kind of specialized formatting in message value MessageFormat and just return parts" in {
-    val messages = UTF8Messages(Locale.US)
+    val messages = UTF8Messages(Locale.ENGLISH)
     messages('fmt_test2_key) should equal {
       import Interpolation.Part._
       Interpolation(List(
@@ -87,7 +87,7 @@ class UTF8MessagesTest extends FlatSpec with Matchers {
   }
 
   "UTF8Messages" should "parse choices and format them correctly for default" in {
-    val messages = UTF8Messages(Locale.US)
+    val messages = UTF8Messages(Locale.ENGLISH)
     messages('fmt_choice_key).asInstanceOf[Choice].value(0) should equal("There are no apples.")
     messages('fmt_choice_key).asInstanceOf[Choice].value(1) should equal("There is one apple.")
     messages('fmt_choice_key).asInstanceOf[Choice].value(2) should equal("There are 2 apples.")

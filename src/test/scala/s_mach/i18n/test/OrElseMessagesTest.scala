@@ -27,11 +27,11 @@ import MessageFormat._
 class OrElseMessagesTest extends FlatSpec with Matchers {
   "Messages.orElse" should "fall back to second Messages if not present in first" in {
     val m1 = Messages(
-      Locale.US,
+      Locale.ENGLISH,
       'key1 -> Literal("test1")
     )
     val m2 = Messages(
-      Locale.US,
+      Locale.ENGLISH,
       'key2 -> Literal("test2")
     )
     val m3 = m1 orElse m2
@@ -42,11 +42,11 @@ class OrElseMessagesTest extends FlatSpec with Matchers {
   }
   "Messages.orElse" should "should contain keys from both messages" in {
     val m1 = Messages(
-      Locale.US,
+      Locale.ENGLISH,
       'key1 -> Literal("test1")
     )
     val m2 = Messages(
-      Locale.US,
+      Locale.ENGLISH,
       'key2 -> Literal("test2")
     )
     val m3 = m1 orElse m2
@@ -56,7 +56,7 @@ class OrElseMessagesTest extends FlatSpec with Matchers {
 
   "Messages.orElse" should "throw an exception if locales do not match" in {
     val m1 = Messages(
-      Locale.US,
+      Locale.ENGLISH,
       'key1 -> Literal("test1")
     )
     val m2 = Messages(

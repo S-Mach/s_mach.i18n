@@ -28,7 +28,7 @@ class I18NTest extends FlatSpec with Matchers {
 
 
   "I18N[Number]" should "format numbers correctly using the US locale" in {
-    implicit val cfg = I18NConfig(UTF8Messages(Locale.US))
+    implicit val cfg = I18NConfig(UTF8Messages(Locale.ENGLISH))
 
     1000.i18n should equal(I18NString("1,000"))
     (-1000).i18n should equal(I18NString("-1,000"))
@@ -74,13 +74,13 @@ class I18NTest extends FlatSpec with Matchers {
   }
 
   "I18N[I18NString]" should "return the same value" in {
-    implicit val cfg = I18NConfig(UTF8Messages(Locale.US))
+    implicit val cfg = I18NConfig(UTF8Messages(Locale.ENGLISH))
 
     I18NString("test").asI18N should equal(I18NString("test"))
   }
 
   "I18N[Boolean]" should "format boolean values correctly using the US locale messages" in {
-    implicit val cfg = I18NConfig(UTF8Messages(Locale.US))
+    implicit val cfg = I18NConfig(UTF8Messages(Locale.ENGLISH))
 
     true.i18n should equal("true")
     false.i18n should equal("false")
@@ -99,7 +99,7 @@ class I18NTest extends FlatSpec with Matchers {
     val b = false
 
     {
-      implicit val cfg = I18NConfig(UTF8Messages(Locale.US))
+      implicit val cfg = I18NConfig(UTF8Messages(Locale.ENGLISH))
       i18n"$b test $qty ${name.asI18N}" should equal("false test 10,000.1 Gary")
     }
     {

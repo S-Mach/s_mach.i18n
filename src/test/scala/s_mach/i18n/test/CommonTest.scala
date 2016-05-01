@@ -73,7 +73,7 @@ object CommonTest {
     import Interpolation.Part._
 
     locale match {
-      case l if l == Locale.US =>
+      case l if l == Locale.ENGLISH =>
         Messages(
           locale = locale,
           m_hello.key -> m_hello_us_value,
