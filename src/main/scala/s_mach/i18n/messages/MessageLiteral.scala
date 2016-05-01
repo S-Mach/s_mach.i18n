@@ -20,6 +20,10 @@ package s_mach.i18n.messages
 
 import s_mach.i18n._
 
+/**
+  * A message that requires no arguments and returns a single string
+  * @param key message key
+  */
 case class MessageLiteral(
   key: Symbol
 ) extends Message {

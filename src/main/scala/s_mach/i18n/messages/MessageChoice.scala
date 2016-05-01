@@ -20,6 +20,11 @@ package s_mach.i18n.messages
 
 import s_mach.i18n._
 
+/**
+  * A message that converts a BigDecimal to a string. Choices are used
+  * to display different strings based on a quantity value.
+  * @param key message key
+  */
 case class MessageChoice(
   key: Symbol
   ) extends Message {
