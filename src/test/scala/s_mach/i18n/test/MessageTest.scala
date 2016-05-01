@@ -84,4 +84,13 @@ class MessageTest extends FlatSpec with Matchers {
     m_hello.throwIfMissing()
   }
 
+  "Message sugar" should "create messages as expected" in {
+    import s_mach.i18n.messages._
+    "abc".literal should equal(MessageLiteral('abc))
+    "abc".m0 should equal(MessageLiteral('abc))
+    "abc".choice should equal(MessageChoice('abc))
+    'abc.literal should equal(MessageLiteral('abc))
+    'abc.m0 should equal(MessageLiteral('abc))
+    'abc.choice should equal(MessageChoice('abc))
+  }
 }
