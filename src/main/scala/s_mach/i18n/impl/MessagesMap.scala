@@ -31,6 +31,6 @@ case class MessagesMap(
   def apply(key: Symbol) = formats(key)
   def applyOrElse(key: Symbol, default: Symbol => MessageFormat): MessageFormat =
     formats.applyOrElse(key,default)
-  override def toString = s"Messages(keys=${keys.mkString(",")})"
+  override def toString = s"Messages(keys=${keys.map(_.name).mkString(",")})"
 }
 

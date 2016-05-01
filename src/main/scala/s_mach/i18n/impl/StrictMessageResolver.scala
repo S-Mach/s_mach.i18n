@@ -39,4 +39,6 @@ class StrictMessageResolver extends MessageResolver {
       case MessageFormat.Interpolation(parts) => cfg.interpolator.interpolate(parts,args:_*)
       case otherFormat => throw new IllegalArgumentException(s"Expected Format.Interpolation but found $otherFormat")
     }
+
+  override def toString = "StrictMessageResolver"
 }

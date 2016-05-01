@@ -1,3 +1,4 @@
+m_test=this is a test message format that accepts two arguments {0} and {1}
 test_key=testvalue
 fmt_test1_key=hello {0} test {1} '{2}'
 fmt_test2_key=When {1,time} on {1,date}, there will be {2} on moon {0,number,integer}

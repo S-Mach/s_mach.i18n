@@ -70,4 +70,6 @@ class DefaultStdI18N extends StdI18N {
     val fmt = NumberFormat.getNumberInstance(cfg.locale)
     I18NString(fmt.format(value.underlying()))
   }
+
+  override def toString = "DefaultStdI18N"
 }

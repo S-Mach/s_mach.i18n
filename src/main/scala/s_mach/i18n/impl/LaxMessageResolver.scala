@@ -67,5 +67,8 @@ class LaxMessageResolver(
       case None => missingKey(key,Seq(value.toString()))
     }
   }.asI18N
+
+  override def toString = "LaxMessageResolver"
+
 }
 

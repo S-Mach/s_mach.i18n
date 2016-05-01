@@ -34,11 +34,32 @@ guarantees are made as to the stability or interface of code in the
 
 == Overview
 
-+s_mach.i18n+ enforces a internationalization compile-time guarantee by requiring all i18n strings printed by the I18N
- type-class to be I18NString, a distinct type alias for String. To prevent non-internationalized strings from being
- interpolated in messages, all interpolations require I18NStrings. +s_mach.i18n+ also provides UTF8Messages, a wrapper
- around Java resource bundles that loads bundles of resources containing messages by locale.
++s_mach.i18n+ is an internationalization (i18n) library that provides
+compile-time guarantee of proper internationalization by requiring all i18n
+strings printed by the +I18N+ type-class to be of type +I18NString+, a distinct
+type alias for String. Additionally, to prevent non-internationalized strings
+from being accidentally interpolated in messages, all interpolations require
++I18NString+ (Strings may always be explicitly converted to +I18NString+).
 
-== Features
+In addition to type-safety, +s_mach.i18n+ provides +UTF8Messages+, a wrapper
+around Java resource bundles that loads bundles of resources containing message
+formats by locale from all jars located on the classpath.
 
 == Examples
+
+----
+
+import java.util.Locale
+
+// Uses UTF8Messages by default
+implicit val i18ncfg = I18NConfig(Locale.US)
+
+// Create a message with they key m_test that accepts 2 arguments, an Int and an I18NString
+val m_test = 'm_test.m[Int,I18NString]
+
+// Using i18ncfg, resolve the message key to a message format and interpolate the arguments
+val test_i18n_str = m_test(1,"test".asI18N)
+
+i18n"interpolate some arguments $test_i18n_str ${25.0}"
+
+----
