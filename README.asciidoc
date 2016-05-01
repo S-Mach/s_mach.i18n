@@ -48,8 +48,8 @@ classpath. These message files contain a simple message key to message format lo
 * MessageN[A,B .. Z]: message key wrappers that allow specifying the number of and type of arguments to
 be interpolated into the output I18NString. All arguments passed to the message's apply method
 are automatically converted to I18NString by using the type's I18N[A] type-class.
-* I18NConfig: implicit configuration containing details about locale, messages, error handling and default
- I18N formatters for built-in types.
+* I18NConfig: configuration containing details about locale, messages, error handling and default
+ i18n formatting for built-in types.
 * +i18n+ string interpolator (similar to +s+ interpolator): provides syntactic sugar
 for automatically using the I18N type-class to format interpolated values as I18NStrings
 
