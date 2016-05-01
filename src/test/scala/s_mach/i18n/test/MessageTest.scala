@@ -78,9 +78,10 @@ class MessageTest extends FlatSpec with Matchers {
     }
   }
 
-  "Message.throwIfMissing" should "throw an exception if key is missing" in {
+  "Message.throwIfMissing" should "throw an exception if key is missing other do nothing if key exists" in {
     implicit val cfg = I18NConfig(mkTestMessages(Locale.ENGLISH))
     an [NoSuchElementException] should be thrownBy MessageLiteral('m_missing_key).throwIfMissing()
+    m_hello.throwIfMissing()
   }
 
 }
