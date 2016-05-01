@@ -47,6 +47,10 @@ class MessageResolverTest extends FlatSpec with Matchers {
     )
   }
 
+  "MessageResolver.strict.toString" should "return StrictMessageResolver" in {
+    MessageResolver.strict.toString should equal("StrictMessageResolver")
+  }
+
   "MessageResolver.lax.resolveInterpolation" should "show key and args for missing keys" in {
     MessageResolver.lax.resolveInterpolation(
       'test,
@@ -67,4 +71,9 @@ class MessageResolverTest extends FlatSpec with Matchers {
       BigDecimal("1")
     ) should equal("{test:missing}(1)")
   }
+
+  "MessageResolver.lax.toString" should "return LaxMessageResolver" in {
+    MessageResolver.lax.toString should equal("LaxMessageResolver")
+  }
+
 }

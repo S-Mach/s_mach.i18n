@@ -119,4 +119,8 @@ class I18NTest extends FlatSpec with Matchers {
     """i18n"$b test $qty ${name}"""" shouldNot compile
     """i18n"$b test $qty ${c}"""" shouldNot compile
   }
+
+  "StdI18N.default.toString" should "return DefaultStdI18N" in {
+    StdI18N.default.toString should equal("DefaultStdI18N")
+  }
 }

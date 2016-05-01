@@ -36,6 +36,10 @@ class InterpolatorTest extends FlatSpec with Matchers {
     an[IllegalArgumentException] should be thrownBy Interpolator.strict.interpolate(parts1,"1".asI18N,"2".asI18N,"3".asI18N)
   }
 
+  "Interpolator.strict.toString" should "return StrictInterpolator" in {
+    Interpolator.strict.toString should equal("StrictInterpolator")
+  }
+
   "Interpolator.strict.interpolate" should "throw if an argument is missing" in {
     an[IllegalArgumentException] should be thrownBy Interpolator.strict.interpolate(parts1,"1".asI18N)
   }
@@ -47,4 +51,9 @@ class InterpolatorTest extends FlatSpec with Matchers {
   "Interpolator.lax.interpolate" should "replace missing arguments with missing arg string'" in {
     Interpolator.lax.interpolate(parts1,"1".asI18N) should equal("hello 1 test {1:missing} {2}")
   }
+
+  "Interpolator.lax.toString" should "return LaxInterpolator" in {
+    Interpolator.lax.toString should equal("LaxInterpolator")
+  }
+
 }
