@@ -39,13 +39,14 @@ guarantee of proper internationalization by requiring all i18n
 methods to require and return +I18NString+ (a distinct type alias for String). +s_mach.i18n+
 also provides:
 
-* The I18N type-class which can format an instance of a type to an I18NString. Implementations
-for all built-in types are provided.
-* +i18n+ string interpolator (similar to s interpolator) which provides syntatic sugar
-for automatically formatting interpolated values as I18NStrings.
-* +UTF8Messages+, a wrapper around Java resource bundles, that loads bundles of
-message files (named by their locale) from all jars located on the classpath. These
-message files contain a simple message key to message format lookup on each line.
+* I18N[A]: a type-class which can format an instance of a type to an I18NString. Implementations
+for all built-in types are provided. Custom I18N implementations can be created for any type
+* +i18n+ string interpolator (similar to +s+ interpolator): provides syntactic sugar
+for automatically using the I18N type-class to format interpolated values as I18NStrings
+* +UTF8Messages+: a wrapper around Java resource bundles, that loads all matching
+message files for a specific locale (and default "no locale") from all jars located on the
+classpath. These message files contain a simple message key to message format lookup on each
+line (See https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here] for example)
 
 == Example (EN)
 
