@@ -84,6 +84,7 @@ test_i18n_str: String with s_mach.i18n.I18NStringTag with s_mach.codetools.IsDis
 
 scala>
 ----
+Message files for above example https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here]
 
 == Example (FR)
 
@@ -123,3 +124,4 @@ test_i18n_str: String with s_mach.i18n.I18NStringTag with s_mach.codetools.IsDis
 
 scala>
 ----
+Message files for above example https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here]
