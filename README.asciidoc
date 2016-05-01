@@ -68,27 +68,27 @@ implicit val i18ncfg = I18NConfig(Locale.ENGLISH)
 
 // Create a message with the key m_test that accepts 2 arguments, an Int and an I18NString
 // Note: this is sugar for Message2[Int,I18NString]('m_test)
-val m_test = 'm_test.m[Int,I18NString]
+val m_test : Message2[Int,I18NString] = 'm_test.m[Int,I18NString]
 
 // Using i18ncfg, resolve the message key to a message format and interpolate the arguments
 // Note: the Int argument is automatically converted to I18NString by invoking the
 // I18N[Int] type-class
-val test_message_lookup = m_test(1,"test".asI18N)
+val test_message_lookup : I18NString = m_test(1,"test".asI18N)
 
 // Note: the Double argument is automatically converted to I18NString by invoking the
 // I18N[Double] type-class
-val test_i18n_str = i18n"interpolate some arguments $test_message_lookup ${25.0}"
+val test_i18n_str : I18NString = i18n"interpolate some arguments $test_message_lookup ${25.0}"
+
 
 // Exiting paste mode, now interpreting.
 
 import java.util.Locale
 import s_mach.i18n._
 import s_mach.i18n.messages._
-i18ncfg: s_mach.i18n.I18NConfig = I18NConfig(Messages(keys=test_key,m_false,fmt_test1_key,m_true,fmt_choice_key,fmt_test2_key,m_test),StrictInterpolator,StrictMessageResolver,DefaultStdI18N)
+i18ncfg: s_mach.i18n.I18NConfig = I18NConfig(Messages(keys=m_test4,m_test9,test_key,m_test18,m_test13,m_test20,m_test1,m_false,fmt_test1_key,m_test5,m_test3,m_test14,m_test17,m_test10,m_test6,m_true,m_test21,m_test15,fmt_choice_key,fmt_test2_key,m_test2,m_test,m_test22,m_test11,m_test7,m_test16,m_test12,m_test19,m_test8),StrictInterpolator,StrictMessageResolver,DefaultStdI18N)
 m_test: s_mach.i18n.messages.Message2[Int,s_mach.i18n.I18NString] = Message2('m_test)
 test_message_lookup: s_mach.i18n.I18NString = this is a test message format that accepts two arguments 1 and test
-test_i18n_str: String with s_mach.i18n.I18NStringTag with s_mach.codetools.IsDistinctTypeAlias[String] = interpolate some arguments this is a test message format that accepts two arguments 1 and test 25
-
+test_i18n_str: s_mach.i18n.I18NString = interpolate some arguments this is a test message format that accepts two arguments 1 and test 25
 scala>
 ----
 Message files for above example https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here]
@@ -99,25 +99,24 @@ Message files for above example https://github.com/S-Mach/s_mach.i18n/tree/maste
 scala> :paste
 // Entering paste mode (ctrl-D to finish)
 
-import java.util.Locale
-import s_mach.i18n._
-import s_mach.i18n.messages._
+  import java.util.Locale
+  import s_mach.i18n._
+  import s_mach.i18n.messages._
 
-// Uses UTF8Messages by default
-implicit val i18ncfg = I18NConfig(Locale.FRENCH)
+  // Uses UTF8Messages by default
+  implicit val i18ncfg = I18NConfig(Locale.FRENCH)
 
-// Create a message with the key m_test that accepts 2 arguments, an Int and an I18NString
-// Note: this is sugar for Message2[Int,I18NString]('m_test)
-val m_test = 'm_test.m[Int,I18NString]
+  // Create a message with the key m_test that accepts 2 arguments, an Int and an I18NString
+  val m_test : Message2[Int,I18NString] = 'm_test.m[Int,I18NString]
 
-// Using i18ncfg, resolve the message key to a message format and interpolate the arguments
-// Note: the Int argument is automatically converted to I18NString by invoking the
-// I18N[Int] type-class
-val test_message_lookup = m_test(1,"test".asI18N)
+  // Using i18ncfg, resolve the message key to a message format and interpolate the arguments
+  // Note: the Int argument is automatically converted to I18NString by invoking the
+  // I18N[Int] type-class
+  val test_message_lookup : I18NString = m_test(1,"test".asI18N)
 
-// Note: the Double argument is automatically converted to I18NString by invoking the
-// I18N[Double] type-class
-val test_i18n_str = i18n"nous allons interpoler certains arguments $test_message_lookup ${25.0}"
+  // Note: the Double argument is automatically converted to I18NString by invoking the
+  // I18N[Double] type-class
+  val test_i18n_str : I18NString = i18n"nous allons interpoler certains arguments $test_message_lookup ${25.0}"
 
 
 // Exiting paste mode, now interpreting.
@@ -125,11 +124,10 @@ val test_i18n_str = i18n"nous allons interpoler certains arguments $test_message
 import java.util.Locale
 import s_mach.i18n._
 import s_mach.i18n.messages._
-i18ncfg: s_mach.i18n.I18NConfig = I18NConfig(Messages(keys=test_key,m_false,fmt_test1_key,m_true,fmt_choice_key,fmt_test2_key,m_test),StrictInterpolator,StrictMessageResolver,DefaultStdI18N)
+i18ncfg: s_mach.i18n.I18NConfig = I18NConfig(Messages(keys=m_test4,m_test9,test_key,m_test18,m_test13,m_test20,m_test1,m_false,fmt_test1_key,m_test5,m_test3,m_test14,m_test17,m_test10,m_test6,m_true,m_test21,m_test15,fmt_choice_key,fmt_test2_key,m_test2,m_test,m_test22,m_test11,m_test7,m_test16,m_test12,m_test19,m_test8),StrictInterpolator,StrictMessageResolver,DefaultStdI18N)
 m_test: s_mach.i18n.messages.Message2[Int,s_mach.i18n.I18NString] = Message2('m_test)
 test_message_lookup: s_mach.i18n.I18NString = c'est un format de message de test qui accepte deux arguments 1 et test
-test_i18n_str: String with s_mach.i18n.I18NStringTag with s_mach.codetools.IsDistinctTypeAlias[String] = nous allons interpoler certains arguments c'est un format de message de test qui accepte deux arguments 1 et test 25
-
+test_i18n_str: s_mach.i18n.I18NString = nous allons interpoler certains arguments c'est un format de message de test qui accepte deux argu...
 scala>
 ----
 Message files for above example https://github.com/S-Mach/s_mach.i18n/tree/master/src/test/resources/conf[here]
