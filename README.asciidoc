@@ -34,8 +34,7 @@ guarantees are made as to the stability or interface of code in the
 
 == Overview
 
-+s_mach.i18n+ is an internationalization (i18n) library that provides a compile-time
-guarantee of proper internationalization:
++s_mach.i18n+ is an internationalization (i18n) library that provides:
 
 * I18NString: a https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala[distinct type alias]
 for String used by all i18n methods to enforce a compile-time guarantee of proper internationalization
