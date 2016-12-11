@@ -20,7 +20,7 @@ package s_mach.i18n.impl
 
 import java.io.{ByteArrayInputStream, InputStream}
 import java.util.{Locale, ResourceBundle}
-import scala.collection.convert.decorateAsJava._
+import scala.collection.JavaConverters._
 
 class UTF8ResourceBundleControl(
   fileExt: String = "txt"
