@@ -18,7 +18,7 @@ http://s-mach.github.io/s_mach.i18n/#s_mach.i18n.package[Scaladoc]
 +
 [source,sbt,numbered]
 ----
-libraryDependencies += "net.s_mach" %% "i18n" % "1.0.0"
+libraryDependencies += "net.s_mach" %% "i18n" % "1.0.1"
 ----
 NOTE: +s_mach.i18n+ is cross compiled for Scala 2.11/JDK6 and 2.12/JDK8
 
