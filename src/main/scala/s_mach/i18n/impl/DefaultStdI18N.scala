@@ -40,15 +40,15 @@ class DefaultStdI18N extends StdI18N {
   }
   def i18n(value: Byte)(implicit cfg: I18NConfig) = {
     val fmt = NumberFormat.getIntegerInstance(cfg.locale)
-    I18NString(fmt.format(value))
+    I18NString(fmt.format(value.toLong))
   }
   def i18n(value: Short)(implicit cfg: I18NConfig) = {
     val fmt = NumberFormat.getIntegerInstance(cfg.locale)
-    I18NString(fmt.format(value))
+    I18NString(fmt.format(value.toLong))
   }
   def i18n(value: Int)(implicit cfg: I18NConfig) = {
     val fmt = NumberFormat.getIntegerInstance(cfg.locale)
-    I18NString(fmt.format(value))
+    I18NString(fmt.format(value.toLong))
   }
   def i18n(value: Long)(implicit cfg: I18NConfig) = {
     val fmt = NumberFormat.getIntegerInstance(cfg.locale)
@@ -56,7 +56,7 @@ class DefaultStdI18N extends StdI18N {
   }
   def i18n(value: Float)(implicit cfg: I18NConfig) = {
     val fmt = NumberFormat.getNumberInstance(cfg.locale)
-    I18NString(fmt.format(value))
+    I18NString(fmt.format(value.toDouble))
   }
   def i18n(value: Double)(implicit cfg: I18NConfig) = {
     val fmt = NumberFormat.getNumberInstance(cfg.locale)

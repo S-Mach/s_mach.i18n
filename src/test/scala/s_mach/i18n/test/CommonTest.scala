@@ -26,8 +26,6 @@ import MessageFormat._
 
 object CommonTest {
   val m_hello = {
-    import s_mach.i18n._
-
     // equivalent
     // Message0("hello.message")
     "hello.message".m0
@@ -43,8 +41,6 @@ object CommonTest {
   }
 
   val m_there_are_qty_apples = {
-    import s_mach.i18n._
-
     // equivalent
     // Quantity("there_are_qty_apples")
     "there_are_qty_apples".choice
@@ -70,7 +66,6 @@ object CommonTest {
   
   def mkTestMessages(locale:Locale) : Messages = {
     import s_mach.i18n._
-    import Interpolation.Part._
 
     locale match {
       case l if l == Locale.ENGLISH =>

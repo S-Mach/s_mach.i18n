@@ -1,17 +1,19 @@
 language: scala
-scala:
-- 2.11.7
 # This is a workaround for this issue: https://goo.gl/FexVa7
 addons:
   hostname: short-hostname
-jdk:
-- openjdk6
+matrix:
+  include:
+   - scala: 2.12.1
+     env: JDK=oraclejdk8
+   - scala: 2.11.8
+     env: JDK=openjdk6
 notifications:
   email:
     recipients:
     - lance.gatlin@s-mach.net
 script:
- - sbt coverage test coverageReport -J-Xmx3g
+ - sbt ++$TRAVIS_SCALA_VERSION coverage test coverageReport -J-Xmx4g
 after_success:
  - sbt coveralls
  - sbt codacyCoverage
