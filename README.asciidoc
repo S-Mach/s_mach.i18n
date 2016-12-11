@@ -7,8 +7,7 @@ v1,27-Apr-16
 image:https://travis-ci.org/S-Mach/s_mach.i18n.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.i18n"]
 image:https://coveralls.io/repos/S-Mach/s_mach.i18n/badge.png[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.i18n"]
 image:https://api.codacy.com/project/badge/grade/cf9048205e154e8a9e01244de497db25[Codacy Badge,link="https://www.codacy.com/public/lancegatlin/s_mach.i18n"]
-https://github.com/S-Mach/s_mach.i18n[Code]
-http://s-mach.github.io/s_mach.i18n/#s_mach.i18n.package[Scaladoc]
+Scaladocs: http://s-mach.github.io/s_mach.i18n/2.11.x/#s_mach.string.package[2.11] https://s-mach.github.io/s_mach.string/2.12.x/s_mach/string/index.html[2.12]
 
 +s_mach.i18n+ is an open-source Scala library for internationalization.
 
