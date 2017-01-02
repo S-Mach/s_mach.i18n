@@ -19,9 +19,8 @@
 package s_mach.i18n
 
 package object messages {
-  /* UOhrCDet suffix added to prevent shadowing issues */
 
-  implicit class StringPML_UOhrCDet(val self: String) extends AnyVal {
+  implicit class S_Mach_I18N_Messages_StringPML(val self: String) extends AnyVal {
     /** Create a message builder with the key set to this string */
     def m : MessageBuilder = MessageBuilder(Symbol(self))
     /** Create a message literal with the key set to this string */
@@ -32,7 +31,7 @@ package object messages {
     def choice : MessageChoice = MessageChoice(Symbol(self))
   }
 
-  implicit class SymbolPML_UOhrCDet(val self: Symbol) extends AnyVal {
+  implicit class S_Mach_I18N_Messages_SymbolPML(val self: Symbol) extends AnyVal {
     /** Create a message builder with the key set to this symbol */
     def m : MessageBuilder = MessageBuilder(self)
     /** Create a message literal with the key set to this symbol */
@@ -43,7 +42,7 @@ package object messages {
     def choice : MessageChoice = MessageChoice(self)
   }
 
-  implicit class MessagesPML_UOhrCDet(val self: Messages) extends AnyVal {
+  implicit class S_Mach_I18N_Messages_MessagesPML(val self: Messages) extends AnyVal {
     /** @return a Messages that uses other as a backup if self does is missing a key */
     def orElse(other: Messages) : Messages =
       Messages.orElse(self,other)

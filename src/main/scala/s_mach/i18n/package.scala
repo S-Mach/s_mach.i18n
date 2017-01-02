@@ -22,8 +22,6 @@ import scala.language.implicitConversions
 import s_mach.codetools.IsDistinctTypeAlias
 
 package object i18n extends I18N.Implicits {
-  /* gQdBkrozvt suffix added to prevent shadowing issues */
-
   /**
     * Distinct type alias I18NString
     * See https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala
@@ -36,7 +34,7 @@ package object i18n extends I18N.Implicits {
   implicit def toI18NString[A](value: A)(implicit i18n:I18N[A],cfg: I18NConfig) : I18NString =
     i18n.apply(value)(cfg)
 
-  implicit class StringContextPML_gQdBkrozvt(val self: StringContext) extends AnyVal {
+  implicit class S_Mach_I18N_StringContextPML(val self: StringContext) extends AnyVal {
     /** Create and interpolate a I18NString */
     def i18n(args: I18NString*) : I18NString =
       self.s(args:_*).asI18N
@@ -44,18 +42,18 @@ package object i18n extends I18N.Implicits {
     def i(args: I18NString*) : I18NString = i18n(args:_*)
   }
 
-  implicit class EverythingPML_gQdBkrozvt[A](val self: A) extends AnyVal {
+  implicit class S_Mach_I18N_EverythingPML[A](val self: A) extends AnyVal {
     /** Explicitly convert any value to an I18NString if an I18N type-class for that type exists */
     def i18n(implicit i18n: I18N[A],cfg: I18NConfig) : I18NString =
       i18n(self)
   }
 
-  implicit class CharPML_gQdBkrozvt(val self: Char) extends AnyVal {
+  implicit class S_Mach_I18N_CharPML(val self: Char) extends AnyVal {
     /** Explicitly convert a Char to an I18NString */
     def toI18N : I18NString = I18NString(self.toString)
   }
 
-  implicit class StringPML_gQdBkrozvt(val self: String) extends AnyVal {
+  implicit class S_Mach_I18N_StringPML(val self: String) extends AnyVal {
     /** Explicitly convert a String to an I18NString */
     def asI18N : I18NString = I18NString(self)
   }

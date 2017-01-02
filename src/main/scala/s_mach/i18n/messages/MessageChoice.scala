@@ -23,17 +23,28 @@ import s_mach.i18n._
 /**
   * A message that converts a BigDecimal to a string. Choices are used
   * to display different strings based on a quantity value.
+  *
   * @param key message key
   */
 case class MessageChoice(
   key: Symbol
-  ) extends Message {
-  def apply[N](
-    n: N
-    )(implicit
-    numeri18nC:Numeric[N],
+) extends Message { self =>
+  def apply(
+    n: BigDecimal
+  )(implicit
     cfg: I18NConfig
-    ) : I18NString = {
-    cfg.resolver.resolveChoice(key, BigDecimal(n.toString))
+  ) : I18NString = {
+    cfg.resolver.resolveChoice(key, n)
   }
+  def bind(
+    n: BigDecimal
+  ) : BoundMessageChoice = BoundMessageChoice(key,n)
+}
+
+case class BoundMessageChoice(
+  key: Symbol,
+  n: BigDecimal
+) extends BoundMessage {
+  def apply()(implicit cfg: I18NConfig) : I18NString =
+    cfg.resolver.resolveChoice(key, n)
 }

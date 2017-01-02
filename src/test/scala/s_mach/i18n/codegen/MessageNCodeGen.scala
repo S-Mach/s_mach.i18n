@@ -24,8 +24,26 @@ object MessageNCodeGen {
     val lcs = ('a' to 'z').map(_.toString).take(n)
     val ucs = ('A' to 'Z').map(_.toString).take(n)
     val allUcs = ucs.mkString(",")
+    val allLcs = lcs.mkString(",")
     val applyParams = lcs.map { lc => s"$lc:${lc.toUpperCase}"}.mkString(",")
 s"""
+case class BoundMessage$n[$allUcs](
+  key: Symbol,
+  ${ucs.map { uc =>
+    s"${uc.toLowerCase}: $uc"
+  }.mkString(",\n  ")}
+)(implicit
+  ${ucs.map { uc =>
+    s"i18n$uc: I18N[$uc]"
+  }.mkString(",\n  ")}
+) extends BoundMessage {
+  override def apply()(implicit cfg:I18NConfig) : I18NString =
+    cfg.resolver.resolveInterpolation(
+      key,
+      ${lcs.map(lc => s"i18n${lc.toUpperCase}($lc)").mkString(",\n      ")}
+    )
+}
+
 case class Message$n[$allUcs](key: Symbol) extends Message {
   def apply($applyParams)(implicit
     cfg: I18NConfig,
@@ -39,6 +57,13 @@ case class Message$n[$allUcs](key: Symbol) extends Message {
       key,
       ${lcs.map(lc => s"i18n${lc.toUpperCase}($lc)").mkString(",\n      ")}
     )
+  def bind($applyParams)(implicit
+    ${
+      ucs.map { uc =>
+        s"i18n$uc: I18N[$uc]"
+      }.mkString(",\n    ")
+    }
+  ) : BoundMessage$n[$allUcs] = BoundMessage$n(key,$allLcs)
 }
 """
   }

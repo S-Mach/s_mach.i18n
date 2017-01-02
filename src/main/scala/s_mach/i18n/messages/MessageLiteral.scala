@@ -26,7 +26,7 @@ import s_mach.i18n._
   */
 case class MessageLiteral(
   key: Symbol
-) extends Message {
+) extends Message with BoundMessage {
   def apply()(implicit
     cfg: I18NConfig
   ) : I18NString = {
