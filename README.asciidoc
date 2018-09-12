@@ -35,7 +35,7 @@ guarantees are made as to the stability or interface of code in the
 +s_mach.i18n+ is an internationalization (i18n) library that provides:
 
 * https://github.com/S-Mach/s_mach.i18n/blob/master/src/main/scala/s_mach/i18n/package.scala[I18NString]:
-a https://github.com/S-Mach/s_mach.codetools/blob/master/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala[distinct type alias]
+a https://github.com/S-Mach/s_mach.codetools/blob/master/codetools/src/main/scala/s_mach/codetools/IsDistinctTypeAlias.scala[distinct type alias]
 for String that is used to indicate a string that has been properly internationalized for display.
 I18NString is used by all +s_mach.i18n+ code to enforce a compile-time guarantee of proper
 internationalization. Code using the +s_mach.i18n+ library may use I18NString to extend this
